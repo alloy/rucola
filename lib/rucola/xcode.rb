@@ -124,7 +124,7 @@ module Rucola
       
       # get or define the Copy Frameworks build phase
       build_phase = object_for_name('Copy Frameworks')
-      if build_phase.empty?
+      if build_phase.nil?
         build_phase_id, build_phase_values = new_framework_copy_build_phase
         # add the new build phase to the objects
         add_object(build_phase_id, build_phase_values)

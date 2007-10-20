@@ -84,11 +84,11 @@ describe Xcode do
     @project.object_for_id(id).last['files'].should == [@object_id]
   end
   
-  it "should create a new framework copy build phase" do
-    # FIXME: until we generate id's this is just a lame test
-    Xcode::NEW_COPY_FRAMEWORKS_BUILD_PHASE = @object
-    @project.new_framework_copy_build_phase.should == @object
-  end
+  # it "should create a new framework copy build phase" do
+  #   # FIXME: until we generate id's this is just a lame test
+  #   Xcode::NEW_COPY_FRAMEWORKS_BUILD_PHASE = @object
+  #   @project.new_framework_copy_build_phase.should == @object
+  # end
   
   it "should change the path of a framework used in the project" do
     id, values = 'FRAMEWORK_ID'.to_ns, { 'name' => 'RubyCocoa.framework', 'path' => '/foo/RubyCocoa.framework', 'sourceTree' => '<absolute>' }.to_ns
@@ -107,8 +107,18 @@ describe Xcode do
   end
   
   it "should bundle a framework with the application" do
-    #@project.bundle_framework
-    flunk
+    id, values = 'FRAMEWORK_ID'.to_ns, { 'name' => 'BlaBla.framework', 'path' => '/foo/BlaBla.framework', 'sourceTree' => '<absolute>' }.to_ns
+    @project.add_object(id, values)
+    
+    @project.bundle_framework('BlaBla.framework')
+    
+    build_phases = @project.object_for_project_target.last['buildPhases']
+    build_phases.length.should.be 1
+    @project.object_for_id(build_phases.first).last['name'].should == 'Copy Frameworks'
+    
+    build_phase_id = @project.object_for_id(build_phases.first).last['files'].first
+    build_phase_id, build_phase = @project.object_for_id(build_phase_id)
+    build_phase['fileRef'].should == 'FRAMEWORK_ID'
   end
   
   it "should bundle the RubyCocoa framework with the application" do

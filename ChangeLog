@@ -1,3 +1,9 @@
+2007-10-20 Eloy Duran <e.duran@superalloy.nl>
+
+	* test/test_xcode.rb,
+	  lib/rucola/xcode.rb:
+	Added the last test for the xcode lib.
+
 2007-10-19  Eloy Duran <e.duran@superalloy.nl>
 
 	Updated the manifest.
