@@ -1,6 +1,11 @@
 2007-10-20 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/initializer.rb:
+	Fixed the last fix so that it only uses directories.
+
+2007-10-20 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/rucola/initializer.rb:
 	Fixed a bug where hidden files in the plugins dir where also required.
 
 2007-10-20 Eloy Duran <e.duran@superalloy.nl>
