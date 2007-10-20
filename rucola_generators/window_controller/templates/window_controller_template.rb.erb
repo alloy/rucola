@@ -1,0 +1,19 @@
+class <%= name.capitalize %>WindowController < Rucola::WindowController::Base
+  # To use this controller, do the following in for instance
+  # your ApplicationController's awakeFromNib method.
+  #
+  #   def awakeFromNib
+  #     @<%= name.downcase %>_window_controller = <%= name.capitalize %>WindowController.alloc.init
+  #     @<%= name.downcase %>_window_controller.showWindow(self)
+  #   end
+  
+  def awakeFromNib
+    puts "\n<%= name.capitalize %> Window controller awoke."
+    puts "Edit: app/controllers/<%= name.downcase %>_window_controller.rb"
+  end
+  
+  def windowDidLoad
+    puts "\n<%= name.capitalize %> Window has been loaded."
+  end
+  
+end

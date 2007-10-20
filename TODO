@@ -1,0 +1,36 @@
+* [DONE] Allow Apps running in debug mode to use code from your working directory.
+
+* Create tests for initializer.rb, xcode.rb, rucola_support/window_controller.rb.
+
+* Make autotest work with the directory structure.
+
+* Create freeze current task, which will freeze the rubycocoa framework installed in /Library/Frameworks.
+
+* Create install plugin task and add hooks into initializer that load the plugins.
+
+* Create a simple controller generator that will only create a controller
+  file & class which inherits from OSX::NSObject.
+
+* Create templates for testing in either TestUnit, TestSpec or rSpec.
+  I don't use rSpec anymore atm, so I (Eloy) will first focus on TestUnit & TestSpec.
+
+* Create README & simple website and release first version!
+
+* Create a task that uses rb_nibtool.rb to check controllers and their nibs for changes
+  and update them.
+
+* No need to continuously rebuild your application when just changing a few lines of Ruby.
+  Still does xcodebuild for the build task, so add a check if the xcode project was updated,
+  if not then simply run the existing build.
+
+* Allow transparent packaging.  Developers need only worry about creating their application 
+  and basic configuration not the innards of packaging and releasing. 
+
+  config.objc_frameworks << ['Webkit', 'Quartz']
+  config.active_record = true
+  config.include_dirs << %w(models controllers lib)
+
+* When in debug mode and using ActiveRecord, allow database to reside in your working 
+  directory for easy access instead of buried in your users Application Support path.
+
+* Load database config from config/database.yml

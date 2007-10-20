@@ -1,0 +1,66 @@
+require 'rake/testtask'
+require 'rucola/xcode'
+
+# Application configuration
+APPNAME               = "<%= name %>"
+TARGET                = "#{APPNAME}.app"
+#APPVERSION           = "rev#{`svn info`[/Revision: (\d+)/, 1]}"
+APPVERSION            = Time.now.strftime("%Y-%m-%d")
+PUBLISH               = 'yourname@yourhost:path'
+
+
+
+# set the env, default to debug if we are running a rake task.
+RUBYCOCOA_ENV = ENV['RUBYCOCOA_ENV'].nil? ? 'debug' : ENV['RUBYCOCOA_ENV']
+RUBYCOCOA_ROOT = ENV['RUBYCOCOA_ROOT'].nil? ? File.dirname(__FILE__) : ENV['RUBYCOCOA_ROOT']
+puts "RUNNING IN MODE: #{RUBYCOCOA_ENV.upcase}\n\n"
+
+# TASKS
+
+task :default => 'xcode:build'
+
+Rake::TestTask.new do |t|
+  t.test_files = FileList['test/*/test_*.rb']
+  t.verbose = true
+end
+
+namespace :xcode do
+  
+  desc 'Builds the application'
+  task :build do
+    config = RUBYCOCOA_ENV.capitalize
+    sh "xcodebuild -configuration #{config}"
+    # launch app with the correct env set
+    sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' ./build/#{config}/#{TARGET}/Contents/MacOS/#{APPNAME}"
+  end
+  
+end
+
+namespace :rc do
+  
+  namespace :freeze do
+    
+    desc 'Freezes the current edge version of RubyCocoa'
+    task :edge do
+      if File.exist? 'vendor/rubycocoa'
+        sh 'cd vendor/rubycocoa && svn up'
+      else
+        mkdir 'vendor' unless File.exist? 'vendor'
+        sh 'cd vendor && svn co https://rubycocoa.svn.sourceforge.net/svnroot/rubycocoa/trunk/src rubycocoa'
+      end
+      sh 'cd vendor/rubycocoa && rake'
+      
+      # add the new RubyCocoa framework to the project and bundle it when building the application
+      Rake::Task['rc:freeze:bundle'].invoke
+    end
+    
+    desc 'Bundle the frozen RubyCocoa framework with the application'
+    task :bundle do
+      project = Rucola::Xcode.new File.expand_path("../#{APPNAME}.xcodeproj", __FILE__)
+      project.change_rubycocoa_framework_location 'vendor/rubycocoa/framework/build/Default/RubyCocoa.framework'
+      project.bundle_rubycocoa_framework
+      project.save
+    end
+  end
+  
+end

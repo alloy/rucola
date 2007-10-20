@@ -1,0 +1,43 @@
+2007-10-19  Eloy Duran <e.duran@superalloy.nl>
+
+	Updated the manifest.
+
+2007-10-19  Eloy Duran <e.duran@superalloy.nl>
+
+	- Added tests for the xcode class.
+	  Only still need to do the biggest one.
+	- Fixed a bug in the Rakefile.
+
+2007-10-19  Eloy Duran <e.duran@superalloy.nl>
+
+	Added todo list.
+
+2007-10-19  Eloy Duran <e.duran@superalloy.nl>
+
+	- Added a basic lib which can alter xcode projects.
+	- Added a new Rakefile with basic tasks and also
+	  uses the xcode lib to do stuff like bundle the framework.
+
+2007-10-19  Eloy Duran <e.duran@superalloy.nl>
+
+	- Finished basic app generator.
+	- Added a window_controller generator which uses
+	  Rucola::WindowController::Base as it's superclass.
+	- Added a working test_helper.
+
+2007-10-18  Eloy Duran <e.duran@superalloy.nl>
+
+	Finished basic new application template.
+
+2007-10-18  Eloy Duran <e.duran@superalloy.nl>
+
+	Added the original initializer lib by Justin Palmer,
+	and placed the classes under the Rucola module instead of OSX.
+
+2007-10-18  Eloy Duran <e.duran@superalloy.nl>
+
+	Added application generator skeleton.
+
+2007-10-18  Eloy Duran <e.duran@superalloy.nl>
+
+	Initial import into local Git repo.
