@@ -1,8 +1,8 @@
 require 'rucola/version'
 
-AUTHOR = 'FIXME full name'  # can also be an array of Authors
-EMAIL = "FIXME email"
-DESCRIPTION = "description of gem"
+AUTHOR = ['Eloy Duran', 'Justin Palmer']  # can also be an array of Authors
+EMAIL = "e.duran@superalloy.nl"
+DESCRIPTION = "Rucola is an extension for RubyCocoa. It has a application skeleton generator and builds an \"opinionated\" application layout, like the one known from rails. And comes with RubyCocoa specific rake tasks."
 GEM_NAME = 'rucola' # what ppl will type to install your gem
 RUBYFORGE_PROJECT = 'rucola' # The unix name for your project
 HOMEPATH = "http://#{RUBYFORGE_PROJECT}.rubyforge.org"
