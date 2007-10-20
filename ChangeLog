@@ -1,5 +1,13 @@
 2007-10-20 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/initializer.rb:
+	Added basic code which requires any plugins installed
+	in vendor/plugins. It requires the init.rb file.
+	This is done direcly after loading the Initializer class.
+	All the pathnames to the plugins are stored in an array @@required_plugins.
+
+2007-10-20 Eloy Duran <e.duran@superalloy.nl>
+
 	* app_generators/rucola/templates/Rakefile.erb:
 	Added task rc:freeze:current which freezes and bundles
 	/Library/Frameworks/RubyCocoa.framework.
