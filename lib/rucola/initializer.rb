@@ -15,7 +15,6 @@ else
     RUBYCOCOA_ENV = 'release'
   end
 end
-puts "Running in environment: #{RUBYCOCOA_ENV}\n"
 
 # ActiveRecord uses RAILS_ENV internally to figure out which environment key to parse in 
 # database.yml.  Since we use the non-standard release and debug environments, we need to 
@@ -28,14 +27,12 @@ unless ENV['RUBYCOCOA_ROOT'].nil?
 else
   # We are running in debug from xcode, which doesn't set RUBYCOCOA_ROOT.
   # Or we are simply running in release.
-  RUBYCOCOA_ROOT = (RUBYCOCOA_ENV == 'debug') ? Pathname.new(ENV['DYLD_LIBRARY_PATH'] + "../../../").cleanpath : Pathname.new(OSX::NSBundle.mainBundle.resourcePath.fileSystemRepresentation)
-  
-  # RUBYCOCOA_ROOT = 
-  #   if RUBYCOCOA_ENV == 'debug'
-  #     Pathname.new(ENV['DYLD_LIBRARY_PATH'] + "../../../").cleanpath
-  #   else
-  #     Pathname.new(OSX::NSBundle.mainBundle.bundlePath.fileSystemRepresentation)
-  #   end
+  RUBYCOCOA_ROOT = 
+    if RUBYCOCOA_ENV == 'debug'
+      Pathname.new(ENV['DYLD_LIBRARY_PATH'] + "../../../").cleanpath
+    else
+      Pathname.new(OSX::NSBundle.mainBundle.resourcePath.fileSystemRepresentation)
+    end
 end
 
 $:.unshift(RUBYCOCOA_ROOT)
