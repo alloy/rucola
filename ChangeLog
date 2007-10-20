@@ -1,6 +1,11 @@
 2007-10-20 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/initializer.rb:
+	Fixed a bug where hidden files in the plugins dir where also required.
+
+2007-10-20 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/rucola/initializer.rb:
 	Added basic code which requires any plugins installed
 	in vendor/plugins. It requires the init.rb file.
 	This is done direcly after loading the Initializer class.

@@ -204,6 +204,7 @@ module Rucola
     @@required_plugins = [] # TODO: isn't used yet
     if RUBYCOCOA_PLUGINS_ROOT.exist?
       RUBYCOCOA_PLUGINS_ROOT.children.each do |plugin|
+        next if plugin.basename.to_s[0,1] == '.'
         @@required_plugins.push plugin
         require plugin + 'init.rb'
       end
