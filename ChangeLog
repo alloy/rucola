@@ -1,5 +1,11 @@
 2007-10-20 Eloy Duran <e.duran@superalloy.nl>
 
+	* app_generators/rucola/templates/Rakefile.erb:
+	Added task rc:freeze:current which freezes and bundles
+	/Library/Frameworks/RubyCocoa.framework.
+
+2007-10-20 Eloy Duran <e.duran@superalloy.nl>
+
 	* Manifest.txt,
 	  lib/rucola/initializer.rb:
 	Some minor cleanup.
