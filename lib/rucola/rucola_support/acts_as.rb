@@ -30,7 +30,7 @@ module Rucola
     #     end
     #   end
     def self.register_acts_as(extension_name, &block)
-      method_name = "acts_as_#{extension_name}".to_sym # FIXME: Better name conversion
+      method_name = "acts_as_#{extension_name}".to_sym
       
       OSX::NSObject.class.instance_eval do
         # define the acts_as_foo class method

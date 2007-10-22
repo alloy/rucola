@@ -26,16 +26,16 @@ class TestWindowControllerGenerator < Test::Unit::TestCase
   #   bare_teardown - place this in teardown method to destroy the TMP_ROOT or APP_ROOT folder after each test
   
   def test_generator_without_options
-    name = "preferences"
+    name = "foo_bar"
     run_generator('window_controller', [name], sources)
     
-    assert_generated_file     'app/controllers/preferences_window_controller.rb'
-    assert_generated_file     'test/controllers/test_preferences_window_controller.rb'
+    assert_generated_file     'app/controllers/foo_bar_controller.rb'
+    assert_generated_file     'test/controllers/test_foo_bar_controller.rb'
     
-    assert_directory_exists   'app/views/Preferences.nib'
-    assert_generated_file     'app/views/Preferences.nib/classes.nib'
-    assert_generated_file     'app/views/Preferences.nib/info.nib'
-    assert_generated_file     'app/views/Preferences.nib/keyedobjects.nib'
+    assert_directory_exists   'app/views/FooBar.nib'
+    assert_generated_file     'app/views/FooBar.nib/classes.nib'
+    assert_generated_file     'app/views/FooBar.nib/info.nib'
+    assert_generated_file     'app/views/FooBar.nib/keyedobjects.nib'
   end
   
   private

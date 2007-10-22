@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'rucola/rucola_support/core_ext/string'
+
 class WindowControllerGenerator < RubiGen::Base
   
   default_options :author => nil
@@ -22,10 +25,10 @@ class WindowControllerGenerator < RubiGen::Base
       m.directory view_dir
       m.directory test_dir
       
-      m.template 'window_controller_template.rb.erb', "#{controller_dir}/#{@name.downcase}_window_controller.rb"
-      m.template 'test_window_controller_template.rb.erb', "#{test_dir}/test_#{@name.downcase}_window_controller.rb"
+      m.template 'window_controller_template.rb.erb', "#{controller_dir}/#{@name.snake_case}_controller.rb"
+      m.template 'test_window_controller_template.rb.erb', "#{test_dir}/test_#{@name.snake_case}_controller.rb"
       
-      nib = "#{view_dir}/#{@name.capitalize}.nib"
+      nib = "#{view_dir}/#{@name.camel_case}.nib"
       m.directory nib
       m.template  'Window.nib/classes.nib.erb',  "#{nib}/classes.nib"
       m.file      'Window.nib/info.nib',         "#{nib}/info.nib"

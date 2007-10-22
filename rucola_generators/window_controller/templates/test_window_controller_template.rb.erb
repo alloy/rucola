@@ -1,10 +1,10 @@
 require File.expand_path('../../test_helper', __FILE__)
 
-class Test<%= name.capitalize %>WindowController < Test::Unit::TestCase
+class Test<%= name.camel_case %>Controller < Test::Unit::TestCase
   
-  def test_<%= name.downcase %>_window_controller_initialization
-    <%= name.downcase %>_window_controller = <%= name.capitalize %>WindowController.alloc.init
-    assert_instance_of(<%= name.capitalize %>WindowController, <%= name.downcase %>_window_controller)
+  def test_<%= name.snake_case %>_controller_initialization
+    <%= name.snake_case %>_controller = <%= name.camel_case %>Controller.alloc.init
+    assert_instance_of(<%= name.camel_case %>Controller, <%= name.snake_case %>_controller)
   end
   
 end

@@ -9,7 +9,7 @@
 
 * Create tests for initializer.rb.
 
-* Create tests for rucola_support/window_controller.rb.
+* [DONE] Create tests for rucola_support/window_controller.rb.
 
 * Make autotest work with the directory structure.
 

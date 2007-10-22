@@ -59,6 +59,7 @@ test/test_helper.rb
 test/test_objc_core_ext.rb
 test/test_rucola.rb
 test/test_rucola_generator.rb
+test/test_window_controller.rb
 test/test_window_controller_generator.rb
 test/test_xcode.rb
 website/index.html

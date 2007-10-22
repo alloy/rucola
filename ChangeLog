@@ -1,3 +1,24 @@
+2007-10-23 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  TODO,
+	  config/hoe.rb,
+	  lib/rucola/rucola_support/acts_as.rb,
+	  lib/rucola/rucola_support/window_controller.rb,
+	  rucola_generators/window_controller/templates/Window.nib/classes.nib.erb,
+	  rucola_generators/window_controller/templates/test_window_controller_template.rb.erb,
+	  rucola_generators/window_controller/templates/window_controller_template.rb.erb,
+	  rucola_generators/window_controller/window_controller_generator.rb,
+	  test/test_window_controller.rb,
+	  test/test_window_controller_generator.rb:
+
+	  - Did some minor cleaning.
+	  - Fixed every string use of capitalize and downcase with camel_case and snake_case.
+	  - Added test for the window controller.
+	  - The WindoController does not longer expect it's subclass to be
+	    named FooWindowController, but FooController.
+	    Of course FooWindowController should still work.
+
 2007-10-22 Eloy Duran <e.duran@superalloy.nl>
 
 	* test/test_objc_core_ext.rb,
