@@ -8,7 +8,7 @@ class TestWindowControllerGenerator < Test::Unit::TestCase
   end
   
   def teardown
-    #bare_teardown
+    bare_teardown
   end
   
   # Some generator-related assertions:

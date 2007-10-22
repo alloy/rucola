@@ -1,12 +1,23 @@
+* Rake task rc:freeze:current should also look in /System and ~/Library
+
+* Rake task :build expects the build dir to be in the source root,
+  but this is not always true. So look in xcode project.
+
 * [DONE] Allow Apps running in debug mode to use code from your working directory.
 
-* Create tests for initializer.rb, xcode.rb, rucola_support/window_controller.rb.
+* [DONE] Create tests for xcode.rb.
+
+* Create tests for initializer.rb.
+
+* Create tests for rucola_support/window_controller.rb.
 
 * Make autotest work with the directory structure.
 
 * Create freeze current task, which will freeze the rubycocoa framework installed in /Library/Frameworks.
 
-* Create install plugin task and add hooks into initializer that load the plugins.
+* Create install plugin task.
+
+* [DONE] Add hooks into initializer that load the plugins.
 
 * Create a simple controller generator that will only create a controller
   file & class which inherits from OSX::NSObject.

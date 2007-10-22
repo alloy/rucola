@@ -6,7 +6,7 @@ require 'mocha'
 require File.expand_path('../../lib/rucola/xcode', __FILE__)
 include Rucola
 
-describe Xcode do
+describe 'Xcode' do
   before do
     @name = 'Baz'
     @project_path = "/foo/bar/#{@name}.xcodeproj"

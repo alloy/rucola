@@ -1,3 +1,27 @@
+2007-10-22 Eloy Duran <e.duran@superalloy.nl>
+
+	* test/test_objc_core_ext.rb,
+	  test/test_acts_as_notifiable.rb,
+	  test/test_acts_as.rb,
+	  lib/rucola/rucola_support/acts_as.rb,
+	  lib/rucola/rucola_support/objc_core_ext,
+	  lib/rucola/rucola_support/objc_core_ext/nsobject.rb,
+	  lib/rucola/rucola_support/core_ext,
+	  lib/rucola/rucola_support/core_ext/string.rb,
+	  lib/rucola/rucola_support/acts_as,
+	  lib/rucola/rucola_support/acts_as/notifiable.rb,
+	  lib/rucola/initializer.rb,
+	  test/test_window_controller_generator.rb,
+	  test/test_xcode.rb,
+	  Manifest.txt,
+	  TODO:
+	- Added a module called Rucola::ActsAs which is the namespace that will hold any
+	  ActsAs modules. It also has a class method register_acts_as which makes
+	  the act available to any OSX::NSObject subclasses.
+	- Added a first ActsAs module, namely Rucola::ActsAs::Notifiable.
+	  It eases the registering and handling of notifications.
+	- Did some small cleanup stuff.
+
 2007-10-20 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/initializer.rb:

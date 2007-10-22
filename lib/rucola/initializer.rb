@@ -118,7 +118,18 @@ module Rucola
     
     # Loads the Rucola support library
     def require_rucola_support
-      Dir.entries(File.expand_path('../rucola_support', __FILE__)).each { |file| require "rucola/rucola_support/#{file}" if file =~ /\.rb$/ }
+      require_ruby_source_files_in_dir_recursive(Pathname.new(__FILE__).dirname + 'rucola_support')
+    end
+    
+    # Recursively requires any ruby source file that it finds.
+    def require_ruby_source_files_in_dir_recursive(dir)
+      dir.children.each do |child|
+        if child.directory?
+          require_ruby_source_files_in_dir_recursive(child)
+          next
+        end
+        require child if child.basename.to_s =~ /\.rb$/
+      end
     end
     
     # Loops through the subdirectories of the app/ directory.
