@@ -2,8 +2,6 @@ require 'osx/cocoa'
 require 'rucola/rucola_support/acts_as'
 require 'rucola/rucola_support/core_ext/string'
 
-puts 'included!'
-
 module Rucola
   module ActsAs
     
