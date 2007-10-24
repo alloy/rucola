@@ -1,5 +1,12 @@
 2007-10-24 Eloy Duran <e.duran@superalloy.nl>
 
+	* app_generators/rucola/templates/Rakefile.erb:
+
+	Fixed a bug in Rakefile ib:update where the RC framework
+	was always expected to be in /Library/Frameworks.
+
+2007-10-24 Eloy Duran <e.duran@superalloy.nl>
+
 	* TODO,
 	  app_generators/rucola/templates/Rakefile.erb:
 

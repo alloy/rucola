@@ -47,7 +47,7 @@ namespace :xcode do
 end
 
 namespace :ib do
-  RB_NIB_TOOL = '/Library/Frameworks/RubyCocoa.framework/Versions/A/Tools/rb_nibtool.rb'
+  RB_NIB_TOOL = "#{RUBYCOCOA_FRAMEWORK}/Versions/Current/Tools/rb_nibtool.rb"
   
   desc 'Updates the nibs from their corresponding ruby source files'
   task :update do
