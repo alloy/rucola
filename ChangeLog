@@ -1,5 +1,15 @@
 2007-10-24 Eloy Duran <e.duran@superalloy.nl>
 
+	* TODO,
+	  app_generators/rucola/templates/Rakefile.erb:
+
+	- Fixed bug in Rakefile where the build was always expected in the project dir.
+	  It now looks for this in the xcode prefs. Reported by Laurent Sansonetti.
+	- Fixed a bug in Rakefile where the current RC framework was always expected in
+	  /Library/Frameworks it now looks for it with NSBundle. Reported by Laurent Sansonetti.
+
+2007-10-24 Eloy Duran <e.duran@superalloy.nl>
+
 	* Manifest.txt,
 	  TODO,
 	  app_generators/rucola/rucola_generator.rb,

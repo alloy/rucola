@@ -1,7 +1,7 @@
-* Rake task rc:freeze:current should also look in /System and ~/Library
+* [DONE] Rake task rc:freeze:current should also look in /System and ~/Library
 
-* Rake task :build expects the build dir to be in the source root,
-  but this is not always true. So look in xcode project.
+* [DONE] Rake task :build expects the build dir to be in the source root,
+  but this is not always true. So look in xcode prefs.
 
 * script/generate window_controller capitalizes when specifying a camel case name.
 
@@ -15,7 +15,7 @@
 
 * Make autotest work with the directory structure.
 
-* Create freeze current task, which will freeze the rubycocoa framework installed in /Library/Frameworks.
+* [DONE] Create freeze current task, which will freeze the rubycocoa framework installed in /Library/Frameworks.
 
 * Create install plugin task.
 
@@ -29,7 +29,7 @@
 
 * Create README & simple website and release first version!
 
-* Create a task that uses rb_nibtool.rb to check controllers and their nibs for changes
+* [DONE] Create a task that uses rb_nibtool.rb to check controllers and their nibs for changes
   and update them.
 
 * No need to continuously rebuild your application when just changing a few lines of Ruby.

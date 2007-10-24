@@ -1,4 +1,6 @@
 require 'rake/testtask'
+
+require 'osx/cocoa'
 require 'rucola/xcode'
 require 'rucola/rucola_support/core_ext/string'
 
@@ -16,6 +18,9 @@ RUBYCOCOA_ENV = ENV['RUBYCOCOA_ENV'].nil? ? 'debug' : ENV['RUBYCOCOA_ENV']
 RUBYCOCOA_ROOT = ENV['RUBYCOCOA_ROOT'].nil? ? File.dirname(__FILE__) : ENV['RUBYCOCOA_ROOT']
 puts "RUNNING IN MODE: #{RUBYCOCOA_ENV.upcase}\n\n"
 
+# FIXME: We also need to check if the user uses a frozen rc framework
+RUBYCOCOA_FRAMEWORK = OSX::NSBundle.bundleWithIdentifier('com.apple.rubycocoa').bundlePath.to_s
+
 # TASKS
 
 task :default => 'xcode:build'
@@ -31,8 +36,12 @@ namespace :xcode do
   task :build do
     config = RUBYCOCOA_ENV.capitalize
     sh "xcodebuild -configuration #{config}"
+    # get the users build dir
+    prefs = OSX::NSUserDefaults.standardUserDefaults
+    prefs.addSuiteNamed 'com.apple.xcode'
+    build_dir = prefs['PBXApplicationwideBuildSettings']['SYMROOT'] || './build'
     # launch app with the correct env set
-    sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' ./build/#{config}/#{TARGET}/Contents/MacOS/#{APPNAME}"
+    sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' #{build_dir}/#{config}/#{TARGET}/Contents/MacOS/#{APPNAME}"
   end
   
 end
@@ -71,11 +80,11 @@ namespace :rc do
   namespace :freeze do
     
     RUBYCOCOA_FRAMEWORK_PATH_CURRENT = 'vendor/rubycocoa'
-    desc 'Freezes the current used version of RubyCocoa in /Library/Frameworks'
+    desc "Freezes the current used version of RubyCocoa in #{RUBYCOCOA_FRAMEWORK}"
     task :current do
       mkdir_p RUBYCOCOA_FRAMEWORK_PATH_CURRENT unless File.exist? RUBYCOCOA_FRAMEWORK_PATH_CURRENT
       puts "Copying framework."
-      cp_r '/Library/Frameworks/RubyCocoa.framework', RUBYCOCOA_FRAMEWORK_PATH_CURRENT
+      cp_r RUBYCOCOA_FRAMEWORK, RUBYCOCOA_FRAMEWORK_PATH_CURRENT
       # add the new RubyCocoa framework to the project and bundle it when building the application
       Rake::Task['rc:freeze:bundle'].invoke
     end
