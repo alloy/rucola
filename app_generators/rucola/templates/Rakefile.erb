@@ -1,5 +1,6 @@
 require 'rake/testtask'
 require 'rucola/xcode'
+require 'rucola/rucola_support/core_ext/string'
 
 # Application configuration
 APPNAME               = "<%= name %>"
@@ -32,6 +33,35 @@ namespace :xcode do
     sh "xcodebuild -configuration #{config}"
     # launch app with the correct env set
     sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' ./build/#{config}/#{TARGET}/Contents/MacOS/#{APPNAME}"
+  end
+  
+end
+
+namespace :ib do
+  RB_NIB_TOOL = '/Library/Frameworks/RubyCocoa.framework/Versions/A/Tools/rb_nibtool.rb'
+  
+  desc 'Updates the nibs from their corresponding ruby source files'
+  task :update do
+    nibs = FileList['app/views/*.nib'].reject {|file| File.extname(file) != '.nib' or file.include? '~' }
+    nibs.each do |nib|
+      # Because rb_nibtool will use RubyNode which doesn't eval so other source files
+      # aren't required by the 'require' statement. Some classes that have superclasses
+      # that are unknown to the classes.nib file don't show up in the classes list in IB.
+      # And even worse a window controller for instance that doesn't know in IB that it
+      # inherits from NSWindowController will not have it's outlets set ok.
+      #
+      # So until this is fixed in rb_nibtool, we will simply create a intermediate file
+      # that holds only the class definitions for any class that is needed in order to
+      # create a valid nib.
+      controller = "#{File.basename(nib)[0..-5].snake_case}_controller.rb"
+      tmp_file = "/tmp/#{controller}.tmp"
+      File.open(tmp_file, 'w') do |file|
+        file.write( File.read("misc/nibtool_helper.rb") + "\n\n" + File.read("app/controllers/#{controller}") )
+      end
+      ruby "#{RB_NIB_TOOL} --update --nib #{nib} --file #{tmp_file}"
+    end
+    
+    #ruby "#{RB_NIB_TOOL} --update --file app/controllers/application_controller.rb --nib misc/English.lproj/MainMenu.nib"
   end
   
 end

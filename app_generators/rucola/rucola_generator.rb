@@ -46,6 +46,7 @@ class RucolaGenerator < RubiGen::Base
       #m.template_copy_each  %w[main.m.erb rb_main.rb.erb], "misc"
       m.template            "misc/main.m.erb", "misc/main.m"
       m.template            "misc/rb_main.rb.erb", "misc/rb_main.rb"
+      m.file                "misc/nibtool_helper.rb", "misc/nibtool_helper.rb"
 
       # TODO - allow alternate default languages
       m.template            "misc/English.lproj/InfoPlist.strings.erb", "misc/English.lproj/InfoPlist.strings"

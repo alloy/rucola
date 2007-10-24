@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rucola/rucola_support/core_ext/string'
+require 'rucola/keyed_objects_nib'
 
 class WindowControllerGenerator < RubiGen::Base
   
@@ -28,11 +29,18 @@ class WindowControllerGenerator < RubiGen::Base
       m.template 'window_controller_template.rb.erb', "#{controller_dir}/#{@name.snake_case}_controller.rb"
       m.template 'test_window_controller_template.rb.erb', "#{test_dir}/test_#{@name.snake_case}_controller.rb"
       
-      nib = "#{view_dir}/#{@name.camel_case}.nib"
+      controller_name_camel = @name.camel_case
+      nib = "#{view_dir}/#{controller_name_camel}.nib"
       m.directory nib
       m.template  'Window.nib/classes.nib.erb',  "#{nib}/classes.nib"
       m.file      'Window.nib/info.nib',         "#{nib}/info.nib"
-      m.file      'Window.nib/keyedobjects.nib', "#{nib}/keyedobjects.nib"
+
+      # Add the Foo.nib/keyedobjects.nib file and set the custom class of File's Owner to the new controller class.
+      original_nib, new_nib = source_path('Window.nib/keyedobjects.nib'), destination_path("#{nib}/keyedobjects.nib")
+      logger.create new_nib
+      keyed_objects_nib = Rucola::KeyedObjectsNib.open(original_nib)
+      keyed_objects_nib.change_files_owner_class("#{controller_name_camel}Controller")
+      keyed_objects_nib.save(new_nib)
     end
   end
 

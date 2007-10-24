@@ -1,3 +1,25 @@
+2007-10-24 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  TODO,
+	  app_generators/rucola/rucola_generator.rb,
+	  app_generators/rucola/templates/Rakefile.erb,
+	  app_generators/rucola/templates/misc/nibtool_helper.rb,
+	  lib/rucola/keyed_objects_nib.rb,
+	  rucola_generators/window_controller/templates/Window.nib/classes.nib.erb,
+	  rucola_generators/window_controller/window_controller_generator.rb,
+	  test/test_rucola_generator.rb,
+	  test/test_window_controller_generator.rb:
+
+	- Added a simple lib keyed_objects_nib to interface with a keyedobjects.nib file.
+	- When a window controller is generated it will now also use the new keyed_objects_nib lib
+	  to change the custom class of the File's Owner to the new window controller class.
+	- Added a rake task ib:update that goes through your views/*.nib and updates the
+	  nib file according to the controller file that belongs to it.
+	- Added nibtool_helper.rb which is used while updating the nib to define any classes
+	  that are needed by rb_nibtool to create a valid nib file with all the superclasses
+	  set appropriately.
+
 2007-10-23 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,
@@ -12,12 +34,12 @@
 	  test/test_window_controller.rb,
 	  test/test_window_controller_generator.rb:
 
-	  - Did some minor cleaning.
-	  - Fixed every string use of capitalize and downcase with camel_case and snake_case.
-	  - Added test for the window controller.
-	  - The WindoController does not longer expect it's subclass to be
-	    named FooWindowController, but FooController.
-	    Of course FooWindowController should still work.
+	- Did some minor cleaning.
+	- Fixed every string use of capitalize and downcase with camel_case and snake_case.
+	- Added test for the window controller.
+	- The WindoController does not longer expect it's subclass to be
+	  named FooWindowController, but FooController.
+	  Of course FooWindowController should still work.
 
 2007-10-22 Eloy Duran <e.duran@superalloy.nl>
 

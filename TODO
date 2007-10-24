@@ -3,6 +3,8 @@
 * Rake task :build expects the build dir to be in the source root,
   but this is not always true. So look in xcode project.
 
+* script/generate window_controller capitalizes when specifying a camel case name.
+
 * [DONE] Allow Apps running in debug mode to use code from your working directory.
 
 * [DONE] Create tests for xcode.rb.
