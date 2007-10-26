@@ -1,5 +1,15 @@
 2007-10-26 Eloy Duran <e.duran@superalloy.nl>
 
+	* branches/plugins/SACrashReporter/lib/SACrashReporter.rb,
+	  branches/plugins/SACrashReporter/test/test_SACrashReporter.rb,
+	  branches/plugins/SACrashReporter/License:
+
+	- Added the MIT license to SACrashReporter.
+	- Fixed a bug with 1.8.2, which does not support Net::HTTP #post_form.
+	  Reported by Satoshi Nakagawa.
+
+2007-10-26 Eloy Duran <e.duran@superalloy.nl>
+
 	* branches/plugins/SACrashReporter/Rakefile,
 	  branches/plugins/SACrashReporter/SACrashReporter.rb,
 	  branches/plugins/SACrashReporter/init.rb,
