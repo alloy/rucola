@@ -1,3 +1,16 @@
+2007-10-27 Justin Palmer <justin@activereload.net>
+	
+	* test/test_controller_generator.rb,
+	  rucola_generators/controller,
+	  rucola_generators/controller/USAGE,
+	  rucola_generators/controller/controller_generator.rb,
+	  rucola_generators/controller/templates/controller_template.rb.erb,
+ 	  rucola_generators/controller/templates/test_controller_template.rb.erb:
+	
+	- Added controller generator to generate generic controllers that inherit from 
+	  NSObject.
+    - Updated the usage file for window_controller generator with basic instructions.
+	
 2007-10-27 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,

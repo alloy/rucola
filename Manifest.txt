@@ -41,6 +41,10 @@ lib/rucola/rucola_support/window_controller.rb
 lib/rucola/version.rb
 lib/rucola/xcode.rb
 log/debug.log
+rucola_generators/controller/USAGE
+rucola_generators/controller/controller_generator.rb
+rucola_generators/controller/templates/controller_template.rb.erb
+rucola_generators/controller/templates/test_controller_template.rb.erb
 rucola_generators/window_controller/USAGE
 rucola_generators/window_controller/templates/Window.nib/classes.nib.erb
 rucola_generators/window_controller/templates/Window.nib/info.nib
@@ -57,6 +61,7 @@ tasks/environment.rake
 tasks/website.rake
 test/test_acts_as.rb
 test/test_acts_as_notifiable.rb
+test/test_controller_generator.rb
 test/test_generator_helper.rb
 test/test_helper.rb
 test/test_objc_core_ext.rb

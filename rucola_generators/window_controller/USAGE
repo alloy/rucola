@@ -1,5 +1,6 @@
 Description:
-  
+  Generate a window controller that inherits from NSWindowController. This also had a window outlet 
+  by default.
   
 Usage:
-  
+  script/generate window_controller MyWindow
