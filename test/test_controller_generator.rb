@@ -26,9 +26,11 @@ class TestControllerGenerator < Test::Unit::TestCase
   #   bare_teardown - place this in teardown method to destroy the TMP_ROOT or APP_ROOT folder after each test
   
   def test_generator_without_options
-    name = "myapp"
+    name = "Articles"
     run_generator('controller', [name], sources)
-    assert_generated_file("some_file")
+    
+    assert_generated_file     'app/controllers/articles_controller.rb'
+    assert_generated_file     'test/controllers/test_articles_controller.rb'
   end
   
   private

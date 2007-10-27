@@ -1,4 +1,11 @@
 2007-10-27 Justin Palmer <justin@activereload.net>
+
+	* ChangeLog,
+	  test/test_controller_generator.rb:
+
+	Added test for controller generator.
+
+2007-10-27 Justin Palmer <justin@activereload.net>
 	
 	* test/test_controller_generator.rb,
 	  rucola_generators/controller,
