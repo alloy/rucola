@@ -11,6 +11,56 @@
 	- Added #notification_prefix which allows you to register notification name prefix shortcuts.
 	  So :application_... becomes :app_... (this one is added by default.)
 
+2007-10-26 Eloy Duran <e.duran@superalloy.nl>
+
+	* branches/plugins/SACrashReporter/lib/SACrashReporter.rb,
+	  branches/plugins/SACrashReporter/test/test_SACrashReporter.rb,
+	  branches/plugins/SACrashReporter/License:
+
+	- Added the MIT license to SACrashReporter.
+	- Fixed a bug with 1.8.2, which does not support Net::HTTP #post_form.
+	  Reported by Satoshi Nakagawa.
+
+2007-10-26 Eloy Duran <e.duran@superalloy.nl>
+
+	* branches/plugins/SACrashReporter/Rakefile,
+	  branches/plugins/SACrashReporter/SACrashReporter.rb,
+	  branches/plugins/SACrashReporter/init.rb,
+	  branches/plugins/SACrashReporter/install.rb,
+	  branches/plugins/SACrashReporter/lib,
+	  branches/plugins/SACrashReporter/lib/Report.rb,
+	  branches/plugins/SACrashReporter/lib/SACrashReporter.nib,
+	  branches/plugins/SACrashReporter/lib/SACrashReporter.nib/classes.nib,
+	  branches/plugins/SACrashReporter/lib/SACrashReporter.nib/info.nib,
+	  branches/plugins/SACrashReporter/lib/SACrashReporter.nib/keyedobjects.nib,
+	  branches/plugins/SACrashReporter/lib/SACrashReporter.rb,
+	  branches/plugins/SACrashReporter/sample_app,
+	  branches/plugins/SACrashReporter/sample_app/Crasher,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/AppController.rb,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/Crasher.xcodeproj,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/Crasher.xcodeproj/eloy.mode1,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/Crasher.xcodeproj/eloy.pbxuser,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/Crasher.xcodeproj/project.pbxproj,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/English.lproj,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/English.lproj/InfoPlist.strings,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/English.lproj/MainMenu.nib,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/English.lproj/MainMenu.nib/classes.nib,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/English.lproj/MainMenu.nib/info.nib,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/English.lproj/MainMenu.nib/objects.nib,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/Info.plist,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/Rakefile,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/main.m,
+	  branches/plugins/SACrashReporter/sample_app/Crasher/rb_main.rb,
+	  branches/plugins/SACrashReporter/sample_app/crash_reporter.php,
+	  branches/plugins/SACrashReporter/test,
+	  branches/plugins/SACrashReporter/test/SATestHelper.rb,
+	  branches/plugins/SACrashReporter/test/test.crash.log,
+	  branches/plugins/SACrashReporter/test/test_Report.rb,
+	  branches/plugins/SACrashReporter/test/test_SACrashReporter.rb,
+	  branches/plugins/SACrashReporter/test/test_helper.rb:
+
+	Imported first version of SACrashReporter plugin.
+
 2007-10-24 Eloy Duran <e.duran@superalloy.nl>
 
 	* app_generators/rucola/templates/Rakefile.erb:
