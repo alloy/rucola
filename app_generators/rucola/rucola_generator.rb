@@ -60,6 +60,12 @@ class RucolaGenerator < RubiGen::Base
       m.file                "test/test_helper.rb", "test/test_helper.rb"
       m.file                "test/controllers/test_application_controller.rb", "test/controllers/test_application_controller.rb"
 
+      plugin = 'script/plugin'
+      logger.create plugin
+      FileUtils.mkdir_p File.dirname(destination_path(plugin))
+      FileUtils.copy(source_path(plugin), destination_path(plugin))
+      File.chmod(0755, destination_path(plugin))
+
       m.dependency "install_rubigen_scripts", [destination_root, "rucola"], 
         :shebang => options[:shebang], :collision => :force
     end
@@ -99,6 +105,7 @@ EOS
       app/models
       app/views
       config/environments
+      script
       test/controllers
       test/models
       vendor

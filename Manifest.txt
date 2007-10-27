@@ -24,6 +24,7 @@ app_generators/rucola/templates/misc/main.m.erb
 app_generators/rucola/templates/misc/nibtool_helper.rb
 app_generators/rucola/templates/misc/rb_main.rb.erb
 app_generators/rucola/templates/project.pbxproj.erb
+app_generators/rucola/templates/script/plugin
 app_generators/rucola/templates/test/controllers/test_application_controller.rb
 app_generators/rucola/templates/test/test_helper.rb
 bin/rucola

@@ -1,5 +1,18 @@
 2007-10-27 Eloy Duran <e.duran@superalloy.nl>
 
+	* Manifest.txt,
+	  TODO,
+	  app_generators/rucola/rucola_generator.rb,
+	  app_generators/rucola/templates/script,
+	  app_generators/rucola/templates/script/plugin,
+	  test/test_rucola_generator.rb:
+
+	Added script/plugin which allows you to install plugins from a svn repo.
+	It will get plugin_index from the Rucola repo, this lists plugins in the
+	Rucola repo for easy install.
+
+2007-10-27 Eloy Duran <e.duran@superalloy.nl>
+
 	* Rakefile,
 	  TODO,
 	  lib/rucola/rucola_support/acts_as/notifiable.rb,

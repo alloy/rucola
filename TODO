@@ -20,7 +20,7 @@
 
 * [DONE] Create freeze current task, which will freeze the rubycocoa framework installed in /Library/Frameworks.
 
-* Create install plugin task.
+* [DONE] Create install plugin task.
 
 * [DONE] Add hooks into initializer that load the plugins.
 
