@@ -1,10 +1,4 @@
-require "rubygems"
-require "test/unit"
-require "test/spec"
-require "mocha"
-require 'osx/cocoa'
-
-require "rucola/rucola_support/acts_as/notifiable"
+require File.dirname(__FILE__) + '/test_helper.rb'
 
 class FooNotifiable < OSX::NSObject; end
 class BarNotifiable < OSX::NSObject; end

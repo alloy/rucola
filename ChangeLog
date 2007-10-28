@@ -1,5 +1,29 @@
 2007-10-28 Justin Palmer <justin@activereload.net>
 
+	* Manifest.txt,
+	  app_generators/rucola/templates/Rakefile.erb,
+	  lib/rucola/rucola_support/acts_as.rb,
+	  lib/rucola/rucola_support/acts_as/notifiable.rb,
+	  lib/rucola/rucola_support/core_ext.rb,
+	  lib/rucola/rucola_support/core_ext/objc.rb,
+	  lib/rucola/rucola_support/core_ext/objc/nsobject.rb,
+	  lib/rucola/rucola_support/core_ext/ruby.rb,
+	  lib/rucola/rucola_support/core_ext/ruby/string.rb,
+	  rucola_generators/controller/controller_generator.rb,
+	  rucola_generators/window_controller/window_controller_generator.rb,
+	  test/test_acts_as.rb,
+	  test/test_acts_as_notifiable.rb,
+	  test/test_core_ext.rb,
+	  test/test_helper.rb,
+	  test/test_objc_core_ext.rb,
+	  test/test_window_controller.rb:
+
+	Update test to include rucola_support instead of individual files.  All test files should included the 
+	test helper.  Notifiable test fail, but I'm working on that.
+
+
+2007-10-28 Justin Palmer <justin@activereload.net>
+
 	* lib/rucola/rucola_support/core_ext/ruby/string.rb,
 	  lib/rucola/rucola_support/core_ext/string.rb:
 

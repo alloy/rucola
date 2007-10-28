@@ -1,5 +1,4 @@
 require 'osx/cocoa'
-require 'rucola/rucola_support/objc_core_ext/nsobject'
 
 module Rucola
   module ActsAs

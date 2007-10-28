@@ -1,9 +1,4 @@
-require "rubygems"
-require "test/unit"
-require "test/spec"
-require "mocha"
-
-require "rucola/rucola_support/window_controller"
+require File.join(File.dirname(__FILE__), "test_generator_helper.rb")
 
 class FooBarController < Rucola::WindowController::Base; end
 

@@ -1,6 +1,6 @@
 require 'rubygems'
-require 'rucola/rucola_support/core_ext/string'
-require 'rucola/keyed_objects_nib'
+require 'rucola/rucola_support'
+require 'rucola/nib'
 
 class WindowControllerGenerator < RubiGen::Base
   

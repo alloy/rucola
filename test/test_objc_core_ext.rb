@@ -4,7 +4,7 @@ require "test/spec"
 require "mocha"
 require 'osx/cocoa'
 
-require "rucola/rucola_support/objc_core_ext/nsobject"
+require "rucola/rucola_support"
 
 class FooAfterHook < OSX::NSObject; end
 
@@ -23,4 +23,5 @@ describe 'A NSObject subclass with Rucola after initialize hooks' do
     FooAfterHook.expects(:some_class_method).once
     FooAfterHook.alloc.init
   end
+    
 end

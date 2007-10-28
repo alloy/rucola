@@ -1,5 +1,4 @@
 require 'osx/cocoa'
-require 'rucola/rucola_support/core_ext/string'
 
 class OSX::NSObject
   

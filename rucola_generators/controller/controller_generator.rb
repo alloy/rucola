@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'rucola/rucola_support/core_ext/string'
+require 'rucola/rucola_support'
 require 'rucola/nib'
 
 class ControllerGenerator < RubiGen::Base

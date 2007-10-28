@@ -7,7 +7,7 @@ class String
   end
 
   # "foo_bar".camel_case #=> "FooBar"
-  def camel_case
+  def camel_case    
     if self.include? '_'
       self.split('_').map{|e| e.capitalize}.join
     else

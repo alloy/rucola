@@ -1,9 +1,4 @@
-require "rubygems"
-require "test/unit"
-require "test/spec"
-require "mocha"
-
-require 'rucola/rucola_support/core_ext/string'
+require File.dirname(__FILE__) + '/test_helper'
 
 describe 'String#camel_case' do
   it "should return foo_bar as FooBar" do

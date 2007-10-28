@@ -1,10 +1,5 @@
-require "rubygems"
-require "test/unit"
-require "test/spec"
-require "mocha"
-require 'osx/cocoa'
+require File.dirname(__FILE__) + '/test_helper.rb'
 
-require 'rucola/rucola_support/acts_as'
 
 class FooAct < OSX::NSObject
   def self.some_stub_class_method; end
