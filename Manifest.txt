@@ -1,3 +1,4 @@
+.rake_tasks
 ChangeLog
 History.txt
 License.txt
@@ -41,7 +42,6 @@ lib/rucola/rucola_support/core_ext/objc.rb
 lib/rucola/rucola_support/core_ext/objc/nsobject.rb
 lib/rucola/rucola_support/core_ext/ruby.rb
 lib/rucola/rucola_support/core_ext/ruby/string.rb
-lib/rucola/rucola_support/core_ext/string.rb
 lib/rucola/rucola_support/window_controller.rb
 lib/rucola/version.rb
 lib/rucola/xcode.rb

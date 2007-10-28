@@ -1,3 +1,11 @@
+2007-10-28 Justin Palmer <justin@activereload.net>
+
+	* lib/rucola/rucola_support/core_ext/ruby/string.rb,
+	  lib/rucola/rucola_support/core_ext/string.rb:
+
+	Remove duplicate string.rb. string.rb can be found in lib/rucola/rucola_support/core_ext/ruby/
+
+
 2007-10-28 Eloy Duran <e.duran@superalloy.nl>
 
 	* app_generators/rucola/rucola_generator.rb,
