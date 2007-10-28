@@ -1,4 +1,3 @@
-.rake_tasks
 ChangeLog
 History.txt
 License.txt
@@ -20,7 +19,7 @@ app_generators/rucola/templates/config/environments/test.rb
 app_generators/rucola/templates/misc/English.lproj/InfoPlist.strings.erb
 app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/classes.nib
 app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/info.nib
-app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/objects.nib
+app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/keyedobjects.nib
 app_generators/rucola/templates/misc/main.m.erb
 app_generators/rucola/templates/misc/nibtool_helper.rb
 app_generators/rucola/templates/misc/rb_main.rb.erb
@@ -33,7 +32,6 @@ config/hoe.rb
 config/requirements.rb
 lib/rucola.rb
 lib/rucola/initializer.rb
-lib/rucola/keyed_objects_nib.rb
 lib/rucola/nib.rb
 lib/rucola/rucola_support.rb
 lib/rucola/rucola_support/acts_as.rb
@@ -68,7 +66,7 @@ tasks/environment.rake
 tasks/website.rake
 test/fixtures/MainMenu.nib/classes.nib
 test/fixtures/MainMenu.nib/info.nib
-test/fixtures/MainMenu.nib/objects.nib
+test/fixtures/MainMenu.nib/keyedobjects.nib
 test/test_acts_as.rb
 test/test_acts_as_notifiable.rb
 test/test_controller_generator.rb
