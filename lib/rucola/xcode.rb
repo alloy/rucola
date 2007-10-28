@@ -21,9 +21,11 @@ module Rucola
     def save
       # FIXME: Because we use non generated id's atm (which is bad!)
       # we should first make a bakup of the project.
-      puts "\n========================================================================="
-      puts "Backing up project #{@project}.xcodeproj to /tmp/#{@project}.xcodeproj.bak"
-      puts "Please retrieve that one if for some reason the project was damaged!\n"
+      unless $TESTING
+        puts "\n========================================================================="
+        puts "Backing up project #{@project}.xcodeproj to /tmp/#{@project}.xcodeproj.bak"
+        puts "Please retrieve that one if for some reason the project was damaged!\n"
+      end
       backup = "/tmp/#{@project}.xcodeproj.bak"
       Kernel.system("rm -rf #{backup}") if File.exists?(backup)
       Kernel.system("cp -R #{project_path} #{backup}")

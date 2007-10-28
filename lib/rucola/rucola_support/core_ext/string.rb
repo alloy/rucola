@@ -8,6 +8,14 @@ class String
 
   # "foo_bar".camel_case #=> "FooBar"
   def camel_case
-    split('_').map{|e| e.capitalize}.join
+    if self.include? '_'
+      self.split('_').map{|e| e.capitalize}.join
+    else
+      unless self =~ (/^[A-Z]/)
+        self.capitalize
+      else
+        self
+      end
+    end
   end
 end

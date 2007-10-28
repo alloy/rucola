@@ -1,4 +1,6 @@
 require File.join(File.dirname(__FILE__), "test_generator_helper.rb")
+require File.join(File.dirname(__FILE__), "test_helper.rb")
+require 'rucola/nib'
 
 class TestControllerGenerator < Test::Unit::TestCase
   include RubiGen::GeneratorTestHelper
@@ -26,11 +28,39 @@ class TestControllerGenerator < Test::Unit::TestCase
   #   bare_teardown - place this in teardown method to destroy the TMP_ROOT or APP_ROOT folder after each test
   
   def test_generator_without_options
+    # say yes to the question if we want to add the controller to the classes in MainMenu.nib
+    Kernel.expects(:gets).returns("Y\n")
+    
+    nib_path = File.expand_path('../tmp/myproject/misc/English.lproj/MainMenu.nib/classes.nib', __FILE__)
+    nib_mock = mock_nib(nib_path)
+    
     name = "Articles"
     run_generator('controller', [name], sources)
     
     assert_generated_file     'app/controllers/articles_controller.rb'
     assert_generated_file     'test/controllers/test_articles_controller.rb'
+  end
+  
+  def test_generator_with_options_nibs_to_update
+    main_nib_path = File.expand_path('../tmp/myproject/misc/English.lproj/MainMenu.nib/classes.nib', __FILE__)
+    main_nib_mock = mock_nib(main_nib_path)
+    
+    foo_nib_path = File.expand_path('../tmp/myproject/app/views/Foo.nib/classes.nib', __FILE__)
+    foo_nib_mock = mock_nib(foo_nib_path)
+    
+    name = "Articles"
+    run_generator('controller', [name, 'MainMenu', 'Foo'], sources)
+    
+    assert_generated_file     'app/controllers/articles_controller.rb'
+    assert_generated_file     'test/controllers/test_articles_controller.rb'
+  end
+  
+  def mock_nib(nib_path)
+    nib_mock = mock('Classes Nib')
+    Rucola::Nib::Classes.expects(:open).with(nib_path).returns(nib_mock)
+    nib_mock.expects(:add_class).with('ArticlesController')
+    nib_mock.expects(:save)
+    nib_mock
   end
   
   private

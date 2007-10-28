@@ -1,3 +1,28 @@
+2007-10-28 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  lib/rucola/nib.rb,
+	  lib/rucola/rucola_support/core_ext/string.rb,
+	  lib/rucola/xcode.rb,
+	  rucola_generators/controller/controller_generator.rb,
+	  test/fixtures,
+      test/fixtures/MainMenu.nib,
+      test/fixtures/MainMenu.nib/objects.nib,
+      test/fixtures/MainMenu.nib/info.nib,
+      test/fixtures/MainMenu.nib/classes.nib,
+	  test/test_controller_generator.rb,
+	  test/test_core_ext.rb,
+	  test/test_helper.rb,
+	  test/test_nib.rb:
+
+	- Added tests for String#camel_case. There was a bug; 'FooBar'.camel_case => 'Foobar'
+	- Added Rucola::Nib::Classes, which is a simple interface to a classes.nib file.
+	  Atm it can only open, add_class and save.
+	- Anonymous controller generator now also is able to add the generated controller class
+	  to nibs. If no nibs are specified it will ask to update MainMenu.nib.
+	  If nibs are specified it will add them to those nibs without questions asked.
+	- The added fixture should be removed! Bad Eloy :)
+
 2007-10-27 Justin Palmer <justin@activereload.net>
 
 	* ChangeLog,

@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'rucola/rucola_support/core_ext/string'
+require 'rucola/nib'
 
 class ControllerGenerator < RubiGen::Base
   
@@ -11,7 +12,14 @@ class ControllerGenerator < RubiGen::Base
     super
     usage if args.empty?
     @name = args.shift
+    @nibs_to_update = args
     extract_options
+  end
+
+  def add_class_to_classes_nib(controller_name, nib_path)
+    nib = Rucola::Nib::Classes.open(File.expand_path(destination_path(nib_path)))
+    nib.add_class(controller_name)
+    nib.save
   end
 
   def manifest
@@ -26,6 +34,24 @@ class ControllerGenerator < RubiGen::Base
       # Create stubs
       m.template 'controller_template.rb.erb', "#{controller_dir}/#{@name.snake_case}_controller.rb"
       m.template 'test_controller_template.rb.erb', "#{test_dir}/test_#{@name.snake_case}_controller.rb"
+      
+      # Optionally add the class to a nib
+      controller_name = "#{@name.camel_case}Controller"
+      if @nibs_to_update.empty?
+        print "\nWould you like me to add the class #{controller_name} to MainMenu.nib? [Y/n]: " unless $TESTING
+        result = Kernel.gets.strip
+        if result.empty? or result.downcase == 'y'
+          add_class_to_classes_nib(controller_name, 'misc/English.lproj/MainMenu.nib/classes.nib')
+        end
+      else
+        @nibs_to_update.each do |nib|
+          if nib.camel_case == 'MainMenu'
+            add_class_to_classes_nib(controller_name, 'misc/English.lproj/MainMenu.nib/classes.nib')
+          else
+            add_class_to_classes_nib(controller_name, "app/views/#{nib.camel_case}.nib/classes.nib")
+          end
+        end
+      end
     end
   end
 

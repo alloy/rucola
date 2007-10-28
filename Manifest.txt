@@ -33,6 +33,7 @@ config/requirements.rb
 lib/rucola.rb
 lib/rucola/initializer.rb
 lib/rucola/keyed_objects_nib.rb
+lib/rucola/nib.rb
 lib/rucola/rucola_support/acts_as.rb
 lib/rucola/rucola_support/acts_as/notifiable.rb
 lib/rucola/rucola_support/core_ext/string.rb
@@ -59,11 +60,16 @@ setup.rb
 tasks/deployment.rake
 tasks/environment.rake
 tasks/website.rake
+test/fixtures/MainMenu.nib/classes.nib
+test/fixtures/MainMenu.nib/info.nib
+test/fixtures/MainMenu.nib/objects.nib
 test/test_acts_as.rb
 test/test_acts_as_notifiable.rb
 test/test_controller_generator.rb
+test/test_core_ext.rb
 test/test_generator_helper.rb
 test/test_helper.rb
+test/test_nib.rb
 test/test_objc_core_ext.rb
 test/test_rucola.rb
 test/test_rucola_generator.rb
