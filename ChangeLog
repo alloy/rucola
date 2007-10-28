@@ -1,3 +1,26 @@
+2007-10-28 Justin Palmer <justin@activereload.net>
+
+	* lib/rucola/rucola_support/core_ext/objc/nsobject.rb,
+	  lib/rucola/rucola_support/core_ext/ruby/string.rb,
+	  Manifest.txt,
+	  TODO,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/rucola_support.rb,
+	  lib/rucola/rucola_support/core_ext.rb,
+	  lib/rucola/rucola_support/core_ext/objc,
+	  lib/rucola/rucola_support/core_ext/objc.rb,
+	  lib/rucola/rucola_support/core_ext/ruby,
+	  lib/rucola/rucola_support/core_ext/ruby.rb,
+	  lib/rucola/rucola_support/core_ext/string.rb,
+	  lib/rucola/rucola_support/objc_core_ext,
+	  lib/rucola/rucola_support/objc_core_ext/nsobject.rb:
+
+	- Restructure rucloa_support directory moving the core_ext's under core_ext/ruby, core_ext/objc.
+	  Use rails-like policy for including directories of related files.
+    - Remove recursive file inclusion for app/ in favor of Ruby's build in Dir[**/*.rb]
+
+
+
 2007-10-28 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,

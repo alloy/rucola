@@ -1,3 +1,4 @@
+.rake_tasks
 ChangeLog
 History.txt
 License.txt
@@ -34,10 +35,15 @@ lib/rucola.rb
 lib/rucola/initializer.rb
 lib/rucola/keyed_objects_nib.rb
 lib/rucola/nib.rb
+lib/rucola/rucola_support.rb
 lib/rucola/rucola_support/acts_as.rb
 lib/rucola/rucola_support/acts_as/notifiable.rb
+lib/rucola/rucola_support/core_ext.rb
+lib/rucola/rucola_support/core_ext/objc.rb
+lib/rucola/rucola_support/core_ext/objc/nsobject.rb
+lib/rucola/rucola_support/core_ext/ruby.rb
+lib/rucola/rucola_support/core_ext/ruby/string.rb
 lib/rucola/rucola_support/core_ext/string.rb
-lib/rucola/rucola_support/objc_core_ext/nsobject.rb
 lib/rucola/rucola_support/window_controller.rb
 lib/rucola/version.rb
 lib/rucola/xcode.rb

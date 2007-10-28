@@ -41,7 +41,7 @@
 
 * [DONE] Add hooks into initializer that load the plugins.
 
-* Create a simple controller generator that will only create a controller
+* [DONE] Create a simple controller generator that will only create a controller
   file & class which inherits from OSX::NSObject.
 
 * Create templates for testing in either TestUnit, TestSpec or rSpec.

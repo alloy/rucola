@@ -118,7 +118,7 @@ module Rucola
     
     # Loads the Rucola support library
     def require_rucola_support
-      require_ruby_source_files_in_dir_recursive(Pathname.new(__FILE__).dirname + 'rucola_support')
+      require Pathname.new(__FILE__).dirname + 'rucola_support'
     end
     
     # Recursively requires any ruby source file that it finds.
@@ -139,11 +139,8 @@ module Rucola
     #
     # require_ruby_source_files # => {:models=>[], :views=>[], :controllers=>[#<Pathname:/src/SampleApp/app/controllers/ApplicationController.rb>]}
     def require_ruby_source_files
-      @required_app_files = {}
-      (RUBYCOCOA_ROOT + 'app').children.select { |child| child.directory? }.each do |named_dir|
-        files = named_dir.children.select { |file| file.extname == '.rb' }
-        files.each { |file| require file }
-        @required_app_files[named_dir.basename.to_s.to_sym] = files
+      Dir[RUBYCOCOA_ROOT + 'app/**/*.rb'].each do |f|
+        require f
       end
     end
     
