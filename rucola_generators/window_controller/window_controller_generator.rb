@@ -38,7 +38,7 @@ class WindowControllerGenerator < RubiGen::Base
       # Add the Foo.nib/keyedobjects.nib file and set the custom class of File's Owner to the new controller class.
       original_nib, new_nib = source_path('Window.nib/keyedobjects.nib'), destination_path("#{nib}/keyedobjects.nib")
       logger.create new_nib
-      keyed_objects_nib = Rucola::KeyedObjectsNib.open(original_nib)
+      keyed_objects_nib = Rucola::Nib::KeyedObjects.open(original_nib)
       keyed_objects_nib.change_files_owner_class("#{controller_name_camel}Controller")
       keyed_objects_nib.save(new_nib)
     end

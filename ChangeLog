@@ -1,3 +1,27 @@
+2007-10-28 Eloy Duran <e.duran@superalloy.nl>
+
+	* app_generators/rucola/rucola_generator.rb,
+	  app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/classes.nib,
+	  app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/info.nib,
+	  app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/keyedobjects.nib,
+	  app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/objects.nib,
+	  lib/rucola/keyed_objects_nib.rb,
+	  lib/rucola/nib.rb,
+	  rucola_generators/window_controller/window_controller_generator.rb,
+	  test/fixtures,
+	  test/fixtures/MainMenu.nib/classes.nib,
+	  test/fixtures/MainMenu.nib/info.nib,
+	  test/fixtures/MainMenu.nib/keyedobjects.nib,
+	  test/fixtures/MainMenu.nib/objects.nib,
+	  test/test_nib.rb,
+	  test/test_rucola_generator.rb:
+
+	- Moved KeyedObjectsNib to Rucola::Nib::KeyedObjects.
+	- Added tests for Rucola::Nib::KeyedObjects.
+	- MainMenu.nib still shipped with the old object.nib format
+	  instead of the newer keyedobjects.nib. This is updated.
+	- Refactored and cleaned a bit.
+
 2007-10-28 Justin Palmer <justin@activereload.net>
 
 	* lib/rucola/rucola_support/core_ext/objc/nsobject.rb,
@@ -18,8 +42,6 @@
 	- Restructure rucloa_support directory moving the core_ext's under core_ext/ruby, core_ext/objc.
 	  Use rails-like policy for including directories of related files.
     - Remove recursive file inclusion for app/ in favor of Ruby's build in Dir[**/*.rb]
-
-
 
 2007-10-28 Eloy Duran <e.duran@superalloy.nl>
 

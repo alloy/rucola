@@ -61,7 +61,7 @@ class TestRucolaGenerator < Test::Unit::TestCase
     assert_generated_file   "misc/English.lproj/InfoPlist.strings"
     assert_generated_file   "misc/English.lproj/MainMenu.nib/classes.nib"
     assert_generated_file   "misc/English.lproj/MainMenu.nib/info.nib"
-    assert_generated_file   "misc/English.lproj/MainMenu.nib/objects.nib"
+    assert_generated_file   "misc/English.lproj/MainMenu.nib/keyedobjects.nib"
     assert_generated_file   "misc/nibtool_helper.rb"
     
     assert_directory_exists "myproject.xcodeproj"

@@ -50,7 +50,7 @@ class RucolaGenerator < RubiGen::Base
 
       # TODO - allow alternate default languages
       m.template            "misc/English.lproj/InfoPlist.strings.erb", "misc/English.lproj/InfoPlist.strings"
-      m.file_copy_each      %w[classes.nib info.nib objects.nib], "misc/English.lproj/MainMenu.nib"
+      m.file_copy_each      %w[classes.nib info.nib keyedobjects.nib], "misc/English.lproj/MainMenu.nib"
 
       # xocde project
       m.directory           "#{@project}.xcodeproj"
