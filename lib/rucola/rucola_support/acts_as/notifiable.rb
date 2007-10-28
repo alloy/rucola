@@ -3,11 +3,6 @@ require 'rucola/rucola_support/acts_as'
 
 module Rucola
   module ActsAs
-    
-    register_acts_as :notifiable do
-      _register_notifications
-    end
-    
     # This ActsAs module will add a class method called +notify_on+, which registers
     # your object for the given notification and executes the given block when the
     # notification is posted to the OSX::NSNotificationCenter.defaultCenter.
@@ -102,15 +97,25 @@ module Rucola
           @_registered_notifications ||= {}
           @_registered_notifications[notification_name.to_s] = method_name
         end
+        
+        def notify(method_to_notify, options = {})
+          @_registered_notifications ||= {}
+          @_registered_notifications[options[:when]] = method_to_notify
+        end
+        
       end
       
       def self.included(base) # :nodoc
         base.extend(ClassMethods)
         
+        # register the initialize hook which actually registers the notifications for the instance.
+        base._rucola_register_initialize_hook lambda { self._register_notifications }
+        
         # register default shortcut
         base.notification_prefix :app => :application
       end
       
+      # this instance method is called after object initialization by the initialize hook
       def _register_notifications # :nodoc:
         notifications = self.class.instance_variable_get(:@_registered_notifications)
         return if notifications.nil?

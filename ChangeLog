@@ -1,3 +1,14 @@
+2007-10-29 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/rucola/rucola_support/acts_as/notifiable.rb,
+	  test/test_acts_as_notifiable.rb:
+
+	- Removed the acts_as_foo class method stuff.
+	  This module should be mixed in by default.
+	- Added ClassMethod#notify which will just
+	  call a method when a notification is posted.
+	- Cleaned up test file.
+
 2007-10-28 Justin Palmer <justin@activereload.net>
 
 	* Manifest.txt,
