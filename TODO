@@ -1,3 +1,20 @@
+* We need to give the user the option to add anonymous controllers to nibs
+  and optionally instantiate them. If no nibs are specified MainMenu.nib should be the default.
+  So without extra options:
+  $ script/generate controller Foo
+    create app/controllers/foo_controller
+    ...
+  Would you like me to add the class Foo to MainMenu.nib? [y/n]
+  Would you like me to instantiate class Foo in MainMenu.nib? [y/n]
+
+  With extra options:
+  $ script/generate controller Foo MainMenu Another Preferences
+    create app/controllers/foo_controller
+    ...
+  Would you like me to instantiate class Foo in MainMenu.nib? [y/n]
+  Would you like me to instantiate class Foo in Another.nib? [y/n]
+  Would you like me to instantiate class Foo in Preferences.nib? [y/n]
+
 * Remove the acts_as_foo class method and registering stuff.
   Because we will simply include these modules by default.
 
