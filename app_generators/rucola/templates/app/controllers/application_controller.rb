@@ -1,5 +1,5 @@
 class ApplicationController < Rucola::RCController
-  ib_outlet :mainWindow
+  ib_outlet :main_window
   
   def awakeFromNib
     # All the application delegate methods will be called on this object.
@@ -7,7 +7,7 @@ class ApplicationController < Rucola::RCController
     
     puts "ApplicationController awoke."
     puts "Edit: app/controllers/application_controller.rb"
-    puts  "\nIt's window is: #{@mainWindow.inspect}"
+    puts  "\nIt's window is: #{@main_window.inspect}"
   end
   
   # NSApplication delegate methods

@@ -1,5 +1,19 @@
 2007-10-29 Justin Palmer <justin@activereload.net>
 
+	* app_generators/rucola/templates/app/controllers/application_controller.rb,
+	  app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/classes.nib,
+	  app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/info.nib,
+	  app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/keyedobjects.nib,
+	  test/fixtures/MainMenu.nib/classes.nib,
+	  test/fixtures/MainMenu.nib/info.nib,
+	  test/fixtures/MainMenu.nib/keyedobjects.nib:
+
+	Update application_controller and tests to use snake case instead 
+	of camel case for default outlet.
+
+
+2007-10-29 Justin Palmer <justin@activereload.net>
+
 	* app_generators/rucola/templates/config/ib_external_class_defs.yml,
 	  lib/rucola/tasks/interface_builder.rake:
 
