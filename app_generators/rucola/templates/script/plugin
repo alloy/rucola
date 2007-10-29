@@ -3,7 +3,7 @@
 require 'fileutils'
 require 'net/http'
 
-RUCOLA_PLUGINS_URL = 'http://rucola.rubyforge.org/svn/branches/plugins/'
+RUCOLA_PLUGINS_URL = 'http://rucola.rubyforge.org/svn/extras/plugins/'
 PLUGIN_DIR = 'vendor/plugins'
 
 def get_plugin_index

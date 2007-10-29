@@ -1,5 +1,12 @@
 2007-10-29 Justin Palmer <justin@activereload.net>
 
+	* app_generators/rucola/templates/script/plugin:
+
+	Move plugins directory to extras/plugins
+
+
+2007-10-29 Justin Palmer <justin@activereload.net>
+
 	* Manifest.txt,
 	  TODO,
 	  lib/rucola/rucola_support.rb,
