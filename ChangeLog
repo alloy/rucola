@@ -1,9 +1,29 @@
+2007-10-29 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  app_generators/rucola/rucola_generator.rb,
+	  app_generators/rucola/templates/Rakefile.erb,
+	  app_generators/rucola/templates/config/ib_external_class_defs.yml,
+	  app_generators/rucola/templates/misc/nibtool_helper.rb,
+	  lib/rucola/tasks,
+	  lib/rucola/tasks/freeze.rake,
+	  lib/rucola/tasks/interface_builder.rake,
+	  lib/rucola/tasks/main.rake,
+	  lib/rucola/tasks/xcode.rake,
+	  test/test_rucola_generator.rb:
+
+	- Moved the rake tasks from the Rakefile that gets created in the app dir
+	  to rucola/tasks. This way the tasks will also be updated in an application
+	  if the Rucola gem was updated.
+	- Removed nibtool_helper.rb in favor of a yaml file ib_external_class_defs.yml.
+	- The basic Rucola controller classes are no longer defined in this helper file,
+	  but instead read from the actual rucola/rucola_support/controllers/ dir.
+
 2007-10-29 Justin Palmer <justin@activereload.net>
 
 	* app_generators/rucola/templates/script/plugin:
 
 	Move plugins directory to extras/plugins
-
 
 2007-10-29 Justin Palmer <justin@activereload.net>
 
@@ -13,7 +33,6 @@
 	  lib/rucola/rucola_support/controllers.rb:
 
 	Add controllers.rb in rucola_support to include all files in controller/ directory.
-
 
 2007-10-29 Eloy Duran <e.duran@superalloy.nl>
 

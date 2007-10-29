@@ -16,12 +16,12 @@ app_generators/rucola/templates/config/environment.rb
 app_generators/rucola/templates/config/environments/debug.rb
 app_generators/rucola/templates/config/environments/release.rb
 app_generators/rucola/templates/config/environments/test.rb
+app_generators/rucola/templates/config/ib_external_class_defs.yml
 app_generators/rucola/templates/misc/English.lproj/InfoPlist.strings.erb
 app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/classes.nib
 app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/info.nib
 app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/keyedobjects.nib
 app_generators/rucola/templates/misc/main.m.erb
-app_generators/rucola/templates/misc/nibtool_helper.rb
 app_generators/rucola/templates/misc/rb_main.rb.erb
 app_generators/rucola/templates/project.pbxproj.erb
 app_generators/rucola/templates/script/plugin
@@ -45,6 +45,10 @@ lib/rucola/rucola_support/core_ext/ruby/string.rb
 lib/rucola/rucola_support/initialize_hooks.rb
 lib/rucola/rucola_support/notifications.rb
 lib/rucola/rucola_support/notifications/notifications.rb
+lib/rucola/tasks/freeze.rake
+lib/rucola/tasks/interface_builder.rake
+lib/rucola/tasks/main.rake
+lib/rucola/tasks/xcode.rake
 lib/rucola/version.rb
 lib/rucola/xcode.rb
 log/debug.log

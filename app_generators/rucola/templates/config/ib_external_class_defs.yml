@@ -1,0 +1,10 @@
+# If you are going to use subclasses in IB of custom classes,
+# rb_nibtool should know of them. Simply define the class that you are
+# subclassing and specify it's OSX superclass.
+#
+# For instance, say you'd have a subclass of NSObject somewhere in a lib
+# outside of the application called FooController.
+# And you use this class as the base for subclasses in your app.
+# Then you would specify that as:
+#
+# FooController: NSObject

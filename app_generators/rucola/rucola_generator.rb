@@ -37,7 +37,7 @@ class RucolaGenerator < RubiGen::Base
       m.template            "Rakefile.erb",  "Rakefile"
       
       m.file                "app/controllers/application_controller.rb", "app/controllers/application_controller.rb"
-      m.file_copy_each      %w[boot.rb environment.rb], "config"
+      m.file_copy_each      %w[boot.rb environment.rb ib_external_class_defs.yml], "config"
       m.template            "config/Info.plist.erb", "config/Info.plist"
       m.symlink             "config/Info.plist", "Info.plist"
       
@@ -46,7 +46,6 @@ class RucolaGenerator < RubiGen::Base
       #m.template_copy_each  %w[main.m.erb rb_main.rb.erb], "misc"
       m.template            "misc/main.m.erb", "misc/main.m"
       m.template            "misc/rb_main.rb.erb", "misc/rb_main.rb"
-      m.file                "misc/nibtool_helper.rb", "misc/nibtool_helper.rb"
 
       # TODO - allow alternate default languages
       m.template            "misc/English.lproj/InfoPlist.strings.erb", "misc/English.lproj/InfoPlist.strings"

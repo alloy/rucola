@@ -54,6 +54,7 @@ class TestRucolaGenerator < Test::Unit::TestCase
     assert_generated_file   "config/environments/release.rb"
     assert_generated_file   "config/environments/test.rb"
     assert_generated_file   "config/Info.plist"
+    assert_generated_file   "config/ib_external_class_defs.yml"
     assert_generated_symlink "Info.plist"
 
     assert_generated_file   "misc/main.m"
@@ -62,7 +63,6 @@ class TestRucolaGenerator < Test::Unit::TestCase
     assert_generated_file   "misc/English.lproj/MainMenu.nib/classes.nib"
     assert_generated_file   "misc/English.lproj/MainMenu.nib/info.nib"
     assert_generated_file   "misc/English.lproj/MainMenu.nib/keyedobjects.nib"
-    assert_generated_file   "misc/nibtool_helper.rb"
     
     assert_directory_exists "myproject.xcodeproj"
     assert_generated_file   "myproject.xcodeproj/project.pbxproj"
