@@ -1,56 +1,15 @@
-* We need to give the user the option to add anonymous controllers to nibs
-  and optionally instantiate them. If no nibs are specified MainMenu.nib should be the default.
-  So without extra options:
-  $ script/generate controller Foo
-    create app/controllers/foo_controller
-    ...
-  Would you like me to add the class Foo to MainMenu.nib? [y/n]
-  Would you like me to instantiate class Foo in MainMenu.nib? [y/n]
-
-  With extra options:
-  $ script/generate controller Foo MainMenu Another Preferences
-    create app/controllers/foo_controller
-    ...
-  Would you like me to instantiate class Foo in MainMenu.nib? [y/n]
-  Would you like me to instantiate class Foo in Another.nib? [y/n]
-  Would you like me to instantiate class Foo in Preferences.nib? [y/n]
-
-* Remove the acts_as_foo class method and registering stuff.
-  Because we will simply include these modules by default.
-
-* [DONE] Rake task rc:freeze:current should also look in /System and ~/Library
-
-* [DONE] Rake task :build expects the build dir to be in the source root,
-  but this is not always true. So look in xcode prefs.
-
-* script/generate window_controller capitalizes when specifying a camel case name.
-
-* [DONE] Allow Apps running in debug mode to use code from your working directory.
-
-* [DONE] Create tests for xcode.rb.
+* Did some restructuring of the dir layout with regards to controllers and initialize_hooks (rev 42).
+  Should probably look if the require structure is still ok... Justin knows about this.
 
 * Create tests for initializer.rb.
 
-* [DONE] Create tests for rucola_support/window_controller.rb.
-
-* Make autotest work with the directory structure.
-
-* [DONE] Create freeze current task, which will freeze the rubycocoa framework installed in /Library/Frameworks.
-
-* [DONE] Create install plugin task.
-
-* [DONE] Add hooks into initializer that load the plugins.
-
-* [DONE] Create a simple controller generator that will only create a controller
-  file & class which inherits from OSX::NSObject.
+* Make sure autotest works with the application generated directory structure.
 
 * Create templates for testing in either TestUnit, TestSpec or rSpec.
   I don't use rSpec anymore atm, so I (Eloy) will first focus on TestUnit & TestSpec.
+  Actually I will just move it to test/spec.
 
 * Create README & simple website and release first version!
-
-* [DONE] Create a task that uses rb_nibtool.rb to check controllers and their nibs for changes
-  and update them.
 
 * No need to continuously rebuild your application when just changing a few lines of Ruby.
   Still does xcodebuild for the build task, so add a check if the xcode project was updated,
