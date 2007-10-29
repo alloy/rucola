@@ -39,6 +39,12 @@ describe 'Nib::Classes' do
     @nib.data.expects(:writeToFile_atomically).with(@path, true)
     @nib.save
   end
+  
+  it "should be able to check if a class is defined" do
+    @nib.add_class('BarController')
+    @nib.has_class?('BarController').should.be true
+    @nib.has_class?('NotInThere').should.be false
+  end
 end
 
 describe 'Nib::KeyedObjects' do

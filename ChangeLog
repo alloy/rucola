@@ -1,5 +1,16 @@
 2007-10-29 Eloy Duran <e.duran@superalloy.nl>
 
+	* app_generators/rucola/templates/Rakefile.erb,
+	  lib/rucola/nib.rb,
+	  test/test_nib.rb:
+
+	- Added Rucola::Nib::Classes#has_class?.
+	- Rake task ib:update now loops through all
+	  controllers and nibs and updates the class
+	  definition if it finds the class in a nib.
+
+2007-10-29 Eloy Duran <e.duran@superalloy.nl>
+
 	* lib/rucola/rucola_support/acts_as/notifiable.rb,
 	  test/test_acts_as_notifiable.rb:
 

@@ -2,6 +2,7 @@ require 'rake/testtask'
 
 require 'osx/cocoa'
 require 'rucola/xcode'
+require 'rucola/nib'
 require 'rucola/rucola_support'
 
 # Application configuration
@@ -49,28 +50,34 @@ end
 namespace :ib do
   RB_NIB_TOOL = "#{RUBYCOCOA_FRAMEWORK}/Versions/Current/Tools/rb_nibtool.rb"
   
+  def create_tmp_helper_file(controller_name)
+    tmp_file = "/tmp/#{controller_name.snake_case}.rb.tmp"
+    File.open(tmp_file, 'w') do |file|
+      file.write( File.read("misc/nibtool_helper.rb") + "\n\n" + File.read("app/controllers/#{controller_name.snake_case}.rb") )
+    end
+    tmp_file
+  end
+  
+  def name_for_controller(controller_path)
+    File.basename(controller_path)[0..-4].camel_case
+  end
+  
   desc 'Updates the nibs from their corresponding ruby source files'
   task :update do
-    nibs = FileList['app/views/*.nib'].reject {|file| File.extname(file) != '.nib' or file.include? '~' }
-    nibs.each do |nib|
-      # Because rb_nibtool will use RubyNode which doesn't eval so other source files
-      # aren't required by the 'require' statement. Some classes that have superclasses
-      # that are unknown to the classes.nib file don't show up in the classes list in IB.
-      # And even worse a window controller for instance that doesn't know in IB that it
-      # inherits from NSWindowController will not have it's outlets set ok.
-      #
-      # So until this is fixed in rb_nibtool, we will simply create a intermediate file
-      # that holds only the class definitions for any class that is needed in order to
-      # create a valid nib.
-      controller = "#{File.basename(nib)[0..-5].snake_case}_controller.rb"
-      tmp_file = "/tmp/#{controller}.tmp"
-      File.open(tmp_file, 'w') do |file|
-        file.write( File.read("misc/nibtool_helper.rb") + "\n\n" + File.read("app/controllers/#{controller}") )
-      end
-      ruby "#{RB_NIB_TOOL} --update --nib #{nib} --file #{tmp_file}"
-    end
+    controllers = FileList['app/controllers/*.rb']
+    nibs = FileList['app/views/*.nib', 'misc/English.lproj/MainMenu.nib'].reject {|file| File.extname(file) != '.nib' or file.include? '~' }
     
-    #ruby "#{RB_NIB_TOOL} --update --file app/controllers/application_controller.rb --nib misc/English.lproj/MainMenu.nib"
+    controllers.each do |controller_path|
+      controller_name = name_for_controller(controller_path)
+      nibs.each do |nib|
+        if Rucola::Nib::Classes.open("#{nib}/classes.nib").has_class? controller_name
+          @tmp_file ||= create_tmp_helper_file(controller_name)
+          puts "      update  #{nib}: #{controller_name}"
+          `ruby #{RB_NIB_TOOL} --update --nib #{nib} --file #{@tmp_file}`
+        end
+      end
+      @tmp_file = nil
+    end
   end
   
 end

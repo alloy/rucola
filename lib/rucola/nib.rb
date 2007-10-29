@@ -42,6 +42,10 @@ module Rucola
         })
       end
       
+      def has_class?(class_name)
+        classes.any? { |klass| klass['CLASS'] == class_name }
+      end
+      
       def save
         Rucola::Nib.backup(@path)
         @data.writeToFile_atomically(@path, true)
