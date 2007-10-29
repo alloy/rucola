@@ -1,3 +1,4 @@
+.rake_tasks
 ChangeLog
 History.txt
 License.txt
@@ -34,13 +35,13 @@ lib/rucola.rb
 lib/rucola/initializer.rb
 lib/rucola/nib.rb
 lib/rucola/rucola_support.rb
-lib/rucola/rucola_support/acts_as.rb
-lib/rucola/rucola_support/acts_as/notifiable.rb
 lib/rucola/rucola_support/core_ext.rb
 lib/rucola/rucola_support/core_ext/objc.rb
 lib/rucola/rucola_support/core_ext/objc/nsobject.rb
 lib/rucola/rucola_support/core_ext/ruby.rb
 lib/rucola/rucola_support/core_ext/ruby/string.rb
+lib/rucola/rucola_support/notifications.rb
+lib/rucola/rucola_support/notifications/notifications.rb
 lib/rucola/rucola_support/window_controller.rb
 lib/rucola/version.rb
 lib/rucola/xcode.rb
@@ -66,13 +67,12 @@ tasks/website.rake
 test/fixtures/MainMenu.nib/classes.nib
 test/fixtures/MainMenu.nib/info.nib
 test/fixtures/MainMenu.nib/keyedobjects.nib
-test/test_acts_as.rb
-test/test_acts_as_notifiable.rb
 test/test_controller_generator.rb
 test/test_core_ext.rb
 test/test_generator_helper.rb
 test/test_helper.rb
 test/test_nib.rb
+test/test_notifications.rb
 test/test_objc_core_ext.rb
 test/test_rucola.rb
 test/test_rucola_generator.rb

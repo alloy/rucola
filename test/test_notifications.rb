@@ -1,29 +1,28 @@
 require File.dirname(__FILE__) + '/test_helper.rb'
-require 'rucola/rucola_support/acts_as/notifiable'
 
 class FooNotifiable < OSX::NSObject
-  include Rucola::ActsAs::Notifiable
+  include Rucola::Notifications
 end
 class BarNotifiable < OSX::NSObject
-  include Rucola::ActsAs::Notifiable
+  include Rucola::Notifications
 end
 class BazNotifiable < OSX::NSObject
-  include Rucola::ActsAs::Notifiable
+  include Rucola::Notifications
 end
 class BlaNotifiable < OSX::NSObject
-  include Rucola::ActsAs::Notifiable
+  include Rucola::Notifications
 end
 class FuNotifiable < OSX::NSObject
-  include Rucola::ActsAs::Notifiable
+  include Rucola::Notifications
 end
 class KungNotifiable < OSX::NSObject
-  include Rucola::ActsAs::Notifiable
+  include Rucola::Notifications
 end
 class Person < OSX::NSObject
-  include Rucola::ActsAs::Notifiable
+  include Rucola::Notifications
 end
 
-describe 'ActsAs::Notifiable' do
+describe 'Rucola::Notifications' do
   it "should handle notifications when included" do
     FooNotifiable.instance_variable_get(:@_registered_notifications).should.be.nil
     

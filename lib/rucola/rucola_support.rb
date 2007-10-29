@@ -3,4 +3,4 @@ $:.unshift(File.dirname(__FILE__)) unless
   
 require 'rucola_support/core_ext'
 require 'rucola_support/window_controller'
-require 'rucola/rucola_support/acts_as'
+require 'rucola/rucola_support/notifications'
