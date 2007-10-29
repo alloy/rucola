@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), "test_generator_helper.rb")
 
-class FooBarController < Rucola::WindowController::Base; end
+class FooBarController < Rucola::RCWindowController; end
 
 describe 'A subclassed WindowController' do
   it "should know at initialization which nib belongs to it" do

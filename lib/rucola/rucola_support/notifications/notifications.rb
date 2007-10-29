@@ -139,7 +139,6 @@ module Rucola
         return if notifications.nil?
         center = OSX::NSNotificationCenter.defaultCenter
         notifications.each do |notification_name, notification_handler|
-          puts notification_handler
           center.addObserver_selector_name_object(self, notification_handler, notification_name, nil)
         end
       end

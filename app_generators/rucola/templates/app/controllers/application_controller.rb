@@ -1,4 +1,4 @@
-class ApplicationController < OSX::NSObject
+class ApplicationController < Rucola::RCController
   ib_outlet :mainWindow
   
   def awakeFromNib

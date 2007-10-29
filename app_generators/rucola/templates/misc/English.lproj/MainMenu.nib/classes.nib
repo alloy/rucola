@@ -14,6 +14,14 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>RCController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>ApplicationController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -23,7 +31,7 @@
 				<string>id</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSObject</string>
+			<string>RCController</string>
 		</dict>
 	</array>
 	<key>IBVersion</key>

@@ -1,22 +1,22 @@
 require 'osx/cocoa'
 
 class OSX::NSObject
-  
-  #alias_method :_before_rucola_adds_initialize_hook, :initialize
-  # FIXME: Is it ok to use #initialize?
-  def initialize
-    # get the hooks, if they exist let them all do their after initialization work.
-    hooks = self.class.instance_variable_get(:@_rucola_initialize_hooks)
-    hooks.each { |hook| self.instance_eval(&hook) } unless hooks.nil?
+  class << self
+    alias_method :_inherited_before_rucola, :inherited
     
-    # call original initialize
-    #_before_rucola_adds_initialize_hook
+    def inherited(subclass)
+      # First let RubyCocoa do it's magic!
+      _inherited_before_rucola(subclass)
+    
+      # We only want to mixin modules into subclasses of classes
+      # that start with 'Rucola::RC'.
+      class_prefix = subclass.superclass.name.to_s[0..9]
+      if class_prefix == 'Rucola::RC'
+        subclass.class_eval do
+          include Rucola::InitializeHooks
+          include Rucola::Notifications
+        end
+      end
+    end
   end
-  
-  # Adds the given proc to the initialize hooks queue,
-  # which will be ran after object initialization.
-  def self._rucola_register_initialize_hook(hook)
-    (@_rucola_initialize_hooks ||= []).push hook
-  end
-  
 end

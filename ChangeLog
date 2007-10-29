@@ -1,5 +1,45 @@
 2007-10-29 Eloy Duran <e.duran@superalloy.nl>
 
+	* Manifest.txt,
+	  Rakefile,
+	  app_generators/rucola/templates/app/controllers/application_controller.rb,
+	  app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/classes.nib,
+	  app_generators/rucola/templates/misc/nibtool_helper.rb,
+	  lib/rucola/rucola_support.rb,
+	  lib/rucola/rucola_support/controllers,
+	  lib/rucola/rucola_support/controllers/rc_controller.rb,
+	  lib/rucola/rucola_support/controllers/rc_window_controller.rb,
+	  lib/rucola/rucola_support/core_ext/objc/nsobject.rb,
+	  lib/rucola/rucola_support/initialize_hooks.rb,
+	  lib/rucola/rucola_support/notifications/notifications.rb,
+	  lib/rucola/rucola_support/window_controller.rb,
+	  rucola_generators/controller/templates/controller_template.rb.erb,
+	  rucola_generators/window_controller/templates/Window.nib/classes.nib.erb,
+	  rucola_generators/window_controller/templates/Window.nib/info.nib,
+	  rucola_generators/window_controller/templates/Window.nib/keyedobjects.nib,
+	  rucola_generators/window_controller/templates/window_controller_template.rb.erb,
+	  test/test_notifications.rb,
+	  test/test_objc_core_ext.rb,
+	  test/test_rc_window_controller.rb,
+	  test/test_window_controller.rb:
+
+	- Refactored the mixin scheme. Only subclasses of
+	  a class that starts with 'Rucola::RC' will automatically
+	  get the default mixins mixed in.
+	  This happens in core_ext/objc/nsobject.rb.
+	- Moved the initialize hook stuff into it's own module.
+	- By default Rucola::RC subclasses will now have mixed in:
+	  Rucola::InitializeHooks & Rucola::Notifications
+	- Added an empty Rucola::RCController class from which all
+	  anonymous controllers should inherit so that they get
+	  the correct modules mixed in.
+	- Moved rc_controller.rb & rc_window_controller.rb into rucola_support/controllers.
+	- Updated tests.
+	- Updated nib window template to use the new RCWindowController class.
+	- Updated the nibtool_helper.rb file to use the new Rucola::RC classes.
+
+2007-10-29 Eloy Duran <e.duran@superalloy.nl>
+
 	* app_generators/rucola/templates/script/plugin,
 	  lib/rucola/nib.rb:
 
