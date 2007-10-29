@@ -1,3 +1,11 @@
+2007-10-29 Eloy Duran <e.duran@superalloy.nl>
+
+	* app_generators/rucola/templates/script/plugin,
+	  lib/rucola/nib.rb:
+
+	Fixed annoying warnings about constants already being defined when requiring FileUtils.
+	For some strange reason this happens when you require 'FileUtils' but not with 'fileutils'.
+
 2007-10-28 Justin Palmer <justin@activereload.net>
 
 	* Manifest.txt,

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'FileUtils'
+require 'fileutils'
 require 'net/http'
 
 RUCOLA_PLUGINS_URL = 'http://rucola.rubyforge.org/svn/branches/plugins/'

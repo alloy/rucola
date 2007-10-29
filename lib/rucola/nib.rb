@@ -1,5 +1,5 @@
 require 'osx/cocoa'
-require 'FileUtils'
+require 'fileutils'
 
 module Rucola
   module Nib
