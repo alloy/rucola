@@ -1,5 +1,15 @@
 2007-10-28 Justin Palmer <justin@activereload.net>
 
+	* Manifest.txt,
+	  lib/rucola/rucola_support/notifications,
+	  lib/rucola/rucola_support/notifications.rb,
+	  lib/rucola/rucola_support/notifications/notifications.rb:
+
+	- Forgot to add the notification files.  Oops.
+	- Updated notification docs.
+
+2007-10-28 Justin Palmer <justin@activereload.net>
+
 	* test/test_notifications.rb,
 	  Manifest.txt,
 	  lib/rucola/rucola_support.rb,
