@@ -34,6 +34,7 @@ lib/rucola.rb
 lib/rucola/initializer.rb
 lib/rucola/nib.rb
 lib/rucola/rucola_support.rb
+lib/rucola/rucola_support/controllers.rb
 lib/rucola/rucola_support/controllers/rc_controller.rb
 lib/rucola/rucola_support/controllers/rc_window_controller.rb
 lib/rucola/rucola_support/core_ext.rb

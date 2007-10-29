@@ -3,6 +3,5 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 require 'rucola_support/initialize_hooks'
 require 'rucola_support/core_ext'
-require 'rucola_support/controllers/rc_controller'
-require 'rucola_support/controllers/rc_window_controller'
+require 'rucola_support/controllers'
 require 'rucola/rucola_support/notifications'

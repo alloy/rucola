@@ -1,3 +1,13 @@
+2007-10-29 Justin Palmer <justin@activereload.net>
+
+	* Manifest.txt,
+	  TODO,
+	  lib/rucola/rucola_support.rb,
+	  lib/rucola/rucola_support/controllers.rb:
+
+	Add controllers.rb in rucola_support to include all files in controller/ directory.
+
+
 2007-10-29 Eloy Duran <e.duran@superalloy.nl>
 
 	* TODO:
