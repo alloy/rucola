@@ -17,15 +17,32 @@ namespace :ib do
     user_class_def_file = File.join(SOURCE_ROOT, 'config/ib_external_class_defs.yml')
     user_class_defs = YAML.load_file(user_class_def_file)
     if user_class_defs
-      user_class_defs.each do |klass, superklass|
-        user_class_def_string += "class #{klass} < #{superklass}; end\n"
-      end
+      user_class_def_string = create_class_stubs(user_class_defs)
     end
     
     # write the Rucola controllers and the optional ib_external_class_defs.yml to a tmp file
     File.open(helper_file, 'w') do |file|
       file.write class_defs.map{ |class_def| File.read(class_def) }.join("\n\n") << user_class_def_string
     end
+  end
+  
+  def create_class_stubs(klasses, prev_super = '')
+    class_defs = ''
+    klasses.each do |klass, subklass|
+      unless prev_super == ''
+        class_defs += "class #{klass} < #{prev_super}; end\n"
+      end
+      if subklass.is_a?(Array)
+        subklass.each do |sub|
+          if sub.is_a?(Hash)
+            create_class_stubs(sub, klass)
+          else
+            class_defs += "class #{sub} < #{klass}; end\n"
+          end
+        end
+      end
+    end
+    return class_defs
   end
   
   def create_tmp_controller_file(controller_name)

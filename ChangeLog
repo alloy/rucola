@@ -1,3 +1,12 @@
+2007-10-29 Justin Palmer <justin@activereload.net>
+
+	* app_generators/rucola/templates/config/ib_external_class_defs.yml,
+	  lib/rucola/tasks/interface_builder.rake:
+
+	Change ib_external_class_defs.yml to structure classes by hierarchy and 
+	allow nesting.
+
+
 2007-10-29 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,

@@ -1,10 +1,13 @@
-# If you are going to use subclasses in IB of custom classes,
-# rb_nibtool should know of them. Simply define the class that you are
-# subclassing and specify it's OSX superclass.
+# Interface Builder Class Definitions
 #
-# For instance, say you'd have a subclass of NSObject somewhere in a lib
-# outside of the application called FooController.
-# And you use this class as the base for subclasses in your app.
-# Then you would specify that as:
+# Interface Builder doesn't detect your custom classes by default.
+# Identify class heirarchies here and make sure you run `rake ib:update` 
+# to notice the changes in Interface Builder.
 #
-# FooController: NSObject
+# NSObject:
+#   - MyController
+#   - MyOtherController
+# NSWindowController:
+#   - SomeWindowController:
+#       - SomeOtherController
+#
