@@ -2,6 +2,17 @@
 
 	* lib/rucola/rucola_support/controllers/rc_window_controller.rb,
 	  lib/rucola/rucola_support/rc_app.rb,
+	  test/test_rc_app.rb,
+	  test/test_rc_window_controller.rb:
+
+	- Added to the Rucola::RCApp module:
+	  #path_for_controller, #path_for_model, #path_for_view, #path_for_asset
+	- Updated RCWindowController to use the new #path_for_view method.
+
+2007-10-30 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/rucola/rucola_support/controllers/rc_window_controller.rb,
+	  lib/rucola/rucola_support/rc_app.rb,
 	  test/test_rc_app.rb:
 
 	Added Rucola::RCApp#views_path and updated RCWindowController

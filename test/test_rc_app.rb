@@ -2,6 +2,10 @@ require File.dirname(__FILE__) + '/test_helper.rb'
 require 'pathname'
 include Rucola
 
+class FooController; end
+class Person; end
+class PreferencesController; end
+
 describe 'Rucola::RCApp' do
   before do
     @root_path = '/some/path/to/root'
@@ -26,6 +30,28 @@ describe 'Rucola::RCApp' do
   
   it "should return the path to the current assets dir" do
     RCApp.assets_path.should == "#{@root_path}/app/assets"
+  end
+  
+  it "should return the path for a given controller" do
+    RCApp.path_for_controller(FooController).should == "#{@root_path}/app/controllers/foo_controller.rb"
+  end
+  
+  it "should return the path for a given model" do
+    RCApp.path_for_model(Person).should == "#{@root_path}/app/models/person.rb"
+  end
+  
+  it "should return the path for a given view" do
+    view_path = "#{@root_path}/app/views/Preferences.nib"
+    RCApp.path_for_view('Preferences').should == view_path
+    RCApp.path_for_view('preferences').should == view_path
+    RCApp.path_for_view(PreferencesController).should == view_path
+    RCApp.path_for_view(PreferencesController.new).should == view_path
+  end
+  
+  it "should return the path for a given asset" do
+    asset_path = "#{@root_path}/app/assets/somefile.png"
+    RCApp.path_for_asset('somefile.png').should == asset_path
+    RCApp.path_for_view('SomeFile.png').should.not == asset_path
   end
   
   it "should be included by default in the RCController class" do

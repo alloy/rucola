@@ -58,5 +58,44 @@ module Rucola
       (RUBYCOCOA_ROOT + 'app/views').to_s
     end
     module_function :views_path
+    
+    # Returns the path to a +controller+ file.
+    #
+    #   Rucola::RCApp.path_for_controller(ApplicationController) #=> 'root/app/controllers/application_controller.rb'
+    def path_for_controller(controller)
+      "#{controllers_path}/#{controller.name.to_s.snake_case}.rb"
+    end
+    module_function :path_for_controller
+    
+    # Returns the path to a +model+ file.
+    #
+    #   Rucola::RCApp.path_for_model(Person) #=> 'root/app/models/person.rb'
+    def path_for_model(model)
+      "#{models_path}/#{model.name.to_s.snake_case}.rb"
+    end
+    module_function :path_for_model
+    
+    # Returns the path to a +view+ file.
+    #
+    #   Rucola::RCApp.path_for_controller('preferences') #=> 'root/app/views/Preferences.nib'
+    #   Rucola::RCApp.path_for_controller('Preferences') #=> 'root/app/views/Preferences.nib'
+    #
+    #   Rucola::RCApp.path_for_controller(PreferencesController) #=> 'root/app/views/Preferences.nib'
+    #   Rucola::RCApp.path_for_controller(PreferencesController.alloc.init) #=> 'root/app/views/Preferences.nib'
+    def path_for_view(view)
+      view = view.class unless view.is_a?(String) or view.is_a?(Class)
+      view = view.name.to_s.sub(/Controller$/, '') if view.is_a? Class
+      "#{views_path}/#{view.camel_case}.nib"
+    end
+    module_function :path_for_view
+    
+    # Returns the path to an +asset+ file.
+    #
+    #   Rucola::RCApp.path_for_asset('somefile.png') #=> 'root/app/assets/somefile.png'
+    def path_for_asset(asset)
+      "#{assets_path}/#{asset}"
+    end
+    module_function :path_for_asset
+
   end
 end

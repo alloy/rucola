@@ -6,7 +6,7 @@ module Rucola
     # So for instance a class PreferencesWindowController,
     # will look for a nib in: app/views/Preferences.nib
     def init
-      self if self.initWithWindowNibPath_owner(("#{Rucola::RCApp.views_path}/#{self.class.to_s.sub(/Controller$/, '')}.nib").to_s, self)
+      self if self.initWithWindowNibPath_owner(Rucola::RCApp.path_for_view(self), self)
     end
   end
 end
