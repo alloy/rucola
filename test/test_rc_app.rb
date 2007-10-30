@@ -20,6 +20,10 @@ describe 'Rucola::RCApp' do
     RCApp.models_path.should == "#{@root_path}/app/models"
   end
   
+  it "should return the path to the current views dir" do
+    RCApp.views_path.should == "#{@root_path}/app/views"
+  end
+  
   it "should return the path to the current assets dir" do
     RCApp.assets_path.should == "#{@root_path}/app/assets"
   end

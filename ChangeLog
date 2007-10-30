@@ -1,5 +1,14 @@
 2007-10-30 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/rucola_support/controllers/rc_window_controller.rb,
+	  lib/rucola/rucola_support/rc_app.rb,
+	  test/test_rc_app.rb:
+
+	Added Rucola::RCApp#views_path and updated RCWindowController
+	to use that new method instead of RUBYCOCOA_ROOT.
+
+2007-10-30 Eloy Duran <e.duran@superalloy.nl>
+
 	* Manifest.txt,
 	  lib/rucola/rucola_support.rb,
 	  lib/rucola/rucola_support/controllers/rc_controller.rb,

@@ -46,5 +46,17 @@ module Rucola
       (RUBYCOCOA_ROOT + 'app/assets').to_s
     end
     module_function :assets_path
+    
+    # Returns the path to the current used app/views dir.
+    #
+    # So in debug & test mode this will point to your development
+    # source_root/app/views.
+    #
+    # In release however this will point to the equivalent of:
+    #   NSBundle.mainBundle.resourcePath + 'app/views'
+    def views_path
+      (RUBYCOCOA_ROOT + 'app/views').to_s
+    end
+    module_function :views_path
   end
 end
