@@ -45,6 +45,7 @@ lib/rucola/rucola_support/core_ext/ruby/string.rb
 lib/rucola/rucola_support/initialize_hooks.rb
 lib/rucola/rucola_support/notifications.rb
 lib/rucola/rucola_support/notifications/notifications.rb
+lib/rucola/rucola_support/rc_app.rb
 lib/rucola/tasks/freeze.rake
 lib/rucola/tasks/interface_builder.rake
 lib/rucola/tasks/main.rake
@@ -80,6 +81,7 @@ test/test_helper.rb
 test/test_nib.rb
 test/test_notifications.rb
 test/test_objc_core_ext.rb
+test/test_rc_app.rb
 test/test_rc_window_controller.rb
 test/test_rucola.rb
 test/test_rucola_generator.rb

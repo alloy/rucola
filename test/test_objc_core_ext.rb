@@ -1,10 +1,4 @@
-require "rubygems"
-require "test/unit"
-require "test/spec"
-require "mocha"
-require 'osx/cocoa'
-
-require "rucola/rucola_support"
+require File.dirname(__FILE__) + '/test_helper.rb'
 
 # FIXME: Actually these are not only objc_core_ext tests but also initialize_hooks tests...
 

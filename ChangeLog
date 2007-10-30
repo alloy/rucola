@@ -1,3 +1,17 @@
+2007-10-30 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  lib/rucola/rucola_support.rb,
+	  lib/rucola/rucola_support/controllers/rc_controller.rb,
+	  lib/rucola/rucola_support/rc_app.rb,
+	  test/test_helper.rb,
+	  test/test_objc_core_ext.rb,
+	  test/test_rc_app.rb:
+
+	- Added module Rucola::RCApp which provides shortcut methods:
+	  #root_path, #controllers_path, #models_path, #assets_path.
+	- Mixin Rucola::RCApp by default in Rucola::RCController.
+
 2007-10-29 Justin Palmer <justin@activereload.net>
 
 	* app_generators/rucola/templates/app/controllers/application_controller.rb,
