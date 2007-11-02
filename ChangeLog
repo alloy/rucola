@@ -5,6 +5,7 @@
 
 	- Added a clean task to xcode.
 	- Did some re-factoring in the xcode tasks.
+	- When a build is already found we now skip xcodebuild to speedup the process.
 
 2007-11-2 Eloy Duran <e.duran@superalloy.nl>
 
