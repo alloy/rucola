@@ -1,10 +1,42 @@
+2007-11-3 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  app_generators/rucola/templates/misc/English.lproj/MainMenu.nib/keyedobjects.nib,
+	  app_generators/rucola/templates/test/test_helper.rb,
+	  lib/rucola/info_plist.rb,
+	  lib/rucola/rucola_support.rb,
+	  lib/rucola/rucola_support/models,
+	  lib/rucola/rucola_support/models.rb,
+	  lib/rucola/rucola_support/models/rc_document.rb,
+	  lib/rucola/test_helper.rb,
+	  rucola_generators/document_model,
+	  rucola_generators/document_model/USAGE,
+	  rucola_generators/document_model/document_model_generator.rb,
+	  rucola_generators/document_model/templates,
+	  rucola_generators/document_model/templates/document_model_template.rb.erb,
+	  rucola_generators/document_model/templates/test_document_model_template.rb.erb,
+	  rucola_generators/window_controller/window_controller_generator.rb,
+	  test/fixtures/Info.plist,
+	  test/test_document_model_generator.rb,
+	  test/test_helper.rb,
+	  test/test_info_plist.rb,
+	  test/test_nib.rb,
+	  test/test_rc_document.rb,
+	  test/test_rc_window_controller.rb:
+
+	- Added new document_model generator. Due to some bugs in the document template of rubycocoa,
+	  we have just one MainMenu.nib for now where the #newDocument, #openDocument, #saveDocument,
+	  #saveDocumentAs are hooked up to the firstResponder.
+	- Added rucola/info_plist.rb to be able to add document types to the plist.
+	- Added rucola/rc_test_helper.rb which adds some useful test helpers also used in rucola.
+	- Some minor cleanup.
+
 2007-11-2 Justin Palmer <justin@activereload.net>
 
 	* lib/rucola/tasks/xcode.rake:
 
 	Change osascript in xcode:build to use the executable path in order to 
 	avoid conflicts with applications of the same name.
-
 
 2007-11-2 Eloy Duran <e.duran@superalloy.nl>
 

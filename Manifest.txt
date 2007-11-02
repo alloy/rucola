@@ -31,6 +31,7 @@ bin/rucola
 config/hoe.rb
 config/requirements.rb
 lib/rucola.rb
+lib/rucola/info_plist.rb
 lib/rucola/initializer.rb
 lib/rucola/nib.rb
 lib/rucola/rucola_support.rb
@@ -43,6 +44,8 @@ lib/rucola/rucola_support/core_ext/objc/nsobject.rb
 lib/rucola/rucola_support/core_ext/ruby.rb
 lib/rucola/rucola_support/core_ext/ruby/string.rb
 lib/rucola/rucola_support/initialize_hooks.rb
+lib/rucola/rucola_support/models.rb
+lib/rucola/rucola_support/models/rc_document.rb
 lib/rucola/rucola_support/notifications.rb
 lib/rucola/rucola_support/notifications/notifications.rb
 lib/rucola/rucola_support/rc_app.rb
@@ -50,6 +53,7 @@ lib/rucola/tasks/freeze.rake
 lib/rucola/tasks/interface_builder.rake
 lib/rucola/tasks/main.rake
 lib/rucola/tasks/xcode.rake
+lib/rucola/test_helper.rb
 lib/rucola/version.rb
 lib/rucola/xcode.rb
 log/debug.log
@@ -57,6 +61,10 @@ rucola_generators/controller/USAGE
 rucola_generators/controller/controller_generator.rb
 rucola_generators/controller/templates/controller_template.rb.erb
 rucola_generators/controller/templates/test_controller_template.rb.erb
+rucola_generators/document_model/USAGE
+rucola_generators/document_model/document_model_generator.rb
+rucola_generators/document_model/templates/document_model_template.rb.erb
+rucola_generators/document_model/templates/test_document_model_template.rb.erb
 rucola_generators/window_controller/USAGE
 rucola_generators/window_controller/templates/Window.nib/classes.nib.erb
 rucola_generators/window_controller/templates/Window.nib/info.nib
@@ -71,17 +79,21 @@ setup.rb
 tasks/deployment.rake
 tasks/environment.rake
 tasks/website.rake
+test/fixtures/Info.plist
 test/fixtures/MainMenu.nib/classes.nib
 test/fixtures/MainMenu.nib/info.nib
 test/fixtures/MainMenu.nib/keyedobjects.nib
 test/test_controller_generator.rb
 test/test_core_ext.rb
+test/test_document_model_generator.rb
 test/test_generator_helper.rb
 test/test_helper.rb
+test/test_info_plist.rb
 test/test_nib.rb
 test/test_notifications.rb
 test/test_objc_core_ext.rb
 test/test_rc_app.rb
+test/test_rc_document.rb
 test/test_rc_window_controller.rb
 test/test_rucola.rb
 test/test_rucola_generator.rb

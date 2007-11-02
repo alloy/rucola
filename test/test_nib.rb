@@ -1,6 +1,6 @@
 require File.expand_path('../test_helper', __FILE__)
+require 'rucola/nib'
 
-require File.expand_path('../../lib/rucola/nib', __FILE__)
 include Rucola
 
 describe 'Nib' do

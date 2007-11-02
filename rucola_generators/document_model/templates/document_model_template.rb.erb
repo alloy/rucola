@@ -1,0 +1,27 @@
+class <%= name.camel_case %> < Rucola::RCDocument
+
+  def dataRepresentationOfType(aType)
+    # Insert code here to write your document from the given data.
+    # You can also choose to override
+    # fileWrapperRepresentationOfType or writeToFile_ofType
+    # instead.
+    return nil
+  end
+  
+  def loadDataRepresentation_ofType(data, aType)
+    # Insert code here to read your document from the given data.  You
+    # can also choose to override
+    # loadFileWrapperRepresentation_ofType or readFromFile_ofType
+    # instead.
+    return true
+  end
+  
+  # def writeToFile_ofType(file, type)
+  #   return nil
+  # end
+  # 
+  # def readFromFile_ofType(file, type)
+  #   return true
+  # end
+  
+end
