@@ -20,8 +20,10 @@ Dir["#{File.dirname(__FILE__)}/*.rake"].each {|file| load file unless File.basen
 
 task :default => 'xcode:build'
 
+desc 'Runs all the clean tasks'
+task :clean => 'xcode:clean'
+
 Rake::TestTask.new do |t|
   t.test_files = FileList['test/*/test_*.rb']
   t.verbose = true
 end
-

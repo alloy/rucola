@@ -1,5 +1,13 @@
 2007-11-2 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/tasks/main.rake,
+	  lib/rucola/tasks/xcode.rake:
+
+	- Added a clean task to xcode.
+	- Did some re-factoring in the xcode tasks.
+
+2007-11-2 Eloy Duran <e.duran@superalloy.nl>
+
 	* lib/rucola/tasks/xcode.rake:
 
 	The xcode:build task will now bring an app to the front once it's started.
