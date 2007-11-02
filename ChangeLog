@@ -1,3 +1,11 @@
+2007-11-2 Justin Palmer <justin@activereload.net>
+
+	* lib/rucola/tasks/xcode.rake:
+
+	Change osascript in xcode:build to use the executable path in order to 
+	avoid conflicts with applications of the same name.
+
+
 2007-11-2 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/tasks/main.rake,

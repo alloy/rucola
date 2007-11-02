@@ -28,7 +28,7 @@ namespace :xcode do
     # Make sure the app is brought to the front once launched.
     Thread.new do
       sleep 0.025 until OSX::NSWorkspace.sharedWorkspace.launchedApplications.any? {|dict| dict['NSApplicationName'] == APPNAME }
-      `osascript -e 'tell application "#{APPNAME}" to activate'`
+      `osascript -e 'tell application "#{executable}" to activate'`
     end
     
     # launch app with the correct env set
