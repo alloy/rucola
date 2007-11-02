@@ -1,3 +1,9 @@
+2007-11-2 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/rucola/tasks/xcode.rake:
+
+	The xcode:build task will now bring an app to the front once it's started.
+
 2007-10-30 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/rucola_support/controllers/rc_window_controller.rb,
