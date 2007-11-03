@@ -1,10 +1,21 @@
+2007-11-3 Eloy Duran <e.duran@superalloy.nl>
+
+	* License.txt,
+	  README.txt,
+	  app_generators/rucola/USAGE,
+	  rucola_generators/document_model/USAGE,
+	  website/index.html,
+	  website/index.txt,
+	  website/template.rhtml:
+
+	Cleaned for 0.0.1 super-duper-alpha release.
+
 2007-11-3 Justin Palmer <justin@activereload.net>
 
 	* License.txt,
 	  README.txt:
 
 	Update the README with an overview of Rucola.
-
 
 2007-11-3 Eloy Duran <e.duran@superalloy.nl>
 

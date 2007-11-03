@@ -2,26 +2,113 @@ h1. rucola
 
 h1. &#x2192; 'rucola'
 
+h3. SUPER DUPER PRE ALPHA VERSION (expect things to break kinda alpha...)
 
 h2. What
 
+A Framework for building Cocoa applications in Ruby
+
+Rucola is a light weight framework that helps you write RubyCocoa apps.
+It allows you to build, test, and deploy applications using rake commands, 
+eliminating the need to use XCode, however you can use XCode if you wish.
+
+Rucola provides a set of generators to help you generate controllers, window controllers, 
+and document-based applications.  It also provides APIs for simplifying some of Objective-C's 
+ways of doing things.
 
 h2. Installing
 
 <pre syntax="ruby">sudo gem install rucola</pre>
 
-h2. The basics
-
-
 h2. Demonstration of usage
 
+h4. Generating an application skeleton
 
+    rucola MyApp -a "Your Name"
+
+Running this command will give you a complete, working application with a single window already 
+bound to your application controller.
+
+
+h3. Using Notifications
+
+    h4. Rucola
+    <pre syntax="ruby">
+    class Foo < Rucola::RCController
+      notify :some_method, :when => :something_happens
+  
+      def some_method(notification)
+        puts "w00t!"
+      end
+    end
+    </pre>
+
+    h4. Objective C (Excluding header file)
+    <pre syntax="c">
+    @implementation Foo
+    -(id)init {
+      if(self = [super init]) {
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center addObserver:self selector:(some_method:) name:@"SomethingHappensNotification" object:nil];
+      }
+      return self;
+    }
+    
+    -(void)some_method:(NSNotification *) notification {
+      NSLog("w00t!");
+    }
+    @end
+    </pre>
+
+h3. Alternative Way Of Using Notifications
+
+    <pre syntax="ruby">
+    class Foo < Rucola::RCController
+      notify_on :something_happens do |notification|
+        puts "w0t0!"
+      end
+    end
+    </pre>
+
+h3. Working with Interface Builder
+
+A Cocoa application contains `outlets`.  Outlets allow you to bind variable names to objects.
+An object can be a user interface element or an instance of a class.
+
+    <pre syntax="ruby">
+    class ApplicationController < Rucola::RCController
+      ib_outlet :main_window
+
+      def awakeFromNib
+        # All the application delegate methods will be called on this object.
+        OSX::NSApp.delegate = self
+
+        puts "ApplicationController awoke."
+        puts "Edit: app/controllers/application_controller.rb"
+        puts  "\nIt's window is: #{@main_window.inspect}"
+      end
+
+      # NSApplication delegate methods
+      def applicationDidFinishLaunching(notification)
+        puts "\nApplication finished launching."
+      end
+
+      def applicationWillTerminate(notification)
+        puts "\nApplication will terminate."
+      end
+    end
+    </pre>
+
+The `@main_window` variable now points to the user interface window.  You can invoke any methods of NSWindow.
+
+There is also a `rake ib:update` that will update your nib files with the outlets you specify in your code.
+For example, if we wanted to add a button to the application controller above, we could add `ib_outlet :my_button`.
+After you've added this, you can run `rake ib:update` and your outlet will be available in interface builder that 
+you can now hook up to your UI button.
 
 h2. Forum
 
 "http://groups.google.com/group/rucola":http://groups.google.com/group/rucola
-
-TODO - create Google Group - rucola
 
 h2. How to submit patches
 
@@ -35,5 +122,5 @@ This code is free to use under the terms of the MIT license.
 
 h2. Contact
 
-Comments are welcome. Send an email to "FIXME full name":mailto:FIXME email via the "forum":http://groups.google.com/group/rucola
+Comments are welcome. Send an email via the "forum":http://groups.google.com/group/rucola
 

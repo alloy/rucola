@@ -1,6 +1,6 @@
 ## Rucola: Framework for writing Cocoa applications in Ruby
 
-SUPER DUPER PRE ALPHA VERSION
+SUPER DUPER PRE ALPHA VERSION (expect things to break kinda alpha...)
 
 Rucola is a light weight framework that helps you write RubyCocoa apps.
 It allows you to build, test, and deploy applications using rake commands, 
@@ -21,7 +21,7 @@ bound to your application controller.
 ### Using Notifications
 
     //Rucola
-    class Foo < Bar
+    class Foo < Rucola::RCController
       notify :some_method, :when => :something_happens
   
       def some_method(notification)
@@ -44,33 +44,41 @@ bound to your application controller.
     }
     @end
 
+### Alternative Way Of Using Notifications
+
+    //Rucola
+    class Foo < Rucola::RCController
+      notify_on :something_happens do |notification|
+        puts "w0t0!"
+      end
+    end
+
 ### Working with Interface Builder
 
 A Cocoa application contains `outlets`.  Outlets allow you to bind variable names to objects.
 An object can be a user interface element or an instance of a class.
 
-        class ApplicationController < Rucola::RCController
-          ib_outlet :main_window
-  
-          def awakeFromNib
-            # All the application delegate methods will be called on this object.
-            OSX::NSApp.delegate = self
-    
-            puts "ApplicationController awoke."
-            puts "Edit: app/controllers/application_controller.rb"
-            puts  "\nIt's window is: #{@main_window.inspect}"
-          end
-  
-          # NSApplication delegate methods
-          def applicationDidFinishLaunching(notification)
-            puts "\nApplication finished launching."
-          end
-  
-          def applicationWillTerminate(notification)
-            puts "\nApplication will terminate."
-          end
-  
-        end
+    class ApplicationController < Rucola::RCController
+      ib_outlet :main_window
+
+      def awakeFromNib
+        # All the application delegate methods will be called on this object.
+        OSX::NSApp.delegate = self
+
+        puts "ApplicationController awoke."
+        puts "Edit: app/controllers/application_controller.rb"
+        puts  "\nIt's window is: #{@main_window.inspect}"
+      end
+
+      # NSApplication delegate methods
+      def applicationDidFinishLaunching(notification)
+        puts "\nApplication finished launching."
+      end
+
+      def applicationWillTerminate(notification)
+        puts "\nApplication will terminate."
+      end
+    end
 
 The `@main_window` variable now points to the user interface window.  You can invoke any methods of NSWindow.
 
@@ -95,4 +103,24 @@ To build your application, Rucola provides a simple rake command.  (You can also
 This will compile and run your application.  At the moment we don't bundle Ruby or the gems that you are using 
 in your application, we have plans to support this in order to make it really easy to distribute your application.
 
+### Extras
 
+Browse the svn repo online at: http://rucola.rubyforge.org/svn/
+
+The latest version can be checked out with:
+
+    $ svn co svn://rubyforge.org/var/svn/rucola/trunk rucola
+
+A simpe sample app called Gembo can be found at:
+
+    $ svn co svn://rubyforge.org/var/svn/rucola/extras/examples/Gembo
+
+There's a basic TextMate bundle which contains only 4 commands which are the equivalent of the "go to file" commands in the rails bundle. With these going from a controller to it's test/model/view file is only a shortcut away. To get it:
+
+    $ cd ~/Library/Application\ Support/TextMate/Bundles/
+    $ svn co svn://rubyforge.org/var/svn/rucola/extras/Rucola.tmbundle
+
+There's a crash reporter plugin available, which you can install with script/plugin:
+
+    $ cd MyApp
+    $ script/plugin install SACrashReporter

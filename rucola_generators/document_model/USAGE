@@ -1,5 +1,5 @@
 Description:
-  
+  Generate a model that inherits from NSDocument. A window controller and view (nib) will also be created.
   
 Usage:
-  
+  script/generate document_model article article_extension
