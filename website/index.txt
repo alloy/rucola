@@ -18,11 +18,26 @@ ways of doing things.
 
 h2. Installing
 
-<pre syntax="ruby">sudo gem install rucola</pre>
+<pre syntax="sh">sudo gem install rucola</pre>
+
+h3. Note
+
+At this moment new gems are not being deployed: "Rubyforge ticket #15113":http://rubyforge.org/tracker/index.php?func=detail&aid=15113&group_id=5&atid=102
+
+Until this has been resolved you can install it with:
+
+<pre syntax="sh">
+curl -O http://files.rubyforge.mmmultiworks.com/rucola/rucola-0.0.1.gem
+sudo gem install rubynode
+sudo gem install rubigen
+sudo gem install ./rucola-0.0.1.gem
+</pre>
+
+(If you're using Mac OS X 10.5 Leopard you don't have to install rubynode)
 
 h2. Demonstration of usage
 
-h4. Generating an application skeleton
+h3. Generating an application skeleton
 
     rucola MyApp -a "Your Name"
 
@@ -105,6 +120,26 @@ There is also a `rake ib:update` that will update your nib files with the outlet
 For example, if we wanted to add a button to the application controller above, we could add `ib_outlet :my_button`.
 After you've added this, you can run `rake ib:update` and your outlet will be available in interface builder that 
 you can now hook up to your UI button.
+
+h2. Extras
+
+A simpe sample app called Gembo can be found at:
+
+<pre syntax="sh"> svn co svn://rubyforge.org/var/svn/rucola/extras/examples/Gembo</pre>
+
+There's a basic TextMate bundle which contains only 4 commands which are the equivalent of the "go to file" commands in the rails bundle. With these going from a controller to it's test/model/view file is only a shortcut away. To get it:
+
+<pre syntax="sh">
+cd ~/Library/Application\ Support/TextMate/Bundles/
+svn co svn://rubyforge.org/var/svn/rucola/extras/Rucola.tmbundle
+</pre>
+
+There's a crash reporter plugin available, which you can install with script/plugin:
+
+<pre syntax="sh">
+cd MyApp
+script/plugin install SACrashReporter
+</pre>
 
 h2. Forum
 

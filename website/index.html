@@ -60,13 +60,33 @@ ways of doing things.</p>
 	<h2>Installing</h2>
 
 
-	<p><pre class='syntax'><span class="ident">sudo</span> <span class="ident">gem</span> <span class="ident">install</span> <span class="ident">rucola</span></pre></p>
+	<p><pre class='syntax'>sudo gem install rucola</pre></p>
+
+
+	<h3>Note</h3>
+
+
+	<p>At this moment new gems are not being deployed: <a href="http://rubyforge.org/tracker/index.php?func=detail&#38;aid=15113&#38;group_id=5&#38;atid=102">Rubyforge ticket #15113</a></p>
+
+
+	<p>Until this has been resolved you can install it with:</p>
+
+
+	<p><pre class='syntax'>
+curl -O http://files.rubyforge.mmmultiworks.com/rucola/rucola-0.0.1.gem
+sudo gem install rubynode
+sudo gem install rubigen
+sudo gem install ./rucola-0.0.1.gem
+</pre></p>
+
+
+	<p>(If you&#8217;re using Mac <span class="caps">OS X 10</span>.5 Leopard you don&#8217;t have to install rubynode)</p>
 
 
 	<h2>Demonstration of usage</h2>
 
 
-	<h4>Generating an application skeleton</h4>
+	<h3>Generating an application skeleton</h3>
 
 
 	<pre><code>rucola MyApp -a "Your Name"</code></pre>
@@ -162,6 +182,33 @@ After you&#8217;ve added this, you can run `rake ib:update` and your outlet will
 you can now hook up to your UI button.</p>
 
 
+	<h2>Extras</h2>
+
+
+	<p>A simpe sample app called Gembo can be found at:</p>
+
+
+	<p><pre class='syntax'> svn co svn://rubyforge.org/var/svn/rucola/extras/examples/Gembo</pre></p>
+
+
+	<p>There&#8217;s a basic TextMate bundle which contains only 4 commands which are the equivalent of the &#8220;go to file&#8221; commands in the rails bundle. With these going from a controller to it&#8217;s test/model/view file is only a shortcut away. To get it:</p>
+
+
+	<p><pre class='syntax'>
+cd ~/Library/Application\ Support/TextMate/Bundles/
+svn co svn://rubyforge.org/var/svn/rucola/extras/Rucola.tmbundle
+</pre></p>
+
+
+	<p>There&#8217;s a crash reporter plugin available, which you can install with script/plugin:</p>
+
+
+	<p><pre class='syntax'>
+cd MyApp
+script/plugin install SACrashReporter
+</pre></p>
+
+
 	<h2>Forum</h2>
 
 
@@ -188,7 +235,7 @@ you can now hook up to your UI button.</p>
 
 	<p>Comments are welcome. Send an email via the <a href="http://groups.google.com/group/rucola">forum</a></p>
     <p class="coda">
-      <a href="http://groups.google.com/group/rucola">Eloy Duran, Justin Palmer</a>, 3rd November 2007<br>
+      <a href="http://groups.google.com/group/rucola">Eloy Duran, Justin Palmer</a>, 4th November 2007<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>
