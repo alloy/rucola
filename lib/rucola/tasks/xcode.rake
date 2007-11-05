@@ -26,7 +26,7 @@ namespace :xcode do
     end
     
     # Make sure the app is brought to the front once launched.
-    Thread.new do
+    Thread.new(executable) do |executable|
       sleep 0.025 until OSX::NSWorkspace.sharedWorkspace.launchedApplications.any? {|dict| dict['NSApplicationName'] == APPNAME }
       `osascript -e 'tell application "#{executable}" to activate'`
     end

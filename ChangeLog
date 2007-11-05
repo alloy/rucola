@@ -1,3 +1,12 @@
+2007-11-5 Eloy Duran <e.duran@superalloy.nl>
+
+	* TODO,
+	  lib/rucola/tasks/xcode.rake:
+
+	- Fixed a bug where the local var 'executable' was not passed explicitly into the
+	  thread. Which could result in the var being GC'ed.
+	- Added TODO about possible renaming from Notifications#notify_on to Notifications#when.
+
 2007-11-4 Eloy Duran <e.duran@superalloy.nl>
 
 	* website/index.html,
