@@ -58,7 +58,7 @@ class ControllerGenerator < RubiGen::Base
   protected
     def banner
       <<-EOS
-Creates a ...
+Creates a controller that inherits from NSObject
 
 USAGE: #{$0} #{spec.name} name"
 EOS

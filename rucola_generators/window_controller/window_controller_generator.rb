@@ -48,7 +48,7 @@ class WindowControllerGenerator < RubiGen::Base
   protected
     def banner
       <<-EOS
-Creates a ...
+Creates a window controller that inherits from NSWindowController.
 
 USAGE: #{$0} #{spec.name} name"
 EOS

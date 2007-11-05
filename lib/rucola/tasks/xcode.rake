@@ -19,11 +19,15 @@ namespace :xcode do
   task :build do
     executable = "#{build_root}/Contents/MacOS/#{APPNAME}"
     
-    unless File.exists?(executable)
-      sh "xcodebuild -configuration #{config}"
-    else
-      puts "Build already exists, skipping. (Use clean if you really really want a new build.)\n\n"
-    end
+    # For now let's do xcodebuild everytime.
+    # Otherwise nibs that are updated will not be updated in the bundle...
+    sh "xcodebuild -configuration #{config}"
+    
+    # unless File.exists?(executable)
+    #   sh "xcodebuild -configuration #{config}"
+    # else
+    #   puts "Build already exists, skipping. (Use clean if you really really want a new build.)\n\n"
+    # end
     
     # Make sure the app is brought to the front once launched.
     Thread.new(executable) do |executable|

@@ -1,5 +1,18 @@
 2007-11-5 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/tasks/xcode.rake,
+	  app_generators/rucola/rucola_generator.rb,
+	  rucola_generators/controller/controller_generator.rb,
+	  rucola_generators/document_model/document_model_generator.rb,
+	  rucola_generators/window_controller/window_controller_generator.rb,
+	  test/test_document_model_generator.rb:
+
+	- Modified xcode:build rake task to do xcodebuild everytime.
+	  Otherwise changes in the nibs will not be reflected in the app bundle.
+	- Updated the generators with better banners.
+
+2007-11-5 Eloy Duran <e.duran@superalloy.nl>
+
 	* TODO,
 	  lib/rucola/tasks/xcode.rake:
 

@@ -73,7 +73,7 @@ class RucolaGenerator < RubiGen::Base
   protected
     def banner
       <<-EOS
-Creates a ...
+Creates a basic RubyCocoa application skeleton.
 
 USAGE: #{spec.name} name"
 EOS

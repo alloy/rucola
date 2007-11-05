@@ -32,7 +32,7 @@ class TestDocumentModelGenerator < Test::Unit::TestCase
     plist_mock = mock('Info Plist')
     OSX::NSDictionary.expects(:dictionaryWithContentsOfFile).returns(plist_mock)
     doc_types = []
-    plist_mock.expects(:[]).with('CFBundleDocumentTypes').returns(doc_types)
+    plist_mock.expects(:[]).at_least_once.with('CFBundleDocumentTypes').returns(doc_types)
     plist_mock.expects(:writeToFile_atomically)
     
     run_generator('document_model', [name, extension], sources)

@@ -41,9 +41,9 @@ class DocumentModelGenerator < RubiGen::Base
   protected
     def banner
       <<-EOS
-Creates a ...
+Creates a model that inherits from NSDocument.
 
-USAGE: #{$0} #{spec.name} name"
+USAGE: #{$0} #{spec.name} name extension"
 EOS
     end
 
