@@ -1,3 +1,6 @@
+* rake ib:update doesn't yet update from model files. The question is, should we allow that,
+  or should people handle interaction with the view in the controller anyways...?
+
 * See if #when is a better method name than #notify_on. So:
 
   when :app_did_finish_launching do |notification|
@@ -8,8 +11,6 @@
   Should probably look if the require structure is still ok... Justin knows about this.
 
 * Create tests for initializer.rb.
-
-* Make sure autotest works with the application generated directory structure.
 
 * Create templates for testing in either TestUnit, TestSpec or rSpec.
   I don't use rSpec anymore atm, so I (Eloy) will first focus on TestUnit & TestSpec.

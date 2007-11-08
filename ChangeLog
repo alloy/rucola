@@ -1,3 +1,17 @@
+2007-11-8 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  TODO,
+	  lib/autotest,
+	  lib/autotest/discover.rb,
+	  lib/autotest/rucola.rb,
+	  lib/rucola/rucola_support/initialize_hooks.rb:
+
+	- Added the code to make autotest play nice with a rucola app.
+	- The initialize_hooks will now call #after_init on an instance if it exists.
+	  This is so that #init doesn't have to be overriden to setup defaults etc.
+	- Updated TODO.
+
 2007-11-5 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/tasks/xcode.rake,

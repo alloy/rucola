@@ -30,6 +30,8 @@ app_generators/rucola/templates/test/test_helper.rb
 bin/rucola
 config/hoe.rb
 config/requirements.rb
+lib/autotest/discover.rb
+lib/autotest/rucola.rb
 lib/rucola.rb
 lib/rucola/info_plist.rb
 lib/rucola/initializer.rb
