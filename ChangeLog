@@ -1,3 +1,14 @@
+2007-11-9 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  lib/autotest/fail.png,
+	  lib/autotest/growl_images.rb,
+	  lib/autotest/pass.png,
+	  lib/autotest/sound.rb:
+
+	- Added autotest sound plugin, original idea from: Jeremy Seitz.
+	- Added autotest images plugin, copyright: John Nunemaker.
+
 2007-11-8 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,
