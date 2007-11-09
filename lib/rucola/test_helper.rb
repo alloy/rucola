@@ -1,5 +1,14 @@
 require 'osx/cocoa'
 
+class Object
+  # A mocha helper to get at an instance variable without having to use instance_variable_get.
+  #
+  #   obj.ivar(:some_ivar).expects(:foo)
+  def ivar(name)
+    instance_variable_get("@#{name}".to_sym)
+  end
+end
+
 module OSX
   # Allows methods to be overriden with a different arity.
   #
@@ -9,6 +18,11 @@ module OSX
   def self._ignore_ns_override; true; end
 
   class NSObject
+    # A mocha helper to get at an outlet (ivar) without having to use instance_variable_get.
+    #
+    #   obj.ib_outlet(:some_text_view).expects(:string=).with('foo')
+    alias_method :ib_outlet, :ivar
+    
     # A Mocha helper method which allows to stub alloc.init and return a mock.
     #
     #   it "should init and return an instance" do

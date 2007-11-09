@@ -1,5 +1,21 @@
 2007-11-9 Eloy Duran <e.duran@superalloy.nl>
 
+	* app_generators/rucola/templates/app/controllers/application_controller.rb,
+	  app_generators/rucola/templates/test/controllers/test_application_controller.rb,
+	  app_generators/rucola/templates/test/test_helper.rb,
+	  config/hoe.rb,
+	  lib/rucola/tasks/main.rake,
+	  lib/rucola/test_helper.rb,
+	  rucola_generators/controller/templates/test_controller_template.rb.erb,
+	  rucola_generators/document_model/templates/test_document_model_template.rb.erb,
+	  rucola_generators/window_controller/templates/test_window_controller_template.rb.erb:
+
+	- Added useful skeleton tests using test/spec and mocha.
+	- Added a few more test helpers which provide a shortcut for getting ivars (ib_outlets).
+	- The rake test task will now print with the -rr pretty test/spec output.
+
+2007-11-9 Eloy Duran <e.duran@superalloy.nl>
+
 	* Manifest.txt,
 	  lib/autotest/fail.png,
 	  lib/autotest/growl_images.rb,

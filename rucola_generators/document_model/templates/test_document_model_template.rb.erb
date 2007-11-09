@@ -1,10 +1,23 @@
 require File.expand_path('../../test_helper', __FILE__)
 
-class Test<%= name.camel_case %> < Test::Unit::TestCase
-  
-  def test_<%= name.snake_case %>_initialization
-    <%= name.snake_case %> = <%= name.camel_case %>.alloc.init
-    assert_instance_of(<%= name.camel_case %>, <%= name.snake_case %>)
+describe '<%= name.camel_case %>' do
+  before do
+    @document = <%= name.camel_case %>.alloc.init
+  end
+
+  it "should initialize" do
+    @document.should.be.an.instance_of <%= name.camel_case %>
+    
+    # You can also test if your attributes were set correctly in #after_init.
+    # @document.some_attr.should == 'default'
   end
   
+  it "should do stuff when a document is opened" do
+    # Some example code of testing your #readFromFile_ofType method.
+    # The same goes for the alternative open/write methods.
+    #
+    # path = '/some/path/to/a/textfile.txt'
+    # File.expects(:read).with(path).returns('foo')
+    # @document.readFromFile_ofType(path, '????')
+  end
 end

@@ -25,5 +25,6 @@ task :clean => 'xcode:clean'
 
 Rake::TestTask.new do |t|
   t.test_files = FileList['test/*/test_*.rb']
+  t.options = '-rr'
   t.verbose = true
 end

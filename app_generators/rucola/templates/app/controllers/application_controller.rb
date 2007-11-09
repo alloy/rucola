@@ -12,11 +12,11 @@ class ApplicationController < Rucola::RCController
   
   # NSApplication delegate methods
   def applicationDidFinishLaunching(notification)
-    puts "\nApplication finished launching."
+    Kernel.puts "\nApplication finished launching."
   end
   
   def applicationWillTerminate(notification)
-    puts "\nApplication will terminate."
+    Kernel.puts "\nApplication will terminate."
   end
   
 end
