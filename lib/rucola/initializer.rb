@@ -112,7 +112,7 @@ module Rucola
         require 'active_support'
         configuration.active_record = OrderedOptions.new
         require 'active_record'        
-        require 'osx/active_record_proxy'
+        require 'osx/active_record'
       end
     end
     
