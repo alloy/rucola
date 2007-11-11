@@ -1,6 +1,20 @@
 2007-11-11 Chris McGrath <chris@octopod.info>
 
-	* lib/rucola/initializer.rb:
+	* .gitignore,
+	  Manifest.txt,
+	  rucola_generators/activerecord_model/USAGE,
+	  rucola_generators/activerecord_model/activerecord_model_generator.rb,
+	  rucola_generators/activerecord_model/templates/model_create_migration.rb.erb,
+	  rucola_generators/activerecord_model/templates/model_proxy_template.rb.erb,
+	  rucola_generators/activerecord_model/templates/model_template.rb.erb,
+	  test/test_activerecord_model_generator.rb:
+
+	- Add basic ActiveRecord model, proxy and migration generator
+	- Add .gitignore as I'm using git-svn
+
+2007-11-11 Chris McGrath <chris@octopod.info>
+
+  * lib/rucola/initializer.rb:
 
 	- Fix incorrect require when using ActiveRecord
 

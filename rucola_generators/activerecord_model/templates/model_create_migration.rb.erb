@@ -1,0 +1,11 @@
+class Create<%= name.pluralize.camel_case %> < ActiveRecord::Migration
+  def self.up
+    create_table :<%= name.tableize %> do |t|
+      # t.column :title, :string, :default => 'foo'
+    end
+  end
+
+  def self.down
+    drop_table :<%= name.tableize %>
+  end
+end
