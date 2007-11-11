@@ -14,10 +14,6 @@ module Rucola
       @project = @project_path.basename.to_s.sub(/\.xcodeproj$/, '')
       @project_path_data = @project_path + 'project.pbxproj'
       @project_data = OSX::NSMutableDictionary.dictionaryWithContentsOfFile(@project_path_data.to_s)
-      # @project_data, format, error = OSX::NSPropertyListSerialization.propertyListFromData_mutabilityOption_format_errorDescription(
-      #   OSX::NSData.dataWithContentsOfFile(@project_path_data.to_s),
-      #   OSX::NSPropertyListMutableContainersAndLeaves
-      # )
     end
     
     # Saves the project data atomically.
