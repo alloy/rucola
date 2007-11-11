@@ -1,8 +1,8 @@
 2007-11-11 Chris McGrath <chris@octopod.info>
 
-  * lib/rucola/initializer.rb:
+	* lib/rucola/initializer.rb:
 
-  - Fix incorrect require when using ActiveRecord
+	- Fix incorrect require when using ActiveRecord
 
 2007-11-11 Eloy Duran <e.duran@superalloy.nl>
 
