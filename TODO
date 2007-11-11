@@ -1,3 +1,11 @@
+* mocha helper to remove mocking clutter, and checks params like normal #with:
+
+  OSX::NSURConnection.expects(:connectionWithURL).with do |url|
+    url.string.should == 'foo.com'
+  end
+
+* scrip/generate document_model should not be able to run when an extension isn't provided
+
 * rake ib:update doesn't yet update from model files. The question is, should we allow that,
   or should people handle interaction with the view in the controller anyways...?
 
@@ -33,3 +41,9 @@
   directory for easy access instead of buried in your users Application Support path.
 
 * Load database config from config/database.yml
+
+* create the db folder
+
+* script/generate AR model
+
+* rake migrate

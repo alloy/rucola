@@ -13,7 +13,11 @@ module Rucola
       @project_path = Pathname.new(project_path)
       @project = @project_path.basename.to_s.sub(/\.xcodeproj$/, '')
       @project_path_data = @project_path + 'project.pbxproj'
-      @project_data = OSX::NSDictionary.dictionaryWithContentsOfFile(@project_path_data.to_s)
+      @project_data = OSX::NSMutableDictionary.dictionaryWithContentsOfFile(@project_path_data.to_s)
+      # @project_data, format, error = OSX::NSPropertyListSerialization.propertyListFromData_mutabilityOption_format_errorDescription(
+      #   OSX::NSData.dataWithContentsOfFile(@project_path_data.to_s),
+      #   OSX::NSPropertyListMutableContainersAndLeaves
+      # )
     end
     
     # Saves the project data atomically.
@@ -41,16 +45,20 @@ module Rucola
     end
     private :nil_if_empty
     
+    def objects
+      @project_data['objects'] = @project_data['objects'].to_ns
+    end
+    
     # Get's the id & values for a object which name is the one passed to this method.
     # Returns an array: [id, values]
     def object_for_name(name)
-      nil_if_empty @project_data['objects'].select { |object| object.last['name'] == name }.flatten
+      nil_if_empty objects.select { |object| object.last['name'] == name }.flatten
     end
     
     # Get's the id & values for a object which type and name is the one passed to this method.
     # Returns an array: [id, values]
     def object_for_type_and_name(type, name)
-      nil_if_empty @project_data['objects'].select { |object| object.last['isa'] == type and object.last['name'] == name }.flatten
+      nil_if_empty objects.select { |object| object.last['isa'] == type and object.last['name'] == name }.flatten
     end
     
     # Returns the object that represents this projects target.
@@ -62,18 +70,19 @@ module Rucola
     # Returns the object for a given name.
     # Returns an array: [id, values]
     def object_for_id(object_id)
-      @project_data['objects'][object_id].nil? ? nil : [object_id, @project_data['objects'][object_id]]
+      objects[object_id].nil? ? nil : [object_id, objects[object_id]]
     end
     
     # Adds an object to the objects.
     def add_object(object_id, object_values)
-      @project_data['objects'][object_id] = object_values
+      objects[object_id] = object_values
     end
     
     # Adds a build phase specified by +object_id+ to the build phases of the project target.
     def add_build_phase_to_project_target(object_id)
       # Add the new build phase to the main project target if it doesn't already exist
       build_target_id, build_target_values = object_for_project_target
+      build_target_values['buildPhases'] = build_target_values['buildPhases'].to_ns
       build_target_values['buildPhases'].push(object_id) unless build_target_values['buildPhases'].include?(object_id)
     end
     
@@ -89,7 +98,7 @@ module Rucola
       'dstPath' => '',
       'dstSubfolderSpec' => 10, # TODO: is 10 the number for the location popup choice: Frameworks
       'runOnlyForDeploymentPostprocessing' => 0,
-      'files' => []
+      'files' => [].to_ns
     }]
     # Creates a new framework copy build phase.
     # It does not add it to the objects nor the build phases,

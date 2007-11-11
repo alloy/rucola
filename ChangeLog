@@ -1,3 +1,14 @@
+2007-11-11 Eloy Duran <e.duran@superalloy.nl>
+
+	* TODO,
+	  lib/rucola/info_plist.rb,
+	  lib/rucola/xcode.rb,
+	  test/test_document_model_generator.rb,
+	  test/test_xcode.rb:
+
+	- Fixed bugs where destructive methods were called on immutable objects.
+	- Added a few more TODOs.
+
 2007-11-9 Eloy Duran <e.duran@superalloy.nl>
 
 	* app_generators/rucola/templates/app/controllers/application_controller.rb,

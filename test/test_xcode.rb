@@ -16,13 +16,13 @@ describe 'Xcode' do
     @object_values = { 'isa' => 'PBXNativeTarget', 'name' => @name, 'buildPhases' => [] }.to_ns
     @object = [@object_id, @object_values]
     @data = { 'objects' => { @object_id => @object_values } }.to_ns
-    OSX::NSDictionary.stubs(:dictionaryWithContentsOfFile).with(@data_path).returns(@data)
+    OSX::NSMutableDictionary.stubs(:dictionaryWithContentsOfFile).with(@data_path).returns(@data)
     
     @project = Xcode.new(@project_path)
   end
   
   it "should initialize" do
-    OSX::NSDictionary.expects(:dictionaryWithContentsOfFile).with(@data_path).returns(@data)
+    OSX::NSMutableDictionary.expects(:dictionaryWithContentsOfFile).with(@data_path).returns(@data)
     
     project = Xcode.new(@project_path)
     project.project_path.to_s.should == @project_path
@@ -76,7 +76,7 @@ describe 'Xcode' do
   end
   
   it "should add an object to a copy build phase" do
-    id, values = 'BUILD_PHASE_ID'.to_ns, { 'name' => 'some blah', 'files' => [] }.to_ns
+    id, values = 'BUILD_PHASE_ID'.to_ns, { 'name' => 'some blah', 'files' => [].to_ns }.to_ns
     @project.add_object(id, values)
     @project.add_build_phase_to_project_target(id)
     
