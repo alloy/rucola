@@ -1,32 +1,39 @@
 require 'rubygems'
 require 'rucola/rucola_support'
+require 'rucola/info_plist'
 
 class ActiverecordModelGenerator < RubiGen::Base
   
   default_options :author => nil
   
-  attr_reader :name, :proxy_name
+  attr_reader :name, :proxy_name, :app_name
   
   def initialize(runtime_args, runtime_options = {})
     super
     usage if args.empty?
     @name = args.shift
     @proxy_name = @name.camel_case + "Proxy"
+    @app_name = Rucola::InfoPlist.open(destination_path('Info.plist')).data['CFBundleExecutable'].snake_case
     extract_options
   end
 
   def manifest
     record do |m|
       model_dir   = "app/models"
+      config_dir  = "config"
       migrate_dir = "db/migrate"
       
       # Ensure appropriate folder(s) exists
       m.directory model_dir
       m.directory migrate_dir
+      m.directory config_dir
 
       # Create stubs
       m.template "model_template.rb.erb",  "#{model_dir}/#{@name.snake_case}.rb"
       m.template "model_proxy_template.rb.erb",  "#{model_dir}/#{@proxy_name.snake_case}.rb"
+      unless File.exists?(destination_path(config_dir) + '/database.yml')
+        m.template "database.yml.erb", "#{config_dir}/database.yml"
+      end
       
       m.migration_template "model_create_migration.rb.erb", "db/migrate", :migration_file_name => "create_#{@name.tableize}"
     end

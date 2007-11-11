@@ -5,6 +5,7 @@ class TestActiverecordModelGenerator < Test::Unit::TestCase
 
   def setup
     bare_setup
+    setup_info_plist
   end
   
   def teardown
@@ -63,6 +64,17 @@ class TestActiverecordModelGenerator < Test::Unit::TestCase
     end
   end
   
+  def test_generator_with_model_name_creates_config_database_yml_if_it_does_not_exist
+    name = "foo_bar"
+    run_generator('activerecord_model', [name], sources)
+    assert_directory_exists 'config'
+    assert_generated_file 'config/database.yml' do |file|
+      assert_match %r{  database: my_test_debug}, file
+      assert_match %r{  database: my_test_test}, file
+      assert_match %r{  database: my_test}, file
+    end
+  end
+  
   private
   def sources
     [RubiGen::PathSource.new(:test, File.join(File.dirname(__FILE__),"..", generator_path))
@@ -71,5 +83,20 @@ class TestActiverecordModelGenerator < Test::Unit::TestCase
   
   def generator_path
     "rucola_generators"
+  end
+  
+  def setup_info_plist
+    File.open(APP_ROOT + '/Info.plist', 'w+') do |file|
+      file.write <<-EOF
+      <plist version="1.0">
+      <dict>
+      	<key>CFBundleDevelopmentRegion</key>
+      	<string>English</string>
+      	<key>CFBundleExecutable</key>
+      	<string>MyTest</string>
+      </dict>
+      </plist>
+EOF
+    end
   end
 end

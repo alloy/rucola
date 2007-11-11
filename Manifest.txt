@@ -1,3 +1,4 @@
+.rake_tasks
 ChangeLog
 History.txt
 License.txt
@@ -65,6 +66,7 @@ lib/rucola/xcode.rb
 log/debug.log
 rucola_generators/activerecord_model/USAGE
 rucola_generators/activerecord_model/activerecord_model_generator.rb
+rucola_generators/activerecord_model/templates/database.yml.erb
 rucola_generators/activerecord_model/templates/model_create_migration.rb.erb
 rucola_generators/activerecord_model/templates/model_proxy_template.rb.erb
 rucola_generators/activerecord_model/templates/model_template.rb.erb

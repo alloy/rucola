@@ -1,5 +1,14 @@
 2007-11-11 Chris McGrath <chris@octopod.info>
 
+	* Manifest.txt,
+	  rucola_generators/activerecord_model/activerecord_model_generator.rb,
+	  rucola_generators/activerecord_model/templates/database.yml.erb,
+	  test/test_activerecord_model_generator.rb:
+
+	- Add a config/database.yml when generating a model if it doesn't exists
+
+2007-11-11 Chris McGrath <chris@octopod.info>
+
 	* .gitignore,
 	  Manifest.txt,
 	  rucola_generators/activerecord_model/USAGE,
