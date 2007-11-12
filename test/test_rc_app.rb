@@ -12,6 +12,11 @@ describe 'Rucola::RCApp' do
     ::RUBYCOCOA_ROOT = Pathname.new(@root_path)
   end
   
+  it "should return the name of the application" do
+    OSX::NSDictionary.expects(:dictionaryWithContentsOfFile).returns({'CFBundleExecutable' => 'PhatApp'})
+    RCApp.app_name.should == 'PhatApp'
+  end
+  
   it "should return the path to the current root dir" do
     RCApp.root_path.should == @root_path
   end

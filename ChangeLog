@@ -1,5 +1,15 @@
 2007-11-12 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/info_plist.rb,
+	  lib/rucola/rucola_support/rc_app.rb,
+	  test/test_info_plist.rb,
+	  test/test_rc_app.rb:
+
+	Added Rucola::InfoPlist#app_name & Rucola::RCApp#app_name which return
+	the CFBundleExecutable value from the Info.plist file.
+
+2007-11-12 Eloy Duran <e.duran@superalloy.nl>
+
 	* TODO,
 	  rucola_generators/document_model/document_model_generator.rb,
 	  test/test_document_model_generator.rb:

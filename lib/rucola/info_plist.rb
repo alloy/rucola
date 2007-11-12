@@ -34,5 +34,9 @@ module Rucola
       @data.writeToFile_atomically(@path, true)
     end
     
+    # Returns the name of the application (CFBundleExecutable).
+    def app_name
+      @data['CFBundleExecutable']
+    end
   end
 end

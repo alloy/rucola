@@ -28,4 +28,8 @@ describe "Info" do
     @info_plist.data.expects(:writeToFile_atomically).with(@path, true)
     @info_plist.save
   end
+  
+  it "should be able to return the name of the application" do
+    @info_plist.app_name.should == 'MyApp'
+  end
 end

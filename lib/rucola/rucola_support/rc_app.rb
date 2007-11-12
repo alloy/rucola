@@ -1,3 +1,5 @@
+require 'rucola/info_plist'
+
 module Rucola
   module RCApp
     # Returns the path to the current source root of the application.
@@ -97,5 +99,12 @@ module Rucola
     end
     module_function :path_for_asset
 
+    # Returns the name of the application as specified in the Info.plist file.
+    #
+    #   Rucola::RCApp.app_name #=> 'MyApp'
+    def app_name
+      Rucola::InfoPlist.open(RUBYCOCOA_ROOT + '/config/Info.plist').app_name
+    end
+    module_function :app_name
   end
 end
