@@ -7,6 +7,10 @@ class BlaNotifiable < Rucola::RCController; end
 class FuNotifiable < Rucola::RCController; end
 class KungNotifiable < Rucola::RCController; end
 class Person < Rucola::RCController; end
+class Shipping < Rucola::RCController
+  notify :update_shipping, :when => :address_was_changed
+  def update_shipping(notification); end
+end
 class Animal < Rucola::RCController; end
 
 describe 'Rucola::Notifications' do
@@ -44,10 +48,6 @@ describe 'Rucola::Notifications' do
     OSX::NSNotificationCenter.defaultCenter.postNotificationName_object(OSX::NSApplicationDidBecomeActiveNotification, self)
   end
   
-  it "should raise a NameError exception if the abbreviated notification wasn't found" do
-    lambda { BlaNotifiable.notify_on :does_not_exist do |notification|; end }.should.raise NameError
-  end
-  
   it "should also allow the user to define shortcuts" do
     FuNotifiable.notification_prefix :win => :window
     
@@ -72,6 +72,12 @@ describe 'Rucola::Notifications' do
     Person.notify :method_to_notify, :when => 'MyNotification'
     Person.alloc.init.expects(:method_to_notify)
     OSX::NSNotificationCenter.defaultCenter.postNotificationName_object("MyNotification", nil)
+  end
+  
+  it "should fire notifications" do
+    shipping = Shipping.alloc.init
+    shipping.expects(:update_shipping)
+    Shipping.fire_notification(:address_was_changed, nil)
   end
   
   it "should also work with the #when alias (check if #notify_on should be deprecated completely)" do

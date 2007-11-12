@@ -1,3 +1,12 @@
+2007-11-12 Justin Palmer <justin@activereload.net>
+
+	* TODO,
+	  lib/rucola/rucola_support/notifications/notifications.rb,
+	  test/test_notifications.rb:
+
+	Add helper for firing notifications.  Move notification name resolution to 
+	a separate method, and don't raise NameErrors when the constant doesn't exist.
+	
 2007-11-12 Chris McGrath <chris@octopod.info>
 
 	* Manifest.txt,

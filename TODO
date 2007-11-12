@@ -1,3 +1,5 @@
+* add caching to notification name lookup
+
 * add stub test files for AR models & proxies to the activerecord_model generator.
 
 * rake ib:update doesn't yet update from model files. The question is, should we allow that,
