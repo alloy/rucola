@@ -69,7 +69,7 @@ module Rucola
       yield configuration if block_given?
       initializer = new configuration
       initializer.send(command)
-      start_app unless RUBYCOCOA_ENV == 'test'
+      start_app unless RUBYCOCOA_ENV == 'test' || ENV['DONT_START_RUBYCOCOA_APP']
     end
     
     # Starts the application.
@@ -262,9 +262,8 @@ module Rucola
       # TODO: we might want to set this to something in test mode.
       return if RUBYCOCOA_ENV == 'test'
       
-      app_name = OSX::NSBundle.mainBundle.bundleIdentifier.to_s.scan(/\w+$/).first
       user_app_support_path = File.join(OSX::NSSearchPathForDirectoriesInDomains(OSX::NSLibraryDirectory, OSX::NSUserDomainMask, true)[0].to_s, "Application Support")
-      @application_support_path = File.join(user_app_support_path, app_name)
+      @application_support_path = File.join(user_app_support_path, Rucola::RCApp.app_name)
     end
     
     # Returns the value of @use_active_record

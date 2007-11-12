@@ -6,8 +6,11 @@ require 'rucola/nib'
 require 'rucola/rucola_support'
 
 # set the env, default to debug if we are running a rake task.
-RUBYCOCOA_ENV = ENV['RUBYCOCOA_ENV'].nil? ? 'debug' : ENV['RUBYCOCOA_ENV']
-RUBYCOCOA_ROOT = ENV['RUBYCOCOA_ROOT'].nil? ? SOURCE_ROOT : ENV['RUBYCOCOA_ROOT']
+ENV['RUBYCOCOA_ENV']  ||= 'debug'
+ENV['RUBYCOCOA_ROOT'] ||= SOURCE_ROOT
+
+require 'rucola/initializer'
+
 puts "RUNNING IN MODE: #{RUBYCOCOA_ENV.upcase}\n\n"
 
 # FIXME: We also need to check if the user uses a frozen rc framework
@@ -16,8 +19,8 @@ RUBYCOCOA_FRAMEWORK = OSX::NSBundle.bundleWithIdentifier('com.apple.rubycocoa').
 # TASKS
 
 # Get all the tasks
-Dir["#{File.dirname(__FILE__)}/*.rake"].each {|file| load file unless File.basename(file) == 'main.rake' }
-
+Dir["#{File.dirname(__FILE__)}/*.rake"].each {|file| load file unless ['main.rake', 'databases.rake'].include? File.basename(file) }
+load "#{File.dirname(__FILE__)}/databases.rake" if File.exists?(RUBYCOCOA_ROOT + 'db')
 task :default => 'xcode:build'
 
 desc 'Runs all the clean tasks'

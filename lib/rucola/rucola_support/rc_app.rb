@@ -103,7 +103,7 @@ module Rucola
     #
     #   Rucola::RCApp.app_name #=> 'MyApp'
     def app_name
-      Rucola::InfoPlist.open(RUBYCOCOA_ROOT + '/config/Info.plist').app_name
+      Rucola::InfoPlist.open((RUBYCOCOA_ROOT + 'config/Info.plist').to_s).app_name
     end
     module_function :app_name
   end

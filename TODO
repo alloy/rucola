@@ -37,3 +37,5 @@
 * script/generate AR model
 
 * rake migrate
+
+* Move AR specific stuff out into a plugin to allow for other ORMs

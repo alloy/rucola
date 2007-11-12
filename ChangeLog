@@ -1,3 +1,21 @@
+2007-11-12 Chris McGrath <chris@octopod.info>
+
+	* Manifest.txt,
+	  TODO,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/rucola_support/rc_app.rb,
+	  lib/rucola/tasks/databases.rake,
+	  lib/rucola/tasks/main.rake:
+
+	- Add support for migrations and other AR tasks
+	- main.rake now just sets environment variables and requires the initializer
+	  to set the RUBYCOCOA_ENV and RUBYCOCOA_ROOT constants
+	- fix how RCApp.app_name finds Info.plist
+	- Make the initializer get the app name using RCApp.app_name
+	  NB: This means requiring rucola/rucola_support/rc_app.rb from the
+	      initializer
+	- Add TODO to move the AR stuff to a plugin
+
 2007-11-12 Eloy Duran <e.duran@superalloy.nl>
 
 	For the love of Beer Driven Development, the big r100!
