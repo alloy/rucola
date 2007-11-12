@@ -7,6 +7,7 @@ class BlaNotifiable < Rucola::RCController; end
 class FuNotifiable < Rucola::RCController; end
 class KungNotifiable < Rucola::RCController; end
 class Person < Rucola::RCController; end
+class Animal < Rucola::RCController; end
 
 describe 'Rucola::Notifications' do
   it "should handle notifications when included" do
@@ -71,5 +72,13 @@ describe 'Rucola::Notifications' do
     Person.notify :method_to_notify, :when => 'MyNotification'
     Person.alloc.init.expects(:method_to_notify)
     OSX::NSNotificationCenter.defaultCenter.postNotificationName_object("MyNotification", nil)
+  end
+  
+  it "should also work with the #when alias (check if #notify_on should be deprecated completely)" do
+    Animal.when :app_did_hide do |notification|
+      app_did_hide_called!
+    end
+    Animal.alloc.init.expects(:app_did_hide_called!)
+    OSX::NSNotificationCenter.defaultCenter.postNotificationName_object(OSX::NSApplicationDidHideNotification, self)
   end
 end
