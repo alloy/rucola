@@ -1,6 +1,16 @@
 2007-11-12 Eloy Duran <e.duran@superalloy.nl>
 
 	* TODO,
+	  rucola_generators/document_model/document_model_generator.rb,
+	  test/test_document_model_generator.rb:
+
+	- The document_model_generator will not longer run if no extension is specified,
+	  but rather display the usage banner.
+	- Updated TODO.
+
+2007-11-12 Eloy Duran <e.duran@superalloy.nl>
+
+	* TODO,
 	  lib/rucola/rucola_support/notifications/notifications.rb,
 	  test/test_notifications.rb:
 

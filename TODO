@@ -1,4 +1,4 @@
-* scrip/generate document_model should not be able to run when an extension isn't provided
+* add stub test files for AR models & proxies to the activerecord_model generator.
 
 * rake ib:update doesn't yet update from model files. The question is, should we allow that,
   or should people handle interaction with the view in the controller anyways...?

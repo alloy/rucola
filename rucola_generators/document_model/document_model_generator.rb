@@ -9,7 +9,7 @@ class DocumentModelGenerator < RubiGen::Base
   
   def initialize(runtime_args, runtime_options = {})
     super
-    usage if args.empty?
+    usage if args.empty? || args.length == 1
     @name = args.shift
     @extension = args.shift
     extract_options
