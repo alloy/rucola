@@ -1,5 +1,9 @@
 2007-11-12 Eloy Duran <e.duran@superalloy.nl>
 
+	A test commit to see if the CIA.cv bot works.
+
+2007-11-12 Eloy Duran <e.duran@superalloy.nl>
+
 	* lib/rucola/info_plist.rb,
 	  lib/rucola/rucola_support/rc_app.rb,
 	  test/test_info_plist.rb,
