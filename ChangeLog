@@ -1,3 +1,9 @@
+2007-11-13 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/rucola/initializer.rb:
+
+	Required the RCApp module, like Chris mentioned in r101.
+
 2007-11-12 Justin Palmer <justin@activereload.net>
 
 	* TODO,

@@ -1,6 +1,8 @@
 require 'osx/cocoa'
 require 'pathname'
 
+require 'rucola/rucola_support/rc_app'
+
 unless ENV['RUBYCOCOA_ENV'].nil?
   RUBYCOCOA_ENV = ENV['RUBYCOCOA_ENV']
 else
