@@ -1,3 +1,11 @@
+2007-11-14 Chris McGrath <chris@octopod.info>
+
+	* Manifest.txt,
+	  TODO:
+
+	- Remove .rake_tasks from Manifest.txt
+	- Remove some completed TODOs
+
 2007-11-13 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/initializer.rb:

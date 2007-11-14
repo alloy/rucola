@@ -32,12 +32,4 @@
 * When in debug mode and using ActiveRecord, allow database to reside in your working 
   directory for easy access instead of buried in your users Application Support path.
 
-* Load database config from config/database.yml
-
-* create the db folder
-
-* script/generate AR model
-
-* rake migrate
-
 * Move AR specific stuff out into a plugin to allow for other ORMs
