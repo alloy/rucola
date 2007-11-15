@@ -18,11 +18,6 @@ else
   end
 end
 
-# ActiveRecord uses RAILS_ENV internally to figure out which environment key to parse in 
-# database.yml.  Since we use the non-standard release and debug environments, we need to 
-# set this here
-RAILS_ENV = RUBYCOCOA_ENV
-
 unless ENV['RUBYCOCOA_ROOT'].nil?
   # rake will set the RUBYCOCOA_ROOT for debugging purpose
   RUBYCOCOA_ROOT = Pathname.new(ENV['RUBYCOCOA_ROOT'])
@@ -97,12 +92,6 @@ module Rucola
       require_frameworks
       require_ruby_source_files
       load_environment
-      
-      if configuration.use_active_record?
-        initialize_database_directories
-        initialize_database
-        initialize_active_record_settings
-      end
     end
     
     # Requires all frameworks specified by the Configuration#objc_frameworks
@@ -110,12 +99,6 @@ module Rucola
     # use_active_record? is true
     def require_frameworks
       configuration.objc_frameworks.each { |framework| OSX.require_framework(framework) }
-      if configuration.use_active_record?
-        require 'active_support'
-        configuration.active_record = OrderedOptions.new
-        require 'active_record'        
-        require 'osx/active_record'
-      end
     end
     
     # Loads the Rucola support library
@@ -146,27 +129,6 @@ module Rucola
       end
     end
     
-    def initialize_database_directories
-      return if configuration.environment == 'debug'
-      `mkdir -p '#{configuration.application_support_path}'` unless File.exists?(configuration.application_support_path)
-    end
-    
-    def initialize_database
-      ActiveRecord::Base.configurations = configuration.database_configuration
-      ActiveRecord::Base.logger = Logger.new($stderr)
-      ActiveRecord::Base.colorize_logging = false
-      ActiveRecord::Base.establish_connection
-      ActiveRecord::Base.connection.initialize_schema_information
-    end
-    
-    # Initializes active_record settings. The available settings map to the accessors
-    # of the  ActiveRecord::Base class.
-    def initialize_active_record_settings
-      configuration.send('active_record').each do |setting, value|
-        ActiveRecord::Base.send("#{setting}=", value)
-      end
-    end
-
     def load_application_initializers
       Dir["#{configuration.root_path}/config/initializers/**/*.rb"].sort.each do |initializer|
         load(initializer)
@@ -232,20 +194,9 @@ module Rucola
     # List of Objective-C frameworks that should be required
     attr_accessor :objc_frameworks
     
-    #Stub for setting options on ActiveRecord::Base
-    attr_accessor :active_record
-    
-    # Should the active_record framework be loaded. 
-    attr_accessor :use_active_record
-    
     # An array of additional paths to prepend to the load path. By default,
     # all +models+, +config+, +controllers+ and +db+ paths are included in this list.
     attr_accessor :load_paths
-    
-    # The path to the database configuration file to use. (Defaults to
-    # <tt>config/database.yml</tt>.)
-    attr_accessor :database_configuration_file
-    
     
     def initialize
       set_root_path!
@@ -253,7 +204,6 @@ module Rucola
       
       self.objc_frameworks              = []
       self.load_paths                   = default_load_paths
-      self.database_configuration_file  = default_database_configuration_file
     end
     
     def set_root_path!
@@ -268,11 +218,6 @@ module Rucola
       @application_support_path = File.join(user_app_support_path, Rucola::RCApp.app_name)
     end
     
-    # Returns the value of @use_active_record
-    def use_active_record?
-      @use_active_record
-    end
-    
     # Returns the value of RUBYCOCOA_ENV
     def environment
       ::RUBYCOCOA_ENV
@@ -283,17 +228,7 @@ module Rucola
     def environment_path
       "#{root_path}/config/environments/#{environment}.rb"
     end
-    
-    # Loads and returns the contents of the #database_configuration_file. The
-    # contents of the file are processed via ERB before being sent through
-    # YAML::load.
-    def database_configuration
-      db_config = YAML::load(ERB.new(IO.read(database_configuration_file)).result)
-      db = db_config[environment]['database']
-      db_config[environment]['database'] = environment == 'release' ? "#{application_support_path}/#{db.split('/').last}" : "#{RUBYCOCOA_ROOT}/db/#{db.split('/').last}"
-      db_config
-    end
-    
+        
     private
       # Set the load paths, which specifies what directories should be copied over on release.
       # We can't use RUBYCOCOA_ROOT here because when building for release the .app file is the 
@@ -305,10 +240,6 @@ module Rucola
           controllers
           db
         ).map {|dir| "#{Pathname.new(ENV['DYLD_LIBRARY_PATH'] + "../../../").cleanpath}/#{dir}" }.select { |dir| File.directory?(dir) }
-      end
-      
-      def default_database_configuration_file
-        File.join(root_path, 'config', 'database.yml')
       end
   end
 end

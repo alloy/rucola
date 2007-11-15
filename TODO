@@ -1,7 +1,5 @@
 * add caching to notification name lookup
 
-* add stub test files for AR models & proxies to the activerecord_model generator.
-
 * rake ib:update doesn't yet update from model files. The question is, should we allow that,
   or should people handle interaction with the view in the controller anyways...?
 
@@ -26,10 +24,4 @@
   and basic configuration not the innards of packaging and releasing. 
 
   config.objc_frameworks << ['Webkit', 'Quartz']
-  config.active_record = true
   config.include_dirs << %w(models controllers lib)
-
-* When in debug mode and using ActiveRecord, allow database to reside in your working 
-  directory for easy access instead of buried in your users Application Support path.
-
-* Move AR specific stuff out into a plugin to allow for other ORMs

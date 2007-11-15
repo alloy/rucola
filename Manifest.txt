@@ -55,7 +55,6 @@ lib/rucola/rucola_support/models/rc_document.rb
 lib/rucola/rucola_support/notifications.rb
 lib/rucola/rucola_support/notifications/notifications.rb
 lib/rucola/rucola_support/rc_app.rb
-lib/rucola/tasks/databases.rake
 lib/rucola/tasks/freeze.rake
 lib/rucola/tasks/interface_builder.rake
 lib/rucola/tasks/main.rake
@@ -64,12 +63,6 @@ lib/rucola/test_helper.rb
 lib/rucola/version.rb
 lib/rucola/xcode.rb
 log/debug.log
-rucola_generators/activerecord_model/USAGE
-rucola_generators/activerecord_model/activerecord_model_generator.rb
-rucola_generators/activerecord_model/templates/database.yml.erb
-rucola_generators/activerecord_model/templates/model_create_migration.rb.erb
-rucola_generators/activerecord_model/templates/model_proxy_template.rb.erb
-rucola_generators/activerecord_model/templates/model_template.rb.erb
 rucola_generators/controller/USAGE
 rucola_generators/controller/controller_generator.rb
 rucola_generators/controller/templates/controller_template.rb.erb
@@ -96,7 +89,6 @@ test/fixtures/Info.plist
 test/fixtures/MainMenu.nib/classes.nib
 test/fixtures/MainMenu.nib/info.nib
 test/fixtures/MainMenu.nib/keyedobjects.nib
-test/test_activerecord_model_generator.rb
 test/test_controller_generator.rb
 test/test_core_ext.rb
 test/test_document_model_generator.rb

@@ -1,6 +1,22 @@
 2007-11-14 Chris McGrath <chris@octopod.info>
 
 	* Manifest.txt,
+		TODO,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/tasks/databases.rake,
+	  rucola_generators/activerecord_model/USAGE,
+	  rucola_generators/activerecord_model/activerecord_model_generator.rb,
+	  rucola_generators/activerecord_model/templates/database.yml.erb,
+	  rucola_generators/activerecord_model/templates/model_create_migration.rb.erb,
+	  rucola_generators/activerecord_model/templates/model_proxy_template.rb.erb,
+	  rucola_generators/activerecord_model/templates/model_template.rb.erb,
+	  test/test_activerecord_model_generator.rb:
+
+	- Remove AR stuff as it's moving to a plugin
+
+2007-11-14 Chris McGrath <chris@octopod.info>
+
+	* Manifest.txt,
 	  TODO:
 
 	- Remove .rake_tasks from Manifest.txt
