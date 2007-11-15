@@ -19,8 +19,8 @@ RUBYCOCOA_FRAMEWORK = OSX::NSBundle.bundleWithIdentifier('com.apple.rubycocoa').
 # TASKS
 
 # Get all the tasks
-Dir["#{File.dirname(__FILE__)}/*.rake"].each {|file| load file unless ['main.rake', 'databases.rake'].include? File.basename(file) }
-load "#{File.dirname(__FILE__)}/databases.rake" if File.exists?(RUBYCOCOA_ROOT + 'db')
+Dir["#{File.dirname(__FILE__)}/*.rake"].each {|file| load file unless ['main.rake'].include? File.basename(file) }
+Dir[(ENV['RUBYCOCOA_ROOT'] + '/vendor/plugins/*/tasks/*.rake').to_s].each { |r| load r }
 task :default => 'xcode:build'
 
 desc 'Runs all the clean tasks'

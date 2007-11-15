@@ -1,3 +1,14 @@
+2007-11-15 Chris McGrath <chris@octopod.info>
+
+	* Manifest.txt,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/plugin.rb,
+	  lib/rucola/tasks/main.rake,
+	  test/test_plugin.rb:
+
+	- Add the initial plugin code and hook it into the initializer
+	- Make main.rake load tasks from vendor/plugins/*/tasks/*.rake
+
 2007-11-14 Chris McGrath <chris@octopod.info>
 
 	* Manifest.txt,

@@ -2,6 +2,7 @@ require 'osx/cocoa'
 require 'pathname'
 
 require 'rucola/rucola_support/rc_app'
+require 'rucola/plugin'
 
 unless ENV['RUBYCOCOA_ENV'].nil?
   RUBYCOCOA_ENV = ENV['RUBYCOCOA_ENV']
@@ -53,7 +54,9 @@ module Rucola
     
     # Load the config/boot.rb file.
     def self.boot
+      Rucola::Plugin.plugins.each { |p| p.before_boot(self) }
       require RUBYCOCOA_ROOT + 'config/boot'
+      Rucola::Plugin.plugins.each { |p| p.after_boot(self) }
     end
     
     # Run the initializer and start the application.  The #process method is run by default which 
@@ -83,6 +86,7 @@ module Rucola
     # Step through the initialization routines, skipping the active_record 
     # routines if active_record isnt' being used.
     def process
+      Rucola::Plugin.plugins.each { |p| p.before_process(self) }
       unless ENV['DYLD_LIBRARY_PATH'].nil?
         set_load_path
         copy_load_paths_for_release
@@ -92,6 +96,7 @@ module Rucola
       require_frameworks
       require_ruby_source_files
       load_environment
+      Rucola::Plugin.plugins.each { |p| p.after_process(self) }
     end
     
     # Requires all frameworks specified by the Configuration#objc_frameworks

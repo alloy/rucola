@@ -40,6 +40,7 @@ lib/rucola.rb
 lib/rucola/info_plist.rb
 lib/rucola/initializer.rb
 lib/rucola/nib.rb
+lib/rucola/plugin.rb
 lib/rucola/rucola_support.rb
 lib/rucola/rucola_support/controllers.rb
 lib/rucola/rucola_support/controllers/rc_controller.rb
@@ -98,6 +99,7 @@ test/test_info_plist.rb
 test/test_nib.rb
 test/test_notifications.rb
 test/test_objc_core_ext.rb
+test/test_plugin.rb
 test/test_rc_app.rb
 test/test_rc_document.rb
 test/test_rc_window_controller.rb
