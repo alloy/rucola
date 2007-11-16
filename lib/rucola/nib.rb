@@ -34,10 +34,10 @@ module Rucola
         @data['IBClasses']
       end
       
-      def add_class(class_name)
+      def add_class(class_name, superclass_name = 'NSObject')
         classes.push({
           'CLASS' => class_name,
-          'SUPERCLASS' => 'NSObject',
+          'SUPERCLASS' => superclass_name,
           'LANGUAGE' => 'ObjC'
         })
       end

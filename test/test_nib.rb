@@ -34,6 +34,15 @@ describe 'Nib::Classes' do
     @nib.classes.last.to_ruby.should == { 'CLASS' => 'FooController', "LANGUAGE"=>"ObjC", "SUPERCLASS"=>"NSObject" }
   end
   
+  it "should be able to add a subclass of a specific class" do
+    before = @nib.classes.length
+    @nib.add_class('JoesController', 'MomsController')
+    @nib.classes.length.should.be before + 1
+    
+    @nib.classes.last.to_ruby.should == { 'CLASS' => 'JoesController', "LANGUAGE"=>"ObjC", "SUPERCLASS"=>"MomsController" }
+    
+  end
+  
   it "should be able to save the classes.nib" do
     Rucola::Nib.expects(:backup).with(@path)
     @nib.data.expects(:writeToFile_atomically).with(@path, true)
