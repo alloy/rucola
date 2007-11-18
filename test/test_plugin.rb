@@ -8,6 +8,6 @@ end
 
 describe 'Plugin' do
   it "contains list of plugin subclasses" do
-    Rucola::Plugin.plugins.should == [FooPlugin]
+    Rucola::Plugin.plugins.map { |p| p.class }.should == [FooPlugin]
   end
 end
