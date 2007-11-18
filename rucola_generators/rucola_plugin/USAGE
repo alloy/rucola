@@ -1,0 +1,6 @@
+Description:
+
+Running this command will create the plugin structure and an init.rb in vendor/plugins/<name>. 
+
+You can specify -r if you prefer rspec to test/unit or test/spec. This will create a spec dir instead of a test dir.  
+  

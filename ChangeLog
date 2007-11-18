@@ -1,5 +1,15 @@
 2007-11-18 Chris McGrath <chris@octopod.info>
 
+	* Manifest.txt,
+	  rucola_generators/rucola_plugin/USAGE,
+	  rucola_generators/rucola_plugin/rucola_plugin_generator.rb,
+	  rucola_generators/rucola_plugin/templates/init.rb.erb,
+	  test/test_rucola_plugin_generator.rb:
+
+	- Add script/generate rucola_plugin for rucola apps
+
+2007-11-18 Chris McGrath <chris@octopod.info>
+
 	* test/test_plugin.rb:
 
 	- Fix failing plugin test
