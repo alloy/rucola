@@ -1,5 +1,15 @@
 2007-11-18 Chris McGrath <chris@octopod.info>
 
+	* TODO,
+	  lib/rucola/initializer.rb:
+
+	- Add some TODOs re plugins and testing
+	- Change initializer to check if environment is release rather than
+		debug so that we can have the same setup for debug and test. Fixes
+		problem when AR plugin installed in app.
+
+2007-11-18 Chris McGrath <chris@octopod.info>
+
 	* Manifest.txt,
 	  rucola_generators/rucola_plugin/USAGE,
 	  rucola_generators/rucola_plugin/rucola_plugin_generator.rb,

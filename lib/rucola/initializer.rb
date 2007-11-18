@@ -9,7 +9,7 @@ unless ENV['RUBYCOCOA_ENV'].nil?
 else
   unless ENV['DYLD_LIBRARY_PATH'].nil?
     env = ENV['DYLD_LIBRARY_PATH'].split('/').last.downcase
-    if %(debug release).include?(env)
+    if %(debug release test).include?(env)
       RUBYCOCOA_ENV = env
     else
       RUBYCOCOA_ENV = 'debug'
@@ -26,10 +26,10 @@ else
   # We are running in debug from xcode, which doesn't set RUBYCOCOA_ROOT.
   # Or we are simply running in release.
   RUBYCOCOA_ROOT = 
-    if RUBYCOCOA_ENV == 'debug'
-      Pathname.new(ENV['DYLD_LIBRARY_PATH'] + "../../../").cleanpath
-    else
+    if RUBYCOCOA_ENV == 'release'
       Pathname.new(OSX::NSBundle.mainBundle.resourcePath.fileSystemRepresentation)
+    else
+      Pathname.new(ENV['DYLD_LIBRARY_PATH'] + "../../../").cleanpath
     end
 end
 
@@ -163,12 +163,12 @@ module Rucola
     end
     
     # Copy the default load paths to the resource directory for the application if 
-    # we are building a release, otherwise we do nothing. When in debug mode, the 
-    # files are loaded directly from your working directory.
+    # we are building a release, otherwise we do nothing. When in debug or test mode,
+    # the files are loaded directly from your working directory.
     #
     # TODO: Remove debug database from released app if it exists.
     def copy_load_paths_for_release
-      return if configuration.environment == 'debug'
+      return unless configuration.environment == 'release'
       configuration.load_paths.each do |path|
         `cp -R #{path} #{RUBYCOCOA_ROOT}/#{File.basename(path)}` if File.directory?(path)
       end

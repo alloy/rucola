@@ -25,3 +25,11 @@
 
   config.objc_frameworks << ['Webkit', 'Quartz']
   config.include_dirs << %w(models controllers lib)
+
+* Create rspec testing plugin
+
+* Create test/spec testing plugin
+
+* Create test/unit testing plugin
+
+* Allow plugins to be installed as gems with a config/dependencies.rb like merb
