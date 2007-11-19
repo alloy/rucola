@@ -12,8 +12,6 @@
   I don't use rSpec anymore atm, so I (Eloy) will first focus on TestUnit & TestSpec.
   Actually I will just move it to test/spec.
 
-* Create README & simple website and release first version!
-
 * No need to continuously rebuild your application when just changing a few lines of Ruby.
   Still does xcodebuild for the build task, so add a check if the xcode project was updated,
   if not then simply run the existing build.
