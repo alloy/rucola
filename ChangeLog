@@ -1,5 +1,19 @@
 2007-11-19 Eloy Duran <e.duran@superalloy.nl>
 
+	* TODO,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/plugin.rb,
+	  lib/rucola/rucola_support/notifications/notifications.rb,
+	  test/test_notifications.rb,
+	  test/test_plugin.rb:
+
+	- Added Plugin#after_launch which uses a PluginRunner class that uses NSNotifications
+	  to run plugin hooks after the application has started.
+	- Cleaned the test_notifications file.
+	- Added TODO, which is to revert r116.
+
+2007-11-19 Eloy Duran <e.duran@superalloy.nl>
+
 	* lib/rucola/initializer.rb,
 	  lib/rucola/plugin.rb,
 	  test/test_initializer.rb,

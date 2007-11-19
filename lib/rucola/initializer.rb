@@ -60,10 +60,12 @@ module Rucola
         Rucola::Plugin.after_boot
       end
       
+      # Override this method from your Plugin.before_boot method if you need
+      # to alter behaviour before any of the application's files are required
+      # and the app is started.
       def do_boot
         require RUBYCOCOA_ROOT + 'config/boot'
       end
-      private :do_boot
       
       # Run the initializer and start the application.  The #process method is run by default which 
       # runs all the initialization routines.  You can alternatively specify 

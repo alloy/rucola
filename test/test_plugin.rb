@@ -35,4 +35,14 @@ describe 'Plugin' do
     @plugin.expects(:after_process).with(@initializer_mock)
     Rucola::Plugin.after_process(@initializer_mock)
   end
+  
+  it "should be able to run after launch plugins" do
+    @plugin.expects(:after_launch)
+    Rucola::Plugin.after_launch
+  end
+  
+  it "should run after launch plugins when the app has started" do
+    @plugin.expects(:after_launch)
+    OSX::NSNotificationCenter.defaultCenter.postNotificationName_object(OSX::NSApplicationDidFinishLaunchingNotification, self)
+  end
 end

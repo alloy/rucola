@@ -1,3 +1,5 @@
+* Revert the notify_on/when change because it's impossible to use `when` without explicitly calling self first.
+
 * add caching to notification name lookup
 
 * rake ib:update doesn't yet update from model files. The question is, should we allow that,

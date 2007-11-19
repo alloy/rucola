@@ -51,7 +51,7 @@ module Rucola
         # Creates a notification and posts it to the reciever
         def fire_notification(notification, obj)
           notification_name = resolve_notification_name(notification)
-          OSX::NSNotificationCenter.defaultCenter.postNotificationName_object(notification_name, obj)        
+          OSX::NSNotificationCenter.defaultCenter.postNotificationName_object(notification_name, obj)
         end
         alias_method :post_notification, :fire_notification
         
