@@ -3,16 +3,19 @@ require 'rucola/plugin'
 
 module Rucola
   class <%= plugin_name %> < Plugin
-    def before_boot(initializer)
+    def before_boot
     end
     
-    def after_boot(initializer)
+    def after_boot
     end
   
     def before_process(initializer)
     end
     
     def after_process(initializer)
+    end
+    
+    def after_launch
     end
   end
   
