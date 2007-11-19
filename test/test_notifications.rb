@@ -11,13 +11,12 @@ class Shipping < Rucola::RCController
   notify :update_shipping, :when => :address_was_changed
   def update_shipping(notification); end
 end
-class Animal < Rucola::RCController; end
 
 describe 'Rucola::Notifications' do
   it "should handle notifications when included" do
     FooNotifiable.instance_variable_get(:@_registered_notifications).should.be.nil
     
-    FooNotifiable.notify_on 'FooNotification' do |notification|
+    FooNotifiable.when 'FooNotification' do |notification|
       some_instance_method
     end
     
@@ -31,7 +30,7 @@ describe 'Rucola::Notifications' do
   end
   
   it "should be able to handle the original string representations of the notifications" do
-    BarNotifiable.notify_on 'NSApplicationDidFinishLaunchingNotification' do |notification|
+    BarNotifiable.when 'NSApplicationDidFinishLaunchingNotification' do |notification|
       app_finished_launching
     end
     
@@ -40,7 +39,7 @@ describe 'Rucola::Notifications' do
   end
   
   it "should also be able to handle the abbreviated symbol representation of a notification" do
-    BazNotifiable.notify_on :application_did_become_active do |notification|
+    BazNotifiable.when :application_did_become_active do |notification|
       app_did_become_active
     end
     
@@ -51,7 +50,7 @@ describe 'Rucola::Notifications' do
   it "should also allow the user to define shortcuts" do
     FuNotifiable.notification_prefix :win => :window
     
-    FuNotifiable.notify_on :win_did_become_key do |notification|
+    FuNotifiable.when :win_did_become_key do |notification|
       window_did_become_key
     end
   
@@ -60,7 +59,7 @@ describe 'Rucola::Notifications' do
   end
   
   it "should by default have the shortcut app => application" do
-    KungNotifiable.notify_on :app_will_terminate do |notification|
+    KungNotifiable.when :app_will_terminate do |notification|
       app_will_terminate_called!
     end
     
@@ -78,13 +77,5 @@ describe 'Rucola::Notifications' do
     shipping = Shipping.alloc.init
     shipping.expects(:update_shipping)
     Shipping.fire_notification(:address_was_changed, nil)
-  end
-  
-  it "should also work with the #when alias (check if #notify_on should be deprecated completely)" do
-    Animal.when :app_did_hide do |notification|
-      app_did_hide_called!
-    end
-    Animal.alloc.init.expects(:app_did_hide_called!)
-    OSX::NSNotificationCenter.defaultCenter.postNotificationName_object(OSX::NSApplicationDidHideNotification, self)
   end
 end

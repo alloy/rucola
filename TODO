@@ -3,8 +3,6 @@
 * rake ib:update doesn't yet update from model files. The question is, should we allow that,
   or should people handle interaction with the view in the controller anyways...?
 
-* See if #when is a better method name than #notify_on. The method is currently aliased.
-
 * Did some restructuring of the dir layout with regards to controllers and initialize_hooks (rev 42).
   Should probably look if the require structure is still ok... Justin knows about this.
 

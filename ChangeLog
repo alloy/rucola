@@ -1,3 +1,11 @@
+2007-11-19 Eloy Duran <e.duran@superalloy.nl>
+
+	* TODO,
+	  lib/rucola/rucola_support/notifications/notifications.rb,
+	  test/test_notifications.rb:
+
+	Deprecated Notifications#notify_on in favor of Notifications#when.
+
 2007-11-18 Chris McGrath <chris@octopod.info>
 
 	* TODO,

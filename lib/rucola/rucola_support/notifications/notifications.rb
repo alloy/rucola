@@ -2,13 +2,13 @@ require 'osx/cocoa'
 
 module Rucola
   module Notifications
-    # This Notifications module will add a class method called +notify_on+, which registers
+    # This Notifications module will add a class method called +when+, which registers
     # your object for the given notification and executes the given block when the
     # notification is posted to the OSX::NSNotificationCenter.defaultCenter.
     #
     #   class FooController < OSX::NSObject
     #
-    #     notify_on OSX::NSApplicationDidFinishLaunchingNotification do |notification|
+    #     when OSX::NSApplicationDidFinishLaunchingNotification do |notification|
     #       puts "Application did finish launching."
     #       p notification
     #     end
@@ -38,7 +38,7 @@ module Rucola
         #     # This will make sure that :win_ is expanded to :window_ in the notifications that you register.
         #     notification_prefix :win => :window
         #
-        #     notify_on :win_did_become_key do |notification|
+        #     when :win_did_become_key do |notification|
         #       # code
         #     end
         #   end
@@ -60,39 +60,6 @@ module Rucola
         #
         #   class FooController < OSX::NSObject
         #
-        #     notify_on OSX::NSApplicationDidFinishLaunchingNotification do |notification|
-        #       puts "Application did finish launching."
-        #       p notification
-        #     end
-        #
-        #     # code
-        #
-        #   end
-        #
-        # You can also pass it a symbol as +notification+ in which case it will be exapnded.
-        # It will first check if the name + 'Notification' exists, if not it will prepend 'NS'.
-        # So :application_did_finish_launching becomes 'NSApplicationDidFinishLaunchingNotification'.
-        #
-        # You can even register shortcut prefixes. See +notification_prefix+.
-        def notify_on(notification, &block)
-          
-          notification_name = resolve_notification_name(notification)
-          method_name = "_handle_#{notification_name.snake_case}".to_sym
-          
-          # define the handle method
-          class_eval do
-            define_method(method_name, &block)
-          end
-          
-          @_registered_notifications ||= {}
-          @_registered_notifications[notification_name.to_s] = method_name
-        end
-        
-        # Registers the object for the given notification and executes the given block when the
-        # notification is posted to the OSX::NSNotificationCenter.defaultCenter.
-        #
-        #   class FooController < OSX::NSObject
-        #
         #     when OSX::NSApplicationDidFinishLaunchingNotification do |notification|
         #       puts "Application did finish launching."
         #       p notification
@@ -107,10 +74,19 @@ module Rucola
         # So :application_did_finish_launching becomes 'NSApplicationDidFinishLaunchingNotification'.
         #
         # You can even register shortcut prefixes. See +notification_prefix+.
-        #
-        # Note that +when+ is an alias of +notify_on+ to see which is better syntactically.
-        # This means that +notify_on+ might become deprecated in favor of +when+.
-        alias_method :when, :notify_on
+        def when(notification, &block)
+          
+          notification_name = resolve_notification_name(notification)
+          method_name = "_handle_#{notification_name.snake_case}".to_sym
+          
+          # define the handle method
+          class_eval do
+            define_method(method_name, &block)
+          end
+          
+          @_registered_notifications ||= {}
+          @_registered_notifications[notification_name.to_s] = method_name
+        end
         
         # Register a callback when a notification is posted.
         #
