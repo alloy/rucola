@@ -52,29 +52,36 @@ module Rucola
     # The Configuration instance used by this Initializer instance.
     attr_reader :configuration
     
-    # Load the config/boot.rb file.
-    def self.boot
-      Rucola::Plugin.plugins.each { |p| p.before_boot(self) }
-      require RUBYCOCOA_ROOT + 'config/boot'
-      Rucola::Plugin.plugins.each { |p| p.after_boot(self) }
-    end
+    class << self
+      # Load the config/boot.rb file.
+      def boot
+        Rucola::Plugin.before_boot
+        do_boot
+        Rucola::Plugin.after_boot
+      end
+      
+      def do_boot
+        require RUBYCOCOA_ROOT + 'config/boot'
+      end
+      private :do_boot
+      
+      # Run the initializer and start the application.  The #process method is run by default which 
+      # runs all the initialization routines.  You can alternatively specify 
+      # a command to run.
+      # 
+      #    OSX::Initializer.run(:set_load_path)
+      #
+      def run(command = :process, configuration = Configuration.new)
+        yield configuration if block_given?
+        initializer = new configuration
+        initializer.send(command)
+        start_app unless RUBYCOCOA_ENV == 'test' || ENV['DONT_START_RUBYCOCOA_APP']
+      end
     
-    # Run the initializer and start the application.  The #process method is run by default which 
-    # runs all the initialization routines.  You can alternatively specify 
-    # a command to run.
-    # 
-    #    OSX::Initializer.run(:set_load_path)
-    #
-    def self.run(command = :process, configuration = Configuration.new)
-      yield configuration if block_given?
-      initializer = new configuration
-      initializer.send(command)
-      start_app unless RUBYCOCOA_ENV == 'test' || ENV['DONT_START_RUBYCOCOA_APP']
-    end
-    
-    # Starts the application.
-    def self.start_app
-      OSX.NSApplicationMain(0, nil)
+      # Starts the application.
+      def start_app
+        OSX.NSApplicationMain(0, nil)
+      end
     end
     
     # Create an initializer instance that references the given 
@@ -86,7 +93,7 @@ module Rucola
     # Step through the initialization routines, skipping the active_record 
     # routines if active_record isnt' being used.
     def process
-      Rucola::Plugin.plugins.each { |p| p.before_process(self) }
+      Rucola::Plugin.before_process(self)
       unless ENV['DYLD_LIBRARY_PATH'].nil?
         set_load_path
         copy_load_paths_for_release
@@ -96,7 +103,7 @@ module Rucola
       require_frameworks
       require_ruby_source_files
       load_environment
-      Rucola::Plugin.plugins.each { |p| p.after_process(self) }
+      Rucola::Plugin.after_process(self)
     end
     
     # Requires all frameworks specified by the Configuration#objc_frameworks

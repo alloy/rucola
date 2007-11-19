@@ -1,5 +1,16 @@
 2007-11-19 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/initializer.rb,
+	  lib/rucola/plugin.rb,
+	  test/test_initializer.rb,
+	  test/test_plugin.rb:
+
+	- Fixed Plugin#before_boot and Plugin#after_boot, they can't take a initializer parameter.
+	- Refactored the plugin calls.
+	- Made initializer use the refactored methods.
+
+2007-11-19 Eloy Duran <e.duran@superalloy.nl>
+
 	* TODO,
 	  lib/rucola/rucola_support/notifications/notifications.rb,
 	  test/test_notifications.rb:
