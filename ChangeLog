@@ -1,3 +1,11 @@
+2007-11-21 Eloy Duran <e.duran@superalloy.nl>
+
+	* TODO,
+	  lib/rucola/rucola_support/notifications/notifications.rb,
+	  test/test_notifications.rb:
+
+	Reverted the deprecation of Notifications #notify_on and replaced #when with #once.
+
 2007-11-19 Eloy Duran <e.duran@superalloy.nl>
 
 	* rucola_generators/rucola_plugin/templates/init.rb.erb:

@@ -1,4 +1,4 @@
-* Revert the notify_on/when change because it's impossible to use `when` without explicitly calling self first.
+* Choose between Notifications #notify_on and #once.
 
 * add caching to notification name lookup
 
