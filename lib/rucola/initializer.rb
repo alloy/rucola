@@ -67,6 +67,22 @@ module Rucola
         require RUBYCOCOA_ROOT + 'config/boot'
       end
       
+      # Returns the path to the plugins root directory. Eg /MyApp/vendor/plugins.
+      def plugins_root
+        RUBYCOCOA_ROOT + 'vendor/plugins'
+      end
+      
+      # Loads all the plugins that are found in +plugins_root+.
+      def load_plugins
+        root = plugins_root
+        if root.exist?
+          root.children.each do |plugin|
+            next unless plugin.directory?
+            Kernel.require plugin + 'init.rb'
+          end
+        end
+      end
+      
       # Run the initializer and start the application.  The #process method is run by default which 
       # runs all the initialization routines.  You can alternatively specify 
       # a command to run.
@@ -77,12 +93,12 @@ module Rucola
         yield configuration if block_given?
         initializer = new configuration
         initializer.send(command)
-        start_app unless RUBYCOCOA_ENV == 'test' || ENV['DONT_START_RUBYCOCOA_APP']
+        start_app
       end
-    
-      # Starts the application.
+      
+      # Starts the application's run loop.
       def start_app
-        OSX.NSApplicationMain(0, nil)
+        OSX.NSApplicationMain(0, nil) unless RUBYCOCOA_ENV == 'test' || ENV['DONT_START_RUBYCOCOA_APP']
       end
     end
     
@@ -182,19 +198,6 @@ module Rucola
         `cp -R #{path} #{RUBYCOCOA_ROOT}/#{File.basename(path)}` if File.directory?(path)
       end
     end
-    
-    # Now is a good time to load the plugins, because
-    # this will give them the chance to alter the
-    # behaviour of Rucola before it starts.
-    RUBYCOCOA_PLUGINS_ROOT = RUBYCOCOA_ROOT + 'vendor/plugins'
-    @@required_plugins = [] # TODO: isn't used yet
-    if RUBYCOCOA_PLUGINS_ROOT.exist?
-      RUBYCOCOA_PLUGINS_ROOT.children.each do |plugin|
-        next unless plugin.directory?
-        @@required_plugins.push plugin
-        require plugin + 'init.rb'
-      end
-    end
   end
   
   class Configuration
@@ -257,3 +260,6 @@ module Rucola
       end
   end
 end
+
+# Directly load plugins, so the Rucola Initializer & Configuration classes can be overriden.
+Rucola::Initializer.load_plugins
