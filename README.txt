@@ -99,7 +99,8 @@ config.use_active_record = true
 To build your application, Rucola provides a simple rake command.  (You can also build your application in XCode)
 
     rake xcode:build
-    
+
+(Or simply use `rake` since xcode:build is the default task.)
 This will compile and run your application.  At the moment we don't bundle Ruby or the gems that you are using 
 in your application, we have plans to support this in order to make it really easy to distribute your application.
 
@@ -111,16 +112,14 @@ The latest version can be checked out with:
 
     $ svn co svn://rubyforge.org/var/svn/rucola/trunk rucola
 
-A simpe sample app called Gembo can be found at:
+Sample apps can be found at:
 
-    $ svn co svn://rubyforge.org/var/svn/rucola/extras/examples/Gembo
+    $ svn co svn://rubyforge.org/var/svn/rucola/extras/examples/
 
 There's a basic TextMate bundle which contains only 4 commands which are the equivalent of the "go to file" commands in the rails bundle. With these going from a controller to it's test/model/view file is only a shortcut away. To get it:
 
     $ cd ~/Library/Application\ Support/TextMate/Bundles/
     $ svn co svn://rubyforge.org/var/svn/rucola/extras/Rucola.tmbundle
 
-There's a crash reporter plugin available, which you can install with script/plugin:
-
-    $ cd MyApp
-    $ script/plugin install SACrashReporter
+There's a crash reporter plugin and a ActiveRecord plugin available, which you can install with script/plugin install. Use script/plugin list to see the ones available.
+    

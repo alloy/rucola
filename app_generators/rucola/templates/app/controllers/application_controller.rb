@@ -7,7 +7,7 @@ class ApplicationController < Rucola::RCController
     
     puts "ApplicationController awoke."
     puts "Edit: app/controllers/application_controller.rb"
-    puts  "\nIt's window is: #{@main_window.inspect}"
+    puts  "\nIts window is: #{@main_window.inspect}"
   end
   
   # NSApplication delegate methods

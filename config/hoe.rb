@@ -1,6 +1,6 @@
 require 'rucola/version'
 
-AUTHOR = ['Eloy Duran', 'Justin Palmer']  # can also be an array of Authors 
+AUTHOR = ['Eloy Duran', 'Justin Palmer', 'Chris McGrath', 'Satoshi Nagakawa']  # can also be an array of Authors 
 EMAIL = "e.duran@superalloy.nl"
 DESCRIPTION = "Rucola is an extension for RubyCocoa. It has a application skeleton generator and builds an \"opinionated\" application layout, like the one known from rails. And comes with RubyCocoa specific rake tasks."
 GEM_NAME = 'rucola' # what ppl will type to install your gem

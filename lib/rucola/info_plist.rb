@@ -15,7 +15,6 @@ module Rucola
     
     def document_types
       @data['CFBundleDocumentTypes'] ||= []
-      @data['CFBundleDocumentTypes'] = @data['CFBundleDocumentTypes'].to_ns
       @data['CFBundleDocumentTypes']
     end
     

@@ -1,3 +1,54 @@
+== 0.0.2 2007-11-26
+
+=== RUCOLA Core:
+* Initializer: Spec'd the class methods of Initializer.
+* Initializer: Change initializer to check if environment is release rather than debug so that we can have the same setup for debug and test. Fixes problem when AR plugin installed in app.
+
+* Plugin: Added script/generate rucola_plugin for rucola apps
+* Plugin: Add the initial Plugin code and hook it into the initializer
+* Plugin: Added Plugin#after_launch which uses a PluginRunner class that uses NSNotifications to run plugin hooks after the application has started.
+
+* Notifications: Added a helper for firing notifications.
+* Notifications: Moved notification name resolution to a separate method, and don't raise NameErrors when the constant doesn't exist.
+
+* Support: Added Rucola::InfoPlist#app_name & Rucola::RCApp#app_name which return the CFBundleExecutable value from the Info.plist file.
+
+* Testing: Added the code to make autotest play nice with a rucola app!!
+* Testing: Added autotest sound plugin, original idea from: Jeremy Seitz.
+* Testing: Added autotest images plugin, copyright: John Nunemaker.
+* Testing: Added useful skeleton tests using test/spec and mocha.
+* Testing: Added a few more test helpers which provide a shortcut for getting ivars (ib_outlets).
+
+* InitializeHooks: The initialize_hooks will now call #after_init on an instance if it exists. This is so that #init doesn't have to be overriden to setup defaults etc.
+
+* Generator: Updated the generators with better banners.
+* Generator: The document_model_generator will not longer run if no extension is specified, but rather display the usage banner.
+
+* Nib: Fixed bugs where destructive methods were called on immutable objects. This was a change in RubyCocoa.
+* Nib: Nib#add_class now takes an optional superclass.
+
+* Rake: Fixed a bug in the xcode rake task where the local var 'executable' was not passed explicitly into the thread. So the app would sometimes not come to the front.
+* Rake: The rake test task will now print with the *rr pretty test/spec output.
+* Rake: Modified xcode:build rake task to do xcodebuild everytime. Otherwise changes in the nibs will not be reflected in the app bundle.
+* Rake: Make main.rake load tasks from vendor/plugins/*/tasks/*.rake
+
+=== EXTRAS:
+* AR: Add basic ActiveRecord model, proxy and migration generator.
+* AR: The AR generator also adds the proxy and ActiveRecordSetController to the specified nibs.
+* AR: Move the ActiveRecord code into a rucola_activerecord plugin
+* AR: Added support for migrations and other AR tasks
+
+* Samples: Added another simple sample app (Leecher) which simply downloads files and displays the progress.
+
+* SACrashReporter: Fixed bug if ~/Library/Logs/CrashReporter doesn't exist.
+* SACrashReporter: Fixed bug in the crash log naming style on 10.5.
+* SACrashReporter: The crash reporter will never be ran if it's the very first time.
+* SACrashReporter: Replaced the http posting with the cocoa equivalent and display message while the reporter is doing the post.
+* SACrashReporter: On Leopard every crash is logged in an individual file, now reads and writes those too.
+* SACrashReporter: SACrashReporter/init.rb now uses the new Plugin system to alter Initializer.do_boot and run SACrashReporter.submit after the application has started.
+
+* Rucola TM Bundle: Going to the view from the application controller will now open the MainMenu.nib in IB.
+
 == 0.0.1 2007-10-18
 
 * 1 major enhancement:

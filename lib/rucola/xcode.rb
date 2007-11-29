@@ -42,7 +42,7 @@ module Rucola
     private :nil_if_empty
     
     def objects
-      @project_data['objects'] = @project_data['objects'].to_ns
+      @project_data['objects'] = @project_data['objects']
     end
     
     # Get's the id & values for a object which name is the one passed to this method.
@@ -78,7 +78,6 @@ module Rucola
     def add_build_phase_to_project_target(object_id)
       # Add the new build phase to the main project target if it doesn't already exist
       build_target_id, build_target_values = object_for_project_target
-      build_target_values['buildPhases'] = build_target_values['buildPhases'].to_ns
       build_target_values['buildPhases'].push(object_id) unless build_target_values['buildPhases'].include?(object_id)
     end
     

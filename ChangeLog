@@ -1,3 +1,13 @@
+2007-11-29 Eloy Duran <e.duran@superalloy.nl>
+
+	* History.txt,
+	  README.txt,
+	  config/hoe.rb,
+	  website/index.html,
+	  website/index.txt:
+
+	Updated for 0.0.2.
+
 2007-11-21 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/initializer.rb,
