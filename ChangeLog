@@ -1,5 +1,15 @@
 2007-11-29 Eloy Duran <e.duran@superalloy.nl>
 
+	* app_generators/rucola/templates/app/controllers/application_controller.rb,
+	  lib/rucola/info_plist.rb,
+	  lib/rucola/version.rb,
+	  lib/rucola/xcode.rb,
+	  test/test_document_model_generator.rb:
+
+	Fixed bugs that were introduced because the default is again to return mutable objects in RC.
+
+2007-11-29 Eloy Duran <e.duran@superalloy.nl>
+
 	* History.txt,
 	  README.txt,
 	  config/hoe.rb,
