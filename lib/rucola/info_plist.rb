@@ -35,7 +35,7 @@ module Rucola
     
     # Returns the name of the application (CFBundleExecutable).
     def app_name
-      @data['CFBundleExecutable']
+      @data['CFBundleExecutable'].to_s
     end
   end
 end

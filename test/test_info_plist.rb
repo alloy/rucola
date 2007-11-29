@@ -32,4 +32,8 @@ describe "Info" do
   it "should be able to return the name of the application" do
     @info_plist.app_name.should == 'MyApp'
   end
+  
+  it "should should return a ruby string as the name of the application" do
+    @info_plist.app_name.should.be.an.instance_of String
+  end
 end
