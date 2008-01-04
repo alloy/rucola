@@ -1,3 +1,8 @@
+== 0.0.3 2007-12-08
+
+* Fixed some critical bugs in the xcode & nib manipulation code, which were introduced because the default is to return mutable objects in RubyCocoa again.
+* InfoPlist#app_name returns a ruby string instead of a NSString, which fixes a bug in the AR generator.
+
 == 0.0.2 2007-11-26
 
 === RUCOLA Core:

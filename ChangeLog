@@ -1,3 +1,11 @@
+2008-1-4 Eloy Duran <e.duran@superalloy.nl>
+
+	* History.txt,
+	  lib/rucola/version.rb,
+	  website/index.html:
+
+	Changed files after 0.0.3 release
+
 2007-11-29 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/info_plist.rb,
