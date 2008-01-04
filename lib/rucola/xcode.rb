@@ -86,7 +86,33 @@ module Rucola
       build_phase['files'].push(object_id) unless build_phase['files'].include?(object_id)
     end
     
-    NEW_COPY_FRAMEWORKS_BUILD_PHASE = ['519A79DB0CC8AE6B00CBE85D', {
+    # Returns an array of framework objects that are in the project.
+    def frameworks
+      objects.select {|obj| obj.last['name'].include?('framework') }
+    end
+    
+    # Adds a framework to a project.
+    # Returns an array of the object id and it's values.
+    def add_framework(name, path)
+      obj = [generate_object_id, { 'name' => name, 'path' => path, 'sourceTree' => '<absolute>' }.to_ns]
+      add_object(*obj)
+      obj
+    end
+    
+    def generate_uuid
+      ("%04x%04x%04x%04x%04x%04x" % [rand(0x0010000),rand(0x0010000),rand(0x0010000),rand(0x0010000),rand(0x0010000),rand(0x0010000)]).upcase
+    end
+    
+    # Makes sure that an unique object UUID is returned
+    def generate_object_id
+      uuids = objects.keys
+      begin
+       uuid = generate_uuid
+      end while uuids.include?(uuid)
+      uuid
+    end
+    
+    NEW_COPY_FRAMEWORKS_BUILD_PHASE = {
       'name' => 'Copy Frameworks',
       'isa' => 'PBXCopyFilesBuildPhase',
       'buildActionMask' => '2147483647',
@@ -94,14 +120,12 @@ module Rucola
       'dstSubfolderSpec' => 10, # TODO: is 10 the number for the location popup choice: Frameworks
       'runOnlyForDeploymentPostprocessing' => 0,
       'files' => [].to_ns
-    }]
+    }
     # Creates a new framework copy build phase.
     # It does not add it to the objects nor the build phases,
     # do this with +add_object+ and +add_build_phase_to_project_target+.
-    #
-    # FIXME: Need to generate the id's instead of static.
     def new_framework_copy_build_phase
-      NEW_COPY_FRAMEWORKS_BUILD_PHASE
+      [generate_object_id, NEW_COPY_FRAMEWORKS_BUILD_PHASE]
     end
     
     # Changes the path of the framework +framework_name+ to the path +new_path_to_framework+.
@@ -121,7 +145,7 @@ module Rucola
       framework_id, framework_values = object_for_name(framework_name)
       
       # create a new file wrapper for in the copy build phase
-      framework_in_build_phase_id = '511E98590CC8C5940003DED9'
+      framework_in_build_phase_id = generate_object_id
       framework_in_build_phase_values = {
         'isa' => 'PBXBuildFile',
         'fileRef' => framework_id

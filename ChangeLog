@@ -1,5 +1,15 @@
 2008-1-4 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/xcode.rb,
+	  test/test_xcode.rb:
+
+	Added to Xcode:
+	#generate_object_id which generates a UUID for a new object.
+	#add_framework which adds a framework to the xcode project.
+	#frameworks which lists all the framework objects in the xcode project.
+
+2008-1-4 Eloy Duran <e.duran@superalloy.nl>
+
 	* lib/rucola/initializer.rb:
 
 	Require any ruby files in lib/.

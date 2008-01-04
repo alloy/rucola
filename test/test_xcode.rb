@@ -84,14 +84,61 @@ describe 'Xcode' do
     @project.object_for_id(id).last['files'].should == [@object_id]
   end
   
+  it "should generate UUIDs" do
+    @project.generate_uuid.length.should.be 24
+  end
+  
+  # This is a hack for the test if it generates a unique object id.
+  # I couldn't find another way to first generate a dup and the second time a good one...
+  def mock_generate_uuid
+    Xcode.class_eval do
+      alias_method :original_generate_uuid, :generate_uuid
+      def generate_uuid
+        generate_uuid_counter
+        if @never_run.nil?
+          @never_run = false
+          '519A79DB0CC8AE6B00CBE85D'
+        else
+          '519A79DB0CC8AE6B00CBE85F'
+        end
+      end
+    end
+  end
+  
+  def unmock_generate_uuid
+    Xcode.class_eval do
+      alias_method :generate_uuid, :original_generate_uuid
+    end
+  end
+  
+  it "should generate a non-duplicate object id" do
+    objects = {'519A79DB0CC8AE6B00CBE85D' => 1, '519A79DB0CC8AE6B00CBE85E' => 2}
+    @project.expects(:objects).returns(objects)
+    @project.expects(:generate_uuid_counter).times(2)
+    mock_generate_uuid # set the hack
+    @project.generate_object_id
+    unmock_generate_uuid # unset the hack
+  end
+  
   # it "should create a new framework copy build phase" do
   #   # FIXME: until we generate id's this is just a lame test
   #   Xcode::NEW_COPY_FRAMEWORKS_BUILD_PHASE = @object
   #   @project.new_framework_copy_build_phase.should == @object
   # end
   
+  it "should add a framework" do
+    before = @project.objects.length
+    @project.add_framework('BlaBla.framework', '/foo/BlaBla.framework')
+    @project.objects.length.should.be before + 1
+  end
+  
+  it "should list the frameworks that it includes" do
+    obj = @project.add_framework('BlaBla.framework', '/foo/BlaBla.framework')
+    @project.frameworks.should == [obj]
+  end
+  
   it "should change the path of a framework used in the project" do
-    id, values = 'FRAMEWORK_ID'.to_ns, { 'name' => 'RubyCocoa.framework', 'path' => '/foo/RubyCocoa.framework', 'sourceTree' => '<absolute>' }.to_ns
+    id, values = @project.add_framework('RubyCocoa.framework', '/foo/RubyCocoa.framework')
     @project.add_object(id, values)
     framework_path = 'vendor/RubyCocoa.framework'
     @project.change_framework_location('RubyCocoa.framework', framework_path)
@@ -107,7 +154,7 @@ describe 'Xcode' do
   end
   
   it "should bundle a framework with the application" do
-    id, values = 'FRAMEWORK_ID'.to_ns, { 'name' => 'BlaBla.framework', 'path' => '/foo/BlaBla.framework', 'sourceTree' => '<absolute>' }.to_ns
+    id, values = @project.add_framework('BlaBla.framework', '/foo/BlaBla.framework')
     @project.add_object(id, values)
     
     @project.bundle_framework('BlaBla.framework')
@@ -118,11 +165,12 @@ describe 'Xcode' do
     
     build_phase_id = @project.object_for_id(build_phases.first).last['files'].first
     build_phase_id, build_phase = @project.object_for_id(build_phase_id)
-    build_phase['fileRef'].should == 'FRAMEWORK_ID'
+    build_phase['fileRef'].should == id
   end
   
   it "should bundle the RubyCocoa framework with the application" do
     @project.expects(:bundle_framework).with('RubyCocoa.framework')
     @project.bundle_rubycocoa_framework
   end
+
 end
