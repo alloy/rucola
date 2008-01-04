@@ -1,5 +1,13 @@
 2008-1-4 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/rucola_support/core_ext/objc/nsimage.rb,
+	  test/test_helper.rb,
+	  test/test_objc_core_ext.rb:
+
+	NSImage#imageNamed will also look in app/assets for a given image name.
+
+2008-1-4 Eloy Duran <e.duran@superalloy.nl>
+
 	* app_generators/rucola/rucola_generator.rb,
 	  test/test_rucola_generator.rb:
 

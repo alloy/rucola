@@ -1,3 +1,5 @@
+.profile
+.rake_tasks
 ChangeLog
 History.txt
 License.txt
@@ -47,6 +49,7 @@ lib/rucola/rucola_support/controllers/rc_controller.rb
 lib/rucola/rucola_support/controllers/rc_window_controller.rb
 lib/rucola/rucola_support/core_ext.rb
 lib/rucola/rucola_support/core_ext/objc.rb
+lib/rucola/rucola_support/core_ext/objc/nsimage.rb
 lib/rucola/rucola_support/core_ext/objc/nsobject.rb
 lib/rucola/rucola_support/core_ext/ruby.rb
 lib/rucola/rucola_support/core_ext/ruby/string.rb
@@ -99,6 +102,7 @@ test/test_document_model_generator.rb
 test/test_generator_helper.rb
 test/test_helper.rb
 test/test_info_plist.rb
+test/test_initializer.rb
 test/test_nib.rb
 test/test_notifications.rb
 test/test_objc_core_ext.rb
