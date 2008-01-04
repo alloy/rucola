@@ -119,6 +119,7 @@ module Rucola
       
       require_rucola_support
       require_frameworks
+      require_lib_source_files
       require_ruby_source_files
       load_environment
       Rucola::Plugin.after_process(self)
@@ -135,6 +136,7 @@ module Rucola
     def require_rucola_support
       require Pathname.new(__FILE__).dirname + 'rucola_support'
     end
+
     
     # Recursively requires any ruby source file that it finds.
     def require_ruby_source_files_in_dir_recursive(dir)
@@ -144,6 +146,13 @@ module Rucola
           next
         end
         require child if child.basename.to_s =~ /\.rb$/
+      end
+    end
+    
+    # Requires any ruby source files in the app/lib/ directory.
+    def require_lib_source_files
+      Dir[RUBYCOCOA_ROOT + 'lib/*.rb'].each do |f|
+        require f
       end
     end
     

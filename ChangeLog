@@ -1,5 +1,11 @@
 2008-1-4 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/initializer.rb:
+
+	Require any ruby files in lib/.
+
+2008-1-4 Eloy Duran <e.duran@superalloy.nl>
+
 	* lib/rucola/rucola_support/core_ext/objc/nsimage.rb,
 	  test/test_helper.rb,
 	  test/test_objc_core_ext.rb:
