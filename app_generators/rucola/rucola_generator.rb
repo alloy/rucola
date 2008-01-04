@@ -103,7 +103,9 @@ EOS
       app/controllers
       app/models
       app/views
+      app/assets
       config/environments
+      lib
       script
       test/controllers
       test/models

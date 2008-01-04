@@ -39,10 +39,13 @@ class TestRucolaGenerator < Test::Unit::TestCase
     assert_directory_exists "app/controllers"
     assert_directory_exists "app/models"
     assert_directory_exists "app/views"
+    assert_directory_exists "app/assets"
+    
     assert_directory_exists "config/environments"
     assert_directory_exists "misc/English.lproj/MainMenu.nib"
     assert_directory_exists "test/controllers"
     assert_directory_exists "test/models"
+    assert_directory_exists "lib"
     assert_directory_exists "vendor"
 
     assert_generated_file   "Rakefile"

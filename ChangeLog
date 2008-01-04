@@ -1,5 +1,12 @@
 2008-1-4 Eloy Duran <e.duran@superalloy.nl>
 
+	* app_generators/rucola/rucola_generator.rb,
+	  test/test_rucola_generator.rb:
+
+	Added the app/assets/ and lib/ dirs to the app generator.
+
+2008-1-4 Eloy Duran <e.duran@superalloy.nl>
+
 	* History.txt,
 	  lib/rucola/version.rb,
 	  website/index.html:
