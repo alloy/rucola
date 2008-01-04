@@ -108,6 +108,7 @@ EOS
       lib
       script
       test/controllers
+      test/lib
       test/models
       vendor
     )

@@ -44,6 +44,7 @@ class TestRucolaGenerator < Test::Unit::TestCase
     assert_directory_exists "config/environments"
     assert_directory_exists "misc/English.lproj/MainMenu.nib"
     assert_directory_exists "test/controllers"
+    assert_directory_exists "test/lib"
     assert_directory_exists "test/models"
     assert_directory_exists "lib"
     assert_directory_exists "vendor"
