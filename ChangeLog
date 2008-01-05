@@ -1,3 +1,14 @@
+2008-1-5 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/ruby_debug.rb:
+
+	Added support for ruby-debug.
+	If a call is made to Kernel.debugger and the RUBYCOCOA_ENV is `debug`,
+	then the ruby-debug library will be required and ran.
+	So to be able to use this you only need to install the ruby-debug gem.
+
 2008-1-4 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/xcode.rb,

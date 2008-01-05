@@ -43,6 +43,7 @@ lib/rucola/info_plist.rb
 lib/rucola/initializer.rb
 lib/rucola/nib.rb
 lib/rucola/plugin.rb
+lib/rucola/ruby_debug.rb
 lib/rucola/rucola_support.rb
 lib/rucola/rucola_support/controllers.rb
 lib/rucola/rucola_support/controllers/rc_controller.rb

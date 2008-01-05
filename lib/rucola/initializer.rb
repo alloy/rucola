@@ -19,6 +19,9 @@ else
   end
 end
 
+# The env has been set, so we can load the debugger lib.
+require 'rucola/ruby_debug'
+
 unless ENV['RUBYCOCOA_ROOT'].nil?
   # rake will set the RUBYCOCOA_ROOT for debugging purpose
   RUBYCOCOA_ROOT = Pathname.new(ENV['RUBYCOCOA_ROOT'])
@@ -45,7 +48,7 @@ end
 
 
 # Environment initialization scheme ported/derived from Rails' Initializer.
-require 'erb'
+require 'erb' # FIXME: this should only be required if we're really gonna use erb (AR project)
 module Rucola
   # Rails-like Initializer responsible for processing configuration.
   class Initializer
@@ -136,7 +139,6 @@ module Rucola
     def require_rucola_support
       require Pathname.new(__FILE__).dirname + 'rucola_support'
     end
-
     
     # Recursively requires any ruby source file that it finds.
     def require_ruby_source_files_in_dir_recursive(dir)
