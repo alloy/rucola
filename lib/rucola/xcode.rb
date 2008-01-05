@@ -88,15 +88,23 @@ module Rucola
     
     # Returns an array of framework objects that are in the project.
     def frameworks
-      objects.select {|obj| obj.last['name'].include?('framework') }
+      objects.select {|obj| obj.last['name'].include?('framework') unless obj.last['name'].nil? }
     end
     
     # Adds a framework to a project.
-    # Returns an array of the object id and it's values.
+    # Returns [framework_obj, fileref_obj].
     def add_framework(name, path)
-      obj = [generate_object_id, { 'name' => name, 'path' => path, 'sourceTree' => '<absolute>' }.to_ns]
-      add_object(*obj)
-      obj
+      source_tree = path[0, 1] == '/' ? '<absolute>' : '<group>'
+      framework_obj = [generate_object_id, { 'isa' => 'PBXFileReference', 'lastKnownFileType' => 'wrapper.framework', 'name' => name, 'path' => path, 'sourceTree' => source_tree }.to_ns]
+      add_object(*framework_obj)
+      
+      fileref_obj = [generate_object_id, { 'fileRef' => framework_obj.first, 'isa' => 'PBXBuildFile'}.to_ns]
+      add_object(*fileref_obj)
+      
+      linked_frameworks_group = object_for_name('Linked Frameworks')
+      linked_frameworks_group.last['children'].push(framework_obj.first)
+      
+      [framework_obj, fileref_obj]
     end
     
     def generate_uuid

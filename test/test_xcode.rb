@@ -19,6 +19,8 @@ describe 'Xcode' do
     OSX::NSMutableDictionary.stubs(:dictionaryWithContentsOfFile).with(@data_path).returns(@data)
     
     @project = Xcode.new(@project_path)
+    # Add a stub `Linked Frameworks` group
+    @project.objects['1058C7A0FEA54F0111CA2CBB'] = { 'name' => 'Linked Frameworks', 'children' => [] }.to_ns
   end
   
   it "should initialize" do
@@ -127,19 +129,49 @@ describe 'Xcode' do
   # end
   
   it "should add a framework" do
+    name = 'BlaBla.framework'
+    path = '/foo/BlaBla.framework'
+    
     before = @project.objects.length
-    @project.add_framework('BlaBla.framework', '/foo/BlaBla.framework')
-    @project.objects.length.should.be before + 1
+    framework_obj, fileref_obj = @project.add_framework(name, path)
+    @project.objects.length.should.be(before + 2)
+    
+    framework_obj.last.should == {
+      'isa' => 'PBXFileReference',
+      'lastKnownFileType' => 'wrapper.framework',
+      'name' => name,
+      'path' => path,
+      'sourceTree' => '<absolute>'
+    }.to_ns
+    
+    fileref_obj.last.should == {
+      'fileRef' => framework_obj.first,
+      'isa' => 'PBXBuildFile'
+    }.to_ns
+    
+    linked_frameworks = @project.object_for_name('Linked Frameworks')
+    linked_frameworks.last['children'].should.include framework_obj.first
+  end
+  
+  it "should add a framework as absolute" do
+    framework_obj, fileref_obj = @project.add_framework('BlaBla.framework', '/foo/BlaBla.framework')
+    framework_obj.last['sourceTree'].should == '<absolute>'
+  end
+  
+  it "should add a framework as relative (group)" do
+    framework_obj, fileref_obj = @project.add_framework('BlaBla.framework', 'vendor/frameworks/BlaBla.framework')
+    framework_obj.last['sourceTree'].should == '<group>'
   end
   
   it "should list the frameworks that it includes" do
-    obj = @project.add_framework('BlaBla.framework', '/foo/BlaBla.framework')
-    @project.frameworks.should == [obj]
+    framework_obj, fileref_obj = @project.add_framework('BlaBla.framework', '/foo/BlaBla.framework')
+    @project.frameworks.should == [framework_obj]
   end
   
   it "should change the path of a framework used in the project" do
-    id, values = @project.add_framework('RubyCocoa.framework', '/foo/RubyCocoa.framework')
-    @project.add_object(id, values)
+    framework_obj, fileref_obj = @project.add_framework('RubyCocoa.framework', '/foo/RubyCocoa.framework')
+    id = framework_obj.first
+    
     framework_path = 'vendor/RubyCocoa.framework'
     @project.change_framework_location('RubyCocoa.framework', framework_path)
     
@@ -154,8 +186,8 @@ describe 'Xcode' do
   end
   
   it "should bundle a framework with the application" do
-    id, values = @project.add_framework('BlaBla.framework', '/foo/BlaBla.framework')
-    @project.add_object(id, values)
+    framework_obj, fileref_obj = @project.add_framework('BlaBla.framework', '/foo/BlaBla.framework')
+    id = framework_obj.first
     
     @project.bundle_framework('BlaBla.framework')
     

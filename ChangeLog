@@ -1,5 +1,12 @@
 2008-1-5 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/xcode.rb,
+	  test/test_xcode.rb:
+
+	Fixed some bugs with adding a framework to a xcode project.
+
+2008-1-5 Eloy Duran <e.duran@superalloy.nl>
+
 	* Manifest.txt,
 	  lib/rucola/initializer.rb,
 	  lib/rucola/ruby_debug.rb:
