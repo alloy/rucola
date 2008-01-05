@@ -1,5 +1,12 @@
 2008-1-5 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/tasks/xcode.rake:
+
+	Fixed a bug that occurs when trying to get the build dir from the xcode prefs
+	when XCode has never been run and so no prefs exist at all.
+
+2008-1-5 Eloy Duran <e.duran@superalloy.nl>
+
 	* TODO,
 	  lib/rucola/tasks/xcode.rake:
 

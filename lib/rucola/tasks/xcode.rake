@@ -8,7 +8,12 @@ namespace :xcode do
     # get the users build dir
     prefs = OSX::NSUserDefaults.standardUserDefaults
     prefs.addSuiteNamed 'com.apple.xcode'
-    prefs['PBXApplicationwideBuildSettings']['SYMROOT'] || './build'
+    # first check if there are any xcode prefs at all.
+    if prefs['PBXApplicationwideBuildSettings']
+      prefs['PBXApplicationwideBuildSettings']['SYMROOT'] || './build'
+    else
+      './build'
+    end
   end
   
   def build_root
