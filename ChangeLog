@@ -1,5 +1,14 @@
 2008-1-5 Eloy Duran <e.duran@superalloy.nl>
 
+	* TODO,
+	  lib/rucola/tasks/xcode.rake:
+
+	Added a rake xcode:frameworks:update task, which goes through
+	vendor/frameworks and adds any frameworks that aren't in the project
+	yet to it and also adds it to a copy build phase in one go.
+
+2008-1-5 Eloy Duran <e.duran@superalloy.nl>
+
 	* lib/rucola/xcode.rb,
 	  test/test_xcode.rb:
 

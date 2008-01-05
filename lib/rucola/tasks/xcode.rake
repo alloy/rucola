@@ -44,4 +44,25 @@ namespace :xcode do
     puts "Removing #{build_root}"
     FileUtils.rm_rf build_root
   end
+  
+  namespace :frameworks do
+    desc "Add any framework in vendor/frameworks which isn't in the project yet to the project and bundle it"
+    task :update do
+      if File.exist? 'vendor/frameworks'
+        project = Rucola::Xcode.new File.join(SOURCE_ROOT, "#{APPNAME}.xcodeproj")
+        framework_names = project.frameworks.map { |f| f.last['name'] }
+        changes = false
+        FileList['vendor/frameworks/*.framework'].each do |framework|
+          framework_name = File.basename(framework)
+          unless framework_names.include?(framework_name)
+            changes = true
+            puts "Adding #{framework_name} to project."
+            project.add_framework(framework_name, framework)
+            project.bundle_framework(framework_name)
+          end
+        end
+        project.save if changes
+      end
+    end
+  end
 end

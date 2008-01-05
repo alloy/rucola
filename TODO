@@ -1,3 +1,5 @@
+* Need to refactor the rc freeze tasks with the xcode:frameworks tasks.
+
 * Choose between Notifications #notify_on and #once.
 
 * add caching to notification name lookup
