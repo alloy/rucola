@@ -1,3 +1,16 @@
+2008-1-7 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  rucola_generators/simple_model,
+	  rucola_generators/simple_model/USAGE,
+	  rucola_generators/simple_model/simple_model_generator.rb,
+	  rucola_generators/simple_model/templates,
+	  rucola_generators/simple_model/templates/simple_model.rb.erb,
+	  rucola_generators/simple_model/templates/test_simple_model.rb.erb,
+	  test/test_simple_model_generator.rb:
+
+	Added a simple model generator, which is simply a subclass of NSObject.
+
 2008-1-5 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/tasks/xcode.rake:

@@ -79,6 +79,10 @@ rucola_generators/document_model/templates/test_document_model_template.rb.erb
 rucola_generators/rucola_plugin/USAGE
 rucola_generators/rucola_plugin/rucola_plugin_generator.rb
 rucola_generators/rucola_plugin/templates/init.rb.erb
+rucola_generators/simple_model/USAGE
+rucola_generators/simple_model/simple_model_generator.rb
+rucola_generators/simple_model/templates/simple_model.rb.erb
+rucola_generators/simple_model/templates/test_simple_model.rb.erb
 rucola_generators/window_controller/USAGE
 rucola_generators/window_controller/templates/Window.nib/classes.nib.erb
 rucola_generators/window_controller/templates/Window.nib/info.nib
@@ -114,6 +118,7 @@ test/test_rc_window_controller.rb
 test/test_rucola.rb
 test/test_rucola_generator.rb
 test/test_rucola_plugin_generator.rb
+test/test_simple_model_generator.rb
 test/test_window_controller_generator.rb
 test/test_xcode.rb
 website/index.html

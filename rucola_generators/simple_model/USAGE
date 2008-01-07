@@ -1,0 +1,5 @@
+Description:
+  Generates a model which is simply a subclass of OSX::NSObject.
+  
+Usage:
+  script/generate simple_model foo_bar
