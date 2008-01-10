@@ -13,6 +13,9 @@ class Autotest::Rucola < Autotest
       %r%^app/controllers/(.*)\.rb$% => proc { |_, m|
         ["test/controllers/test_#{m[1]}.rb"]
       },
+      %r%^lib/(.*).rb$% => proc { |_, m|
+        ["test/lib/test_#{m[1]}.rb"]
+      },
       %r%^test/.*\.rb$% => proc { |filename, _|
         filename 
       }
@@ -28,7 +31,7 @@ class Autotest::Rucola < Autotest
   # Convert the pathname s to the name of class.
   def path_to_classname(s)
     sep = File::SEPARATOR
-    f = s.sub(/^test#{sep}((models|controllers)#{sep})?/, '').sub(/\.rb$/, '').split(sep)
+    f = s.sub(/^test#{sep}((models|controllers|lib)#{sep})?/, '').sub(/\.rb$/, '').split(sep)
     f = f.map { |path| path.split(/_/).map { |seg| seg.capitalize }.join }
     f = f.map { |path| path.sub(/^Test/, '') }
     f.join('::')

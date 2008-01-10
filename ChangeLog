@@ -1,3 +1,13 @@
+2008-1-11 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/autotest/rucola.rb,
+	  lib/rucola/fsevents.rb,
+	  test/test_fsevents.rb,
+	  test/test_helper.rb,
+	  tmp:
+
+	Added a rubyesque wrapper around FSEvents.
+
 2008-1-7 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,
