@@ -92,7 +92,7 @@ end
 describe "Initializer's instance methods" do
   include StubConfigurationHelper
   
-  it "should start the Reloader if that's set in the config" do
+  it "should not start the Reloader if that's set in the config" do
     @config.use_reloader = false
     initializer = Rucola::Initializer.new(@config)
     
@@ -101,7 +101,7 @@ describe "Initializer's instance methods" do
     initializer.require_reloader
   end
   
-  it "should not start the Reloader if that's set in the config" do
+  it "should start the Reloader if that's set in the config" do
     @config.use_reloader = true
     initializer = Rucola::Initializer.new(@config)
     
