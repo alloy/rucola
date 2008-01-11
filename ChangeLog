@@ -1,5 +1,11 @@
 2008-1-11 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/reloader.rb:
+
+	Fixed some minor errors in the Reloader docs.
+
+2008-1-11 Eloy Duran <e.duran@superalloy.nl>
+
 	* test/test_initializer.rb:
 
 	Fixed some errors in the naming of the specs.
