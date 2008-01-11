@@ -54,6 +54,8 @@ lib/rucola/rucola_support/core_ext/objc.rb
 lib/rucola/rucola_support/core_ext/objc/nsimage.rb
 lib/rucola/rucola_support/core_ext/objc/nsobject.rb
 lib/rucola/rucola_support/core_ext/ruby.rb
+lib/rucola/rucola_support/core_ext/ruby/file.rb
+lib/rucola/rucola_support/core_ext/ruby/object.rb
 lib/rucola/rucola_support/core_ext/ruby/string.rb
 lib/rucola/rucola_support/initialize_hooks.rb
 lib/rucola/rucola_support/models.rb

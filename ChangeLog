@@ -1,6 +1,18 @@
 2008-1-11 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,
+	  lib/rucola/rucola_support/core_ext/ruby/file.rb,
+	  lib/rucola/rucola_support/core_ext/ruby/object.rb,
+	  lib/rucola/rucola_support/core_ext/ruby/string.rb,
+	  test/test_core_ext.rb:
+
+	Added to rucola support:
+	String#constantize, File.constantize(), Object.metaclass, Object.extended_class_methods,
+	Object.own_class_methods, Object.original_class_methods
+
+2008-1-11 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
 	  lib/autotest/rucola.rb:
 
 	Updated the manifest to include the fsevents lib.

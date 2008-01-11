@@ -18,4 +18,12 @@ class String
       end
     end
   end
+  
+  # Returns the constant that this string refers to.
+  #
+  #  "FooBar".constantize # => FooBar
+  #  "foo_bar".constantize # => FooBar
+  def constantize
+    Object.const_get(camel_case)
+  end
 end
