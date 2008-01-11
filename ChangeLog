@@ -1,6 +1,21 @@
 2008-1-11 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,
+	  app_generators/rucola/templates/config/environment.rb,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/reloader.rb,
+	  test/fixtures/some_reloadable_class.rb,
+	  test/test_initializer.rb,
+	  test/test_reloader.rb:
+
+	Added Rucola::Reloader, which uses Rucola::FSEvents to watch the app/controllers path for modifications
+	and undefines the instance & class methods and reloads the class.
+	In debug mode this will be enabled by default, you can override this setting on the `config` of Initializer.
+	So a good place would be environment.rb.
+
+2008-1-11 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
 	  lib/rucola/rucola_support/core_ext/ruby/file.rb,
 	  lib/rucola/rucola_support/core_ext/ruby/object.rb,
 	  lib/rucola/rucola_support/core_ext/ruby/string.rb,

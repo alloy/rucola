@@ -124,6 +124,7 @@ module Rucola
       require_frameworks
       require_lib_source_files
       require_ruby_source_files
+      require_reloader
       load_environment
       Rucola::Plugin.after_process(self)
     end
@@ -167,6 +168,14 @@ module Rucola
     def require_ruby_source_files
       Dir[RUBYCOCOA_ROOT + 'app/**/*.rb'].each do |f|
         require f
+      end
+    end
+    
+    # Loads the +Reloader+ lib if +use_reloader+ is set to +true+ on the +Configuration+.
+    def require_reloader
+      if configuration.use_reloader
+        Kernel.require 'rucola/reloader'
+        Rucola::Reloader.start!
       end
     end
     
@@ -226,12 +235,17 @@ module Rucola
     # all +models+, +config+, +controllers+ and +db+ paths are included in this list.
     attr_accessor :load_paths
     
+    # Defines wether or not you want to use the +Reloader+.
+    # In debug mode this defaults to +true+.
+    attr_accessor :use_reloader
+    
     def initialize
       set_root_path!
       set_application_support_path!
       
-      self.objc_frameworks              = []
-      self.load_paths                   = default_load_paths
+      self.objc_frameworks = []
+      self.load_paths      = default_load_paths
+      self.use_reloader    = (RUBYCOCOA_ENV == 'debug')
     end
     
     def set_root_path!
@@ -256,7 +270,7 @@ module Rucola
     def environment_path
       "#{root_path}/config/environments/#{environment}.rb"
     end
-        
+    
     private
       # Set the load paths, which specifies what directories should be copied over on release.
       # We can't use RUBYCOCOA_ROOT here because when building for release the .app file is the 
