@@ -1,5 +1,13 @@
 2008-1-11 Eloy Duran <e.duran@superalloy.nl>
 
+	* Manifest.txt,
+	  lib/autotest/rucola.rb:
+
+	Updated the manifest to include the fsevents lib.
+	Reverted the accidental commit of the rucola autotest file.
+
+2008-1-11 Eloy Duran <e.duran@superalloy.nl>
+
 	* lib/autotest/rucola.rb,
 	  lib/rucola/fsevents.rb,
 	  test/test_fsevents.rb,
