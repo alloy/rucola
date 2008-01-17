@@ -1,5 +1,3 @@
-.profile
-.rake_tasks
 ChangeLog
 History.txt
 License.txt
