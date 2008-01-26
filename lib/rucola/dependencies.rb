@@ -62,12 +62,16 @@ module Rucola
     class Dependency
       attr_reader :name, :version, :required_files
       
-      def initialize(name, version = nil)
+      def initialize(name, version = '>=0')
         @name, @version, @required_files = name, version, []
       end
       
       def require!
-        Gem.activate(@name, true, @version) unless @version.nil?
+        puts "Activating dependency: #{@name} #{@version unless @version == '>=0'}" if Dependencies.verbose
+        begin
+          Gem.activate(@name, true, @version)
+        rescue Gem::LoadError
+        end
         Kernel.require(@name)
       end
       
@@ -124,7 +128,7 @@ module Rucola
       @dependencies = []
     end
     
-    def dependency(name, version = nil)
+    def dependency(name, version = '>=0')
       @dependencies << Dependency.new(name, version)
     end
     

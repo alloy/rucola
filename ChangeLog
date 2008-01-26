@@ -1,5 +1,15 @@
 2008-1-26 Eloy Duran <e.duran@superalloy.nl>
 
+	* Manifest.txt,
+	  lib/rucola/dependencies.rb,
+	  lib/rucola/initializer.rb,
+	  test/test_initializer.rb:
+
+	Initializer will now look for config/dependencies.rb in RUBYCOCOA_ROOT.
+	(It will break if the file doesn't exist, not sure yet if we should warn.)
+
+2008-1-26 Eloy Duran <e.duran@superalloy.nl>
+
 	* Rakefile,
 	  lib/rucola/dependencies.rb,
 	  test/fixtures/dependencies,

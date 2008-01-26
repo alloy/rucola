@@ -122,3 +122,5 @@ describe "Configuration" do
     RUBYCOCOA_ENV = old_env
   end
 end
+
+# TODO: test dependencies.

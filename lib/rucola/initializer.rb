@@ -49,6 +49,7 @@ end
 
 # Environment initialization scheme ported/derived from Rails' Initializer.
 require 'erb' # FIXME: this should only be required if we're really gonna use erb (AR project)
+require 'rucola/dependencies'
 module Rucola
   # Rails-like Initializer responsible for processing configuration.
   class Initializer
@@ -103,6 +104,17 @@ module Rucola
       def start_app
         OSX.NSApplicationMain(0, nil) unless RUBYCOCOA_ENV == 'test' || ENV['DONT_START_RUBYCOCOA_APP']
       end
+      
+      # Typically called from config/dependencies.rb:
+      #
+      #  Rucola::Initializer.dependencies do
+      #    dependency 'activesupport'
+      #  end
+      def dependencies(&block)
+        dependencies = Rucola::Dependencies.new
+        dependencies.instance_eval(&block)
+        dependencies.require!
+      end
     end
     
     # Create an initializer instance that references the given 
@@ -121,12 +133,18 @@ module Rucola
       end
       
       require_rucola_support
+      require_dependencies
       require_frameworks
       require_lib_source_files
       require_ruby_source_files
       require_reloader
       load_environment
       Rucola::Plugin.after_process(self)
+    end
+    
+    # Requires all the dependencies specified in config/dependencies.rb
+    def require_dependencies
+      require RUBYCOCOA_ROOT + 'config/dependencies.rb'
     end
     
     # Requires all frameworks specified by the Configuration#objc_frameworks
