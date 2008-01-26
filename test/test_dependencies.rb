@@ -93,7 +93,7 @@ describe "Dependencies" do
   
   it "should be able to copy to the specified destination path" do
     @deps.copy_to(copied_deps_path)
-    %w{ foo.rb rubynode.rb }.each do |file|
+    %w{ foo.rb rubynode.rb fileutils.rb }.each do |file|
       File.exist?(copied_deps_path(file)).should.be true
     end
   end
