@@ -136,6 +136,11 @@ describe "FSEvent" do
     `touch #{@new_file}`
   end
 
+  after do
+    `rm #{@old_file}`
+    `rm #{@new_file}`
+  end
+  
   it "should return an array of file entries in the path that the event occurred in, sorted by modification time (first element = last mod.)" do
     Rucola::FSEvents::FSEvent.new(nil, 666, @tmp_path).files.should == [@new_file, @old_file]
   end

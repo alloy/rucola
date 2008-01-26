@@ -1,3 +1,21 @@
+2008-1-26 Eloy Duran <e.duran@superalloy.nl>
+
+	* Rakefile,
+	  lib/rucola/dependencies.rb,
+	  test/fixtures/dependencies,
+	  test/fixtures/dependencies/foo,
+	  test/fixtures/dependencies/foo.rb,
+	  test/fixtures/dependencies/foo/bar.rb,
+	  test/fixtures/dependencies/foo/baz.rb,
+	  test/test_dependencies.rb,
+	  test/test_fsevents.rb,
+	  test/test_helper.rb:
+
+	- Added a Dependencies class which can resolve the dependencies that are specified with #dependency().
+	  TODO: It hasn't been integrated with Initializer yet and there are no docs.
+	- test_fsevents.rb will now cleanup after itself
+	- Set '$VERBOSE = nil' in test_helper.rb so that we don't get flooded by constants being redefined.
+
 2008-1-11 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/reloader.rb:

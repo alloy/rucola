@@ -18,7 +18,8 @@ remove_task :test
 
 Rake::TestTask.new do |t|
   t.test_files = FileList['test/test_*.rb']
-  t.options = '-rr'
+  t.verbose = true
+  #t.options = '-rr'
 end
 
 # desc 'First uninstalls the currently installed Rucola gem and then installs the new one.'
