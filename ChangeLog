@@ -1,3 +1,13 @@
+2008-1-30 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  lib/rucola/dependencies.rb,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/tasks/dependencies.rake:
+
+	- Initializer will no longer break when config/dependencies.rb doesn't exist, but warn instead.
+	- Added a rake task dependencies:list which lists the dependencies and their required files.
+
 2008-1-26 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,

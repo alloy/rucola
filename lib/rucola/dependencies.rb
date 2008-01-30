@@ -118,7 +118,26 @@ module Rucola
         @@verbose
       end
       def verbose=(value)
+        if value
+          $VERBOSE = true
+        else
+          $VERBOSE = nil
+        end
         @@verbose = value
+      end
+      
+      # Loads dependencies from a file which uses 'Rucola::Dependencies.run do ... end' to define dependencies.
+      def load(dependencies_file)
+        require dependencies_file
+        instance
+      end
+      
+      def run(&block)
+        instance.instance_eval(&block)
+      end
+      
+      def instance
+        @instance ||= new
       end
     end
     
@@ -136,7 +155,7 @@ module Rucola
       @dependencies.each {|dep| dep.require! }
     end
     
-    def resolve!()
+    def resolve!
       @dependencies.each {|dep| dep.resolve! }
     end
     
@@ -151,5 +170,17 @@ module Rucola
         @dependencies.each {|dep| dep.copy_to(path) }
       end
     end
+    
+    # Returns a string with a formatted representation of all the dependencies and their require files.
+    def list
+      resolve!
+      str = ''
+      @dependencies.each do |dep|
+        str += "\nDependency '#{dep.name} (#{dep.version})' requires the following files:\n\n"
+        dep.required_files.sort_by {|f| f.full_path }.each { |file| str += "  #{file.full_path}\n" }
+      end
+      str
+    end
+    
   end
 end
