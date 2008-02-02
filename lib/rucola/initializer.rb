@@ -214,7 +214,7 @@ module Rucola
     
     # Set the paths from which your application will automatically load source files.
     def set_load_path
-      load_paths = configuration.load_paths
+      load_paths = configuration.load_paths || [] # TODO: from script/console the configuration isn't ran.
       load_paths.reverse_each { |dir| $LOAD_PATH.unshift(dir) if File.directory?(dir) } unless RUBYCOCOA_ENV == 'test' # FIXME: why??
       $LOAD_PATH.uniq!
     end

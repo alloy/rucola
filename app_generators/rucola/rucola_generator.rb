@@ -58,18 +58,22 @@ class RucolaGenerator < RubiGen::Base
       # test
       m.file                "test/test_helper.rb", "test/test_helper.rb"
       m.file                "test/controllers/test_application_controller.rb", "test/controllers/test_application_controller.rb"
-
-      plugin = 'script/plugin'
-      logger.create plugin
-      FileUtils.mkdir_p File.dirname(destination_path(plugin))
-      FileUtils.copy(source_path(plugin), destination_path(plugin))
-      File.chmod(0755, destination_path(plugin))
-
+      
+      copy_and_make_executable('script/plugin')
+      copy_and_make_executable('script/console')
+      
       m.dependency "install_rubigen_scripts", [destination_root, "rucola"], 
         :shebang => options[:shebang], :collision => :force
     end
   end
 
+  def copy_and_make_executable(file)
+    logger.create file
+    FileUtils.mkdir_p File.dirname(destination_path(file))
+    FileUtils.copy(source_path(file), destination_path(file))
+    File.chmod(0755, destination_path(file))
+  end
+  
   protected
     def banner
       <<-EOS

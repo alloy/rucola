@@ -75,7 +75,9 @@ class TestRucolaGenerator < Test::Unit::TestCase
     assert_generated_file   "test/controllers/test_application_controller.rb"
     
     assert_directory_exists "script"
+    assert_generated_file   "script/console"
     assert_generated_file   "script/plugin"
+    assert `ls -l #{File.expand_path('../tmp/myproject/script/console', __FILE__)}`[0..9] == '-rwxr-xr-x'
     assert `ls -l #{File.expand_path('../tmp/myproject/script/plugin', __FILE__)}`[0..9] == '-rwxr-xr-x'
   end
   

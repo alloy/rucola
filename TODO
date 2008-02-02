@@ -1,3 +1,5 @@
+* From script/console the configuration isn't ran.
+
 * The activesupport gem messes up the require stuff in dependencies.rb.
 
 * Move MainMenu.nib to app/views

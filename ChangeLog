@@ -1,5 +1,17 @@
 2008-2-2 Eloy Duran <e.duran@superalloy.nl>
 
+	* Manifest.txt,
+	  TODO,
+	  app_generators/rucola/rucola_generator.rb,
+	  app_generators/rucola/templates/script/console,
+	  lib/rucola/initializer.rb,
+	  test/test_rucola_generator.rb:
+
+	Added a script/console script which will run a irb console with the application loaded.
+	From Jelle Helsen (http://www.hcode.be/wordpress/2008/01/29/simple-rucola-console-script/).
+
+2008-2-2 Eloy Duran <e.duran@superalloy.nl>
+
 	* lib/rucola/dependencies.rb,
 	  lib/rucola/tasks/dependencies.rake,
 	  lib/rucola/tasks/main.rake,
