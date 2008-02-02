@@ -1,5 +1,16 @@
 2008-2-2 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/dependencies.rb,
+	  lib/rucola/tasks/dependencies.rake,
+	  lib/rucola/tasks/main.rake,
+	  test/test_dependencies.rb:
+
+	- Added a "dependencies:copy" rake task, which copies he required files to 'vendor/third_party/'.
+	  As with the "dependencies:list" task, the env var FILE_TYPES can be used to filter.
+	- Some more refactoring.
+
+2008-2-2 Eloy Duran <e.duran@superalloy.nl>
+
 	* Manifest.txt,
 	  TODO,
 	  lib/rucola/dependencies.rb,

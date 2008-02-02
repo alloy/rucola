@@ -104,7 +104,7 @@ describe "Dependencies::Dependency" do
     files = []
     keys.each do |type|
       file = mock(type.to_s)
-      file.stubs({ :gem_lib? => false, :standard_lib? => false, :other_lib? => false }.merge({ "#{type}_lib?".to_sym => true }))
+      file.stubs({ :full_path => '/some/path', :gem_lib? => false, :standard_lib? => false, :other_lib? => false }.merge({ "#{type}_lib?".to_sym => true }))
       if types.include?(type)
         file.expects(:copy_to).times(1).with(copied_deps_path)
       else

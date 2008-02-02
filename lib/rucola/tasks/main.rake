@@ -24,7 +24,7 @@ Dir[(ENV['RUBYCOCOA_ROOT'] + '/vendor/plugins/*/tasks/*.rake').to_s].each { |r| 
 task :default => 'xcode:build'
 
 desc 'Runs all the clean tasks'
-task :clean => 'xcode:clean'
+task :clean => ['xcode:clean', 'dependencies:clean']
 
 Rake::TestTask.new do |t|
   t.test_files = FileList['test/*/test_*.rb']

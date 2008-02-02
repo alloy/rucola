@@ -23,12 +23,12 @@ module Rucola
       
       def copy_to(path)
         dest_dir = File.join(path, File.dirname(@relative_path))
-        dest_path = File.join(dest_dir, File.basename(@relative_path))
+        dest_path = File.expand_path(File.join(dest_dir, File.basename(@relative_path)))
         return if File.exist?(dest_path)
         
         FileUtils.mkdir_p(dest_dir) unless File.exist?(dest_dir)
         
-        puts "Copying '#{@full_path}' to '#{dest_path}'" if Dependencies.verbose
+        puts "  #{@full_path}" if Dependencies.verbose
         FileUtils.cp(@full_path, dest_dir)
       end
       
@@ -64,7 +64,7 @@ module Rucola
     end
     
     class Dependency
-      attr_reader :name, :version, :required_files
+      attr_reader :name, :version
       
       def initialize(name, version = '>=0')
         @name, @version, @required_files = name, version, []
@@ -98,15 +98,25 @@ module Rucola
       end
       
       def copy_to(path, options = {})
+        puts "\nCopying dependency '#{pretty_print_name}':\n\n" if Dependencies.verbose
         required_files_of_types(options[:types]).each {|file| file.copy_to(path) }
+      end
+      
+      # Returns an array of required files sorted by their full_path.
+      def required_files
+        @required_files.sort_by {|f| f.full_path }
       end
       
       def required_files_of_types(*types)
         sorted_types = types.flatten.compact
-        return @required_files if sorted_types.empty?
-        @required_files.select do |file|
+        return required_files if sorted_types.empty?
+        required_files.select do |file|
           sorted_types.any? {|type| file.send "#{type}_lib?" }
         end
+      end
+      
+      def pretty_print_name
+        "#{@name}#{' (' + @version + ')' unless @version == '>=0'}"
       end
       
       private

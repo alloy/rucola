@@ -2,6 +2,8 @@
 
 * Move MainMenu.nib to app/views
 
+* The fsevents test "should run the user specified block when one of the paths that was specified is modified", sometimes randomly fails.
+
 * Need to refactor the rc freeze tasks with the xcode:frameworks tasks.
 
 * Choose between Notifications #notify_on and #once.
