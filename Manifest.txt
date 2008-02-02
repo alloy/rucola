@@ -108,6 +108,7 @@ test/fixtures/MainMenu.nib/keyedobjects.nib
 test/fixtures/dependencies/foo.rb
 test/fixtures/dependencies/foo/bar.rb
 test/fixtures/dependencies/foo/baz.rb
+test/fixtures/dependencies/requires_fileutils.rb
 test/fixtures/some_reloadable_class.rb
 test/test_controller_generator.rb
 test/test_core_ext.rb

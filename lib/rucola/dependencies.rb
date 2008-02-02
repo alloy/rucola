@@ -6,7 +6,7 @@ module Rucola
       attr_reader :relative_path, :full_path
       
       def initialize(relative_path)
-        resolve_relative_and_full_path(relative_path)
+        @relative_path, @full_path = resolve_relative_and_full_path(relative_path)
       end
       
       def gem_lib?
@@ -32,12 +32,16 @@ module Rucola
         FileUtils.cp(@full_path, dest_dir)
       end
       
+      def ==(other)
+        @full_path == other.full_path
+      end
+      
       private
       
       # If the `relative_path` doesn't start with a slash then we only need to find the `full_path`,
       # otherwise we also need to get the `relative_path`.
       def resolve_relative_and_full_path(relative_path)
-        @relative_path, @full_path = (relative_path =~ /^\// ? find_relative_and_full_path(relative_path) : [relative_path, find_full_path(relative_path)])
+        relative_path =~ /^\// ? find_relative_and_full_path(relative_path) : [relative_path, find_full_path(relative_path)]
       end
       
       def find_full_path(relative_path)
@@ -67,7 +71,6 @@ module Rucola
       end
       
       def require!
-        puts "Activating dependency: #{@name} #{@version unless @version == '>=0'}" if Dependencies.verbose
         begin
           Gem.activate(@name, true, @version)
         rescue Gem::LoadError
@@ -94,8 +97,16 @@ module Rucola
         @required_files.first.other_lib?
       end
       
-      def copy_to(path)
-        @required_files.each {|file| file.copy_to(path) }
+      def copy_to(path, options = {})
+        required_files_of_types(options[:types]).each {|file| file.copy_to(path) }
+      end
+      
+      def required_files_of_types(*types)
+        sorted_types = types.flatten.compact
+        return @required_files if sorted_types.empty?
+        @required_files.select do |file|
+          sorted_types.any? {|type| file.send "#{type}_lib?" }
+        end
       end
       
       private
@@ -159,28 +170,18 @@ module Rucola
       @dependencies.each {|dep| dep.resolve! }
     end
     
+    # Requires an array of all the required files with any duplicates removed.
+    # TODO: Check if using this will save a lot of time while copying,
+    # because atm files might be copied multiple times.
+    def required_files(*types)
+      files = @dependencies.collect {|dep| dep.required_files_of_types(types) }.flatten
+      unique_files = []
+      files.each { |file| unique_files << file unless unique_files.include?(file) }
+      unique_files
+    end
+    
     def copy_to(path, options = {})
-      if options[:types]
-        @dependencies.each do |dep|
-          if options[:types].any? {|type| dep.send "#{type}_lib?" }
-            dep.copy_to(path)
-          end
-        end
-      else
-        @dependencies.each {|dep| dep.copy_to(path) }
-      end
+      @dependencies.each {|dep| dep.copy_to(path, options) }
     end
-    
-    # Returns a string with a formatted representation of all the dependencies and their require files.
-    def list
-      resolve!
-      str = ''
-      @dependencies.each do |dep|
-        str += "\nDependency '#{dep.name} (#{dep.version})' requires the following files:\n\n"
-        dep.required_files.sort_by {|f| f.full_path }.each { |file| str += "  #{file.full_path}\n" }
-      end
-      str
-    end
-    
   end
 end

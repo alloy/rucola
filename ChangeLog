@@ -1,3 +1,18 @@
+2008-2-2 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  TODO,
+	  lib/rucola/dependencies.rb,
+	  lib/rucola/tasks/dependencies.rake,
+	  test/fixtures/dependencies/requires_fileutils.rb,
+	  test/test_dependencies.rb:
+
+	- Refactored a lot of dependencies code.
+	- The 'dependencies:list' rake task now checks for file types with the env var FILE_TYPES.
+	  If you only want to list for instance the gem and standard lib files that it requires,
+	  you would use "rake dependencies:list FILE_TYPES='gem, standard'".
+	  All types options are: gem, standard, other (outside of any of the other dirs.)
+
 2008-1-30 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,

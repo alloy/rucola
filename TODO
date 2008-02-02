@@ -1,3 +1,7 @@
+* The activesupport gem messes up the require stuff in dependencies.rb.
+
+* Move MainMenu.nib to app/views
+
 * Need to refactor the rc freeze tasks with the xcode:frameworks tasks.
 
 * Choose between Notifications #notify_on and #once.

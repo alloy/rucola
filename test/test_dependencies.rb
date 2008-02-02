@@ -23,6 +23,12 @@ module DependenciesSpecHelper
   def copied_deps_path(file = '')
     File.join(TMP_PATH, 'copied_dependencies', file)
   end
+  
+  def stubbed_equal_required_files
+    klass = Rucola::Dependencies::RequiredFile
+    klass.any_instance.stubs(:resolve_relative_and_full_path).returns(['path/foo.rb', '/full/path/foo.rb'])
+    [klass.new(''), klass.new('')]
+  end
 end
 
 describe "Dependencies::Dependency" do
@@ -63,6 +69,51 @@ describe "Dependencies::Dependency" do
       File.exist?(copied_deps_path(file)).should.be true
     end
   end
+  
+  it "should be possible to only copy `gem` lib files" do
+    should_copy_types(:gem)
+    @dep.copy_to(copied_deps_path, :types => [:gem])
+  end
+  
+  it "should be possible to only copy `standard` lib files" do
+    should_copy_types(:standard)
+    @dep.copy_to(copied_deps_path, :types => [:standard])
+  end
+  
+  it "should be possible to only copy `gem` libs" do
+    should_copy_types(:other)
+    @dep.copy_to(copied_deps_path, :types => [:other])
+  end
+  
+  it "should be possible to combine the types of libs to be copied" do
+    should_copy_types(:other, :gem)
+    @dep.copy_to(copied_deps_path, :types => [:other, :gem])
+  end
+  
+  it "should be possible to get a list of required files of only certain types" do
+    dep = Rucola::Dependencies::Dependency.new('requires_fileutils')
+    dep.resolve!
+    dep.required_files_of_types(:other).all? {|f| f.should.be.other_lib }
+    dep.required_files_of_types(:standard).all? {|f| f.should.be.standard_lib }
+  end
+  
+  private
+  
+  def should_copy_types(*types)
+    keys = [:gem, :other, :standard]
+    files = []
+    keys.each do |type|
+      file = mock(type.to_s)
+      file.stubs({ :gem_lib? => false, :standard_lib? => false, :other_lib? => false }.merge({ "#{type}_lib?".to_sym => true }))
+      if types.include?(type)
+        file.expects(:copy_to).times(1).with(copied_deps_path)
+      else
+        file.expects(:copy_to).times(0)
+      end
+      files << file
+    end
+    @dep.instance_variable_set(:@required_files, files)
+  end
 end
 
 describe "Dependencies" do
@@ -98,31 +149,26 @@ describe "Dependencies" do
     end
   end
   
-  it "should be possible to only copy `gem` libs" do
-    deps_that_expect_copy(:gem)
-    @deps.copy_to(copied_deps_path, :types => [:gem])
+  it "should be possible to only copy specific types of files" do
+    @deps.dependencies.each do |dep|
+      dep.expects(:copy_to).with(copied_deps_path, { :types => [:gem, :other]})
+    end
+    @deps.copy_to(copied_deps_path, :types => [:gem, :other])
   end
   
-  it "should be possible to only copy `standard` libs" do
-    deps_that_expect_copy(:standard)
-    @deps.copy_to(copied_deps_path, :types => [:standard])
+  it "should be able to return a complete list of unique required files" do
+    files = stubbed_equal_required_files
+    @deps.dependencies.stubs(:collect).returns([[files.first], [files.last]])
+    
+    @deps.required_files.length.should.be 1
   end
+end
+
+describe "Dependencies::Dependency::RequiredFile" do
+  include DependenciesSpecHelper
   
-  it "should be possible to only copy `other` libs" do
-    deps_that_expect_copy(:other)
-    @deps.copy_to(copied_deps_path, :types => [:other])
-  end
-  
-  it "should be possible to combine the types of libs to be copied" do
-    deps_that_expect_copy(:other, :gem)
-    @deps.copy_to(copied_deps_path, :types => [:other, :gem])
-  end
-  
-  private
-  
-  def deps_that_expect_copy(*keys)
-    types = {:other => 0, :gem => 1, :standard => 2}
-    keys.each { |key| @deps.dependencies[types[key]].expects(:copy_to).times(1) }
-    (types.keys - keys).each { |key| @deps.dependencies[types[key]].expects(:copy_to).times(0) }
+  it "should be able to compare to another instance" do
+    files = stubbed_equal_required_files
+    files.first.should == files.last
   end
 end
