@@ -53,6 +53,7 @@ class TestRucolaGenerator < Test::Unit::TestCase
     
     assert_generated_file   "app/controllers/application_controller.rb"
     assert_generated_file   "config/boot.rb"
+    assert_generated_file   "config/dependencies.rb"
     assert_generated_file   "config/environment.rb"
     assert_generated_file   "config/environments/debug.rb"
     assert_generated_file   "config/environments/release.rb"

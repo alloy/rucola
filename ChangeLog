@@ -1,3 +1,16 @@
+2008-2-8 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  app_generators/rucola/rucola_generator.rb,
+	  app_generators/rucola/templates/config/dependencies.rb,
+	  lib/rucola/reloader.rb,
+	  lib/rucola/tasks/main.rake,
+	  test/test_rucola_generator.rb:
+
+	- Added 'config/dependencies.rb' to the app generator.
+	- Added a 'update' rake task, which will simply run the rucola generator again so you can add/update files that were added in a new version of Rucola.
+	- Reloader will now also watch the model files and do a syntax check of the file before loading it and warn if loading a file would have caused a SyntaxError.
+
 2008-2-2 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,

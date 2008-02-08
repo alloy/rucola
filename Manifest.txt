@@ -12,6 +12,7 @@ app_generators/rucola/templates/Rakefile.erb.old
 app_generators/rucola/templates/app/controllers/application_controller.rb
 app_generators/rucola/templates/config/Info.plist.erb
 app_generators/rucola/templates/config/boot.rb
+app_generators/rucola/templates/config/dependencies.rb
 app_generators/rucola/templates/config/environment.rb
 app_generators/rucola/templates/config/environments/debug.rb
 app_generators/rucola/templates/config/environments/release.rb

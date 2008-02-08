@@ -31,3 +31,8 @@ Rake::TestTask.new do |t|
   t.options = '-rr'
   t.verbose = true
 end
+
+desc 'Update any missing/changed files, if you updated from an earlier version of Rucola.1'
+task :update do
+  sh "cd .. && rucola #{File.basename(SOURCE_ROOT)}"
+end

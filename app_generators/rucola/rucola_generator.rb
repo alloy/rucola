@@ -37,7 +37,7 @@ class RucolaGenerator < RubiGen::Base
       m.template            "Rakefile.erb",  "Rakefile"
       
       m.file                "app/controllers/application_controller.rb", "app/controllers/application_controller.rb"
-      m.file_copy_each      %w[boot.rb environment.rb ib_external_class_defs.yml], "config"
+      m.file_copy_each      %w[boot.rb dependencies.rb environment.rb ib_external_class_defs.yml], "config"
       m.template            "config/Info.plist.erb", "config/Info.plist"
       m.symlink             "config/Info.plist", "Info.plist"
       
