@@ -1,6 +1,7 @@
 require 'config/requirements'
 require 'config/hoe' # setup Hoe + all gem configuration
 require 'rake/testtask'
+require 'rake/rdoctask'
 
 Rake::TaskManager.class_eval do
   def remove_task(task_name)
@@ -20,6 +21,12 @@ Rake::TestTask.new do |t|
   t.test_files = FileList['test/test_*.rb']
   t.verbose = true
   #t.options = '-rr'
+end
+
+Rake::RDocTask.new do |t|
+  t.main = 'README.txt'
+  t.rdoc_files.include('README.txt', 'License.txt', 'lib/**/*.rb')
+  t.options << '--charset' << 'utf-8' << '--inline-source'
 end
 
 # desc 'First uninstalls the currently installed Rucola gem and then installs the new one.'
