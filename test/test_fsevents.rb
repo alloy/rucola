@@ -41,6 +41,15 @@ describe "FSEvents initialization" do
     result.should.be(fsevents)
   end
   
+  it "should accept options to tweak event parameters" do
+    fsevents = Rucola::FSEvents.new(@paths,
+      :latency => 5.2,
+      :since => 24051980
+    ) { |events| 'nothing' }
+    fsevents.since.should.be 24051980
+    fsevents.latency.should == 5.2
+  end
+  
   # it "should also take an optional options hash" do
   #   options = {:allocator => 'allocator', :context => 'context', :since => 12345, :latency => 2.5, :flags => 1}
   #   fsevents = Rucola::FSEvents.new(File.dirname(__FILE__), options) { |events| 'nothing' }

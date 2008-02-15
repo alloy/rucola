@@ -55,17 +55,25 @@ module Rucola
     end
     
     # Creates a new FSEvents `watchdog` object.
-    # Pass it an array of paths and a block with your callback.
-    def initialize(paths, &block)
+    # Pass it an array of paths and a block with your callback. Options allow you to specify in more detail how
+    # the events watcher should behave.
+    #
+    # *:since: The service will report events that have happened after the supplied event ID. Never use 0 because that 
+    #   will cause every fsevent since the "beginning of time" to be reported. Use OSX::KFSEventStreamEventIdSinceNow
+    #   if you want to receive events that have happened after this call. (Default: OSX::KFSEventStreamEventIdSinceNow).
+    # *:latency: Number of seconds to wait until an FSEvent is reported, this allows the service to bundle events. (Default: 0.0)
+    #
+    # For the rest of the options read the Cocoa documentation.
+    def initialize(paths, options={}, &block)
       raise ArgumentError, 'No callback block was specified.' unless block_given?
       paths.each { |path| raise ArgumentError, "The specified path (#{path}) does not exist." unless File.exist?(path) }
       
-      @allocator = OSX::KCFAllocatorDefault
-      @context   = nil
-      @since     = OSX::KFSEventStreamEventIdSinceNow
-      @latency   = 0.0
-      @flags     = 0
-      @stream    = nil
+      @allocator = options[:allocator] || OSX::KCFAllocatorDefault
+      @context   = options[:context]   || nil
+      @since     = options[:since]     || OSX::KFSEventStreamEventIdSinceNow
+      @latency   = options[:latency]   || 0.0
+      @flags     = options[:flags]     || 0
+      @stream    = options[:stream]    || nil
       
       @paths = paths
       @user_callback = block

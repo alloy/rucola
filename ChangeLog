@@ -1,12 +1,20 @@
 2008-2-15 Manfred Stienstra <manfred@fngtps.com>
 
+	* ChangeLog,
+	  lib/rucola/fsevents.rb,
+	  test/test_fsevents.rb:
+
+	- Accept options hash in Rucola::FSEvents#new to set configuration of the event listener.
+
+2008-2-15 Manfred Stienstra <manfred@fngtps.com>
+
 	* lib/rucola/fsevents.rb,
 	  test/test_dependencies.rb,
 	  test/test_reloader.rb:
 
 	- Made tests green.
 
-2008-2-14 Manfred Stienstra <manfred@fngtps.com>
+2008-2-15 Manfred Stienstra <manfred@fngtps.com>
 
 	* Rakefile:
 
