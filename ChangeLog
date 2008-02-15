@@ -1,3 +1,9 @@
+2008-2-15 Eloy Duran <e.duran@superalloy.nl>
+
+	* test/test_fsevents.rb:
+
+	Removed redundant, and unused, test.
+
 2008-2-15 Manfred Stienstra <manfred@fngtps.com>
 
 	* ChangeLog,

@@ -49,15 +49,6 @@ describe "FSEvents initialization" do
     fsevents.since.should.be 24051980
     fsevents.latency.should == 5.2
   end
-  
-  # it "should also take an optional options hash" do
-  #   options = {:allocator => 'allocator', :context => 'context', :since => 12345, :latency => 2.5, :flags => 1}
-  #   fsevents = Rucola::FSEvents.new(File.dirname(__FILE__), options) { |events| 'nothing' }
-  #   
-  #   options.keys.each do |mname|
-  #     fsevents.send(mname).should == options[mname]
-  #   end
-  # end
 end
 
 describe "FSEvents when setting up the stream" do
