@@ -122,7 +122,7 @@ describe "Dependencies" do
   before do
     @deps = Rucola::Dependencies.new
     @deps.dependency 'foo'
-    @deps.dependency 'rubynode', '0.1.3'
+    @deps.dependency 'rubynode', '>=0.1.3'
     @deps.dependency 'fileutils'
     @deps.resolve!
   end

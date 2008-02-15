@@ -21,7 +21,7 @@ describe "Reloader" do
     file = '/some/path/some_controller.rb'
     event = mock('FSEvent')
     event.expects(:last_modified_file).returns(file)
-    Rucola::FSEvents.expects(:start_watching).with(Rucola::RCApp.controllers_path).yields([event])
+    Rucola::FSEvents.expects(:start_watching).with(Rucola::RCApp.controllers_path, Rucola::RCApp.models_path).yields([event])
     Rucola::Reloader.expects(:reload).with(file)
     Rucola::Reloader.start!
   end
