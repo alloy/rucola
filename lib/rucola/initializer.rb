@@ -80,8 +80,9 @@ module Rucola
         root = plugins_root
         if root.exist?
           root.children.each do |plugin|
-            next unless plugin.directory?
-            Kernel.require plugin + 'init.rb'
+            init_rb = plugin + 'init.rb'
+            next unless init_rb.exist?
+            Kernel.require init_rb
           end
         end
       end

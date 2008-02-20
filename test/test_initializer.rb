@@ -20,15 +20,17 @@ describe "Initializer's Class methods" do
     Rucola::Initializer.expects(:plugins_root).returns(plugin_root_mock)
     plugin_root_mock.expects(:exist?).returns(true)
     
-    dir_mock, file_mock = mock('Dir'), mock('File')
-    plugin_root_mock.expects(:children).returns([file_mock, dir_mock])
+    dir_with_initrb_mock, dir_without_initrb_mock = mock('Dir'), mock('Dir without init.irb')
+    plugin_root_mock.expects(:children).returns([dir_with_initrb_mock, dir_without_initrb_mock])
     
-    file_mock.expects(:directory?).returns(false)
-    dir_mock.expects(:directory?).returns(true)
+    initrb_for_dir_with_initrb_mock = mock('init.rb does exist')
+    dir_with_initrb_mock.expects(:+).with('init.rb').returns(initrb_for_dir_with_initrb_mock)
+    initrb_for_dir_with_initrb_mock.expects(:exist?).returns(true)
+    Kernel.expects(:require).with(initrb_for_dir_with_initrb_mock)
     
-    init_rb_path = '/MyApp/vendor/plugins/Foo/init.rb'
-    dir_mock.expects(:+).with('init.rb').returns(init_rb_path)
-    Kernel.expects(:require).with(init_rb_path)
+    initrb_for_dir_without_initrb_mock = mock('init.rb does not exist')
+    dir_without_initrb_mock.expects(:+).with('init.rb').returns(initrb_for_dir_without_initrb_mock)
+    initrb_for_dir_without_initrb_mock.expects(:exist?).returns(false)
     
     Rucola::Initializer.load_plugins
   end

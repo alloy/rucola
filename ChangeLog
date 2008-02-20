@@ -1,3 +1,11 @@
+2008-2-20 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/rucola/initializer.rb,
+	  test/test_initializer.rb:
+
+	Fixed bug when directories in vendor/plugins exist that don't have a init.rb file.
+	Reported by Jelle Helsen.
+
 2008-2-15 Eloy Duran <e.duran@superalloy.nl>
 
 	* test/test_fsevents.rb:
