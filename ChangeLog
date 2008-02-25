@@ -1,3 +1,10 @@
+2008-2-25 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/rucola/rucola_support/core_ext/objc/nsimage.rb,
+	  test/test_objc_core_ext.rb:
+
+	Also find images in app/assets with extension.
+
 2008-2-20 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/initializer.rb,

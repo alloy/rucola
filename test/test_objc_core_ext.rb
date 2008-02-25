@@ -37,12 +37,20 @@ describe "NSObject default mixins" do
 end
 
 describe "NSImage.imageNamed" do
-  it "should also find images in app/assets" do
-    image1 = File.join(Rucola::RCApp.assets_path, 'hot_babe.jpg')
-    image2 = File.join(Rucola::RCApp.assets_path, 'not_so_hot_babe.png')
-    Dir.expects(:glob).with("#{Rucola::RCApp.assets_path}/*.*").returns(['.', '..', image2, image1])
-    OSX::NSImage.any_instance.expects(:initWithContentsOfFile).with(image1)
+  before do
+    @image1 = File.join(Rucola::RCApp.assets_path, 'hot_babe.jpg')
+    @image2 = File.join(Rucola::RCApp.assets_path, 'not_so_hot_babe.png')
+    Dir.stubs(:glob).with("#{Rucola::RCApp.assets_path}/*.*").returns(['.', '..', @image2, @image1])
+  end
+  
+  it "should find images without in app/assets" do
+    OSX::NSImage.any_instance.expects(:initWithContentsOfFile).with(@image1)
     OSX::NSImage.imageNamed('hot_babe')
+  end
+  
+  it "should find images with extension in app/assets" do
+    OSX::NSImage.any_instance.expects(:initWithContentsOfFile).with(@image2)
+    OSX::NSImage.imageNamed('not_so_hot_babe.png')
   end
   
   it "should pass any unfound image name on to the original implementation" do

@@ -12,7 +12,7 @@ class OSX::NSImage
         end
       end
     
-      if image_file = @assets_files[name.to_s]
+      if image_file = (@assets_files[name.to_s] || @assets_files[name.to_s.gsub(/\..*/, '')])
         alloc.initWithContentsOfFile image_file
       else
         super_imageNamed(name)
