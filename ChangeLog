@@ -1,3 +1,9 @@
+2008-3-7 Eloy Duran <e.duran@superalloy.nl>
+
+	* app_generators/rucola/templates/project.pbxproj.erb:
+
+	Add lib/ to the xcode project template.
+
 2008-2-25 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/rucola_support/core_ext/objc/nsimage.rb,
