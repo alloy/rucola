@@ -172,3 +172,28 @@ describe "Dependencies::Dependency::RequiredFile" do
     files.first.should == files.last
   end
 end
+
+describe "Dependencies, with problematic dependencies" do
+  before do
+    @deps = Rucola::Dependencies.new
+  end
+  
+  # FIXME: resolving activesupport works, but combined with stubbing resolve_relative_and_full_path it breaks...
+  xit "should not break with activesupport" do
+    @deps.dependency 'activesupport'
+    @deps.resolve!
+    @deps.dependencies.first.required_files.should.not.be.empty
+  end
+  
+  it "should not break with osx/cocoa (excluded)" do
+    @deps.dependency 'osx/cocoa'
+    @deps.resolve!
+    @deps.dependencies.first.required_files.should.be.empty
+  end
+  
+  it "should not break with osx/foundation (excluded)" do
+    @deps.dependency 'osx/foundation'
+    @deps.resolve!
+    @deps.dependencies.first.required_files.should.be.empty
+  end
+end

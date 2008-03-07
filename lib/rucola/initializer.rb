@@ -1,9 +1,6 @@
 require 'osx/cocoa'
 require 'pathname'
 
-require 'rucola/rucola_support/rc_app'
-require 'rucola/plugin'
-
 unless ENV['RUBYCOCOA_ENV'].nil?
   RUBYCOCOA_ENV = ENV['RUBYCOCOA_ENV']
 else
@@ -19,9 +16,6 @@ else
   end
 end
 
-# The env has been set, so we can load the debugger lib.
-require 'rucola/ruby_debug'
-
 unless ENV['RUBYCOCOA_ROOT'].nil?
   # rake will set the RUBYCOCOA_ROOT for debugging purpose
   RUBYCOCOA_ROOT = Pathname.new(ENV['RUBYCOCOA_ROOT'])
@@ -36,7 +30,7 @@ else
     end
 end
 
-$:.unshift(RUBYCOCOA_ROOT)
+$:.unshift(RUBYCOCOA_ROOT.to_s)
 
 module Rucola
   # Are we building and running or just running this application by clicking on 
@@ -47,8 +41,12 @@ module Rucola
 end
 
 
-# Environment initialization scheme ported/derived from Rails' Initializer.
+# we need to require everything that would be needed by a standalone application
 require 'erb' # FIXME: this should only be required if we're really gonna use erb (AR project)
+require 'rucola/rucola_support'
+require 'rucola/plugin'
+require 'rucola/ruby_debug'
+
 module Rucola
   # Rails-like Initializer responsible for processing configuration.
   class Initializer
@@ -121,7 +119,6 @@ module Rucola
         copy_load_paths_for_release
       end
       
-      require_rucola_support
       require_dependencies
       require_frameworks
       require_lib_source_files
@@ -147,11 +144,6 @@ module Rucola
     # use_active_record? is true
     def require_frameworks
       configuration.objc_frameworks.each { |framework| OSX.require_framework(framework) }
-    end
-    
-    # Loads the Rucola support library
-    def require_rucola_support
-      require Pathname.new(__FILE__).dirname + 'rucola_support'
     end
     
     # Recursively requires any ruby source file that it finds.

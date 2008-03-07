@@ -8,4 +8,7 @@ Rucola::Dependencies.run do
   # Eg:
   #
   #   dependency 'daemons', '1.0.7'
+  
+  # We'll assume that you'll want to bundle rucola.
+  dependency 'rucola'
 end

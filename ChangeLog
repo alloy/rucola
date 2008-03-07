@@ -1,5 +1,22 @@
 2008-3-7 Eloy Duran <e.duran@superalloy.nl>
 
+	* Manifest.txt,
+	  app_generators/rucola/templates/config/dependencies.rb,
+	  bin/rucola,
+	  lib/rucola/dependencies,
+	  lib/rucola/dependencies.rb,
+	  lib/rucola/dependencies/exclusions.rb,
+	  lib/rucola/dependencies/resolver.rb,
+	  lib/rucola/initializer.rb,
+	  test/test_dependencies.rb:
+
+	- Changed the actual dependency resolving to happen in a separate ruby process. (This fixes for instance the mess that activesupport makes of #require etc.)
+	- Added the possibility to exclude certain libraries from being resolved. eg: Rucola::Dependencies.exclude(/some_lib/)
+	- We now require all the files that would normally be needed by an application directly in initializer so that the dependecy resolver can also resolve Rucola itself.
+	- Fixed some minor stuff.
+
+2008-3-7 Eloy Duran <e.duran@superalloy.nl>
+
 	* app_generators/rucola/templates/project.pbxproj.erb:
 
 	Add lib/ to the xcode project template.

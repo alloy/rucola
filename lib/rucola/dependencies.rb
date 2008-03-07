@@ -1,8 +1,13 @@
 require 'rbconfig'
+require 'yaml'
+
+require 'dependencies/exclusions'
 
 module Rucola
   class Dependencies
     class RequiredFile
+      class UnableToResolveFullPathError < StandardError; end
+      
       attr_reader :relative_path, :full_path
       
       def initialize(relative_path)
@@ -49,6 +54,7 @@ module Rucola
           full_path = File.join(load_path, relative_path)
           return full_path if File.exist?(full_path)
         end
+        raise UnableToResolveFullPathError, "Unable to resolve the full path for: #{relative_path}"
       end
       
       def find_relative_and_full_path(relative_path)
@@ -78,11 +84,17 @@ module Rucola
         Kernel.require(@name)
       end
       
+      RUBY_BIN = File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
+      RESOLVER_BIN = File.expand_path("../dependencies/resolver.rb", __FILE__)
       def resolve!
-        require 'rubygems' rescue LoadError
-        
-        files = difference_in_loaded_features
-        files.each { |file| @required_files << RequiredFile.new(file) }
+        unless Dependencies.exclude?(@name)
+          without_changing_loaded_features do
+            cmd = "'#{RUBY_BIN}' '#{RESOLVER_BIN}' '#{@name}' '#{@version}' '#{YAML.dump($LOAD_PATH)}'"
+            files = YAML.load(`#{cmd}`)
+            require!
+            files.each { |file| @required_files << RequiredFile.new(file) }
+          end
+        end
       end
       
       def gem_lib?
@@ -121,13 +133,10 @@ module Rucola
       
       private
       
-      def difference_in_loaded_features
+      def without_changing_loaded_features
         loaded_features_before = $LOADED_FEATURES.dup
-        $LOADED_FEATURES.replace([])
-        require!
-        result = $LOADED_FEATURES.dup
+        yield
         $LOADED_FEATURES.replace(loaded_features_before)
-        result
       end
     end
   end
