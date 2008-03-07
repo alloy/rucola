@@ -14,6 +14,7 @@ $TESTING = true
 
 require 'pathname'
 RUBYCOCOA_ROOT = Pathname.new(File.expand_path(File.dirname(__FILE__)))
+RUBYCOCOA_ENV = 'test'
 TMP_PATH = File.expand_path('../../tmp/', __FILE__)
 
 require 'rucola/rucola_support'

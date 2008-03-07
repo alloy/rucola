@@ -6,6 +6,14 @@ RUBYCOCOA_ROOT = Pathname.new('/MyApp')
 module Rucola::Reloader; end
 
 describe "Initializer's Class methods" do
+  before do
+    @original_rubycocoa_env = RUBYCOCOA_ENV
+  end
+  
+  after do
+    RUBYCOCOA_ENV = @original_rubycocoa_env
+  end
+  
   # it "should load the plugins directly after loading the initializer file" do
   #   Rucola::Initializer.expects(:load_plugins)
   #   load 'rucola/initializer.rb'

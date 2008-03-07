@@ -77,11 +77,14 @@ module Rucola
       end
       
       def require!
-        begin
-          Gem.activate(@name, true, @version)
-        rescue Gem::LoadError
-        end
+        activate_gem! unless RUBYCOCOA_ENV == 'release'
         Kernel.require(@name)
+      rescue LoadError
+        if RUBYCOCOA_ENV == 'release'
+          puts "Trying to activate gem even-though we're in release mode: #{@name}"
+          activate_gem!
+          Kernel.require(@name)
+        end
       end
       
       RUBY_BIN = File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
@@ -137,6 +140,13 @@ module Rucola
         loaded_features_before = $LOADED_FEATURES.dup
         yield
         $LOADED_FEATURES.replace(loaded_features_before)
+      end
+      
+      def activate_gem!
+        begin
+          Gem.activate(@name, true, @version)
+        rescue Gem::LoadError
+        end
       end
     end
   end
