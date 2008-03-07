@@ -1,5 +1,13 @@
 2008-3-7 Eloy Duran <e.duran@superalloy.nl>
 
+	* lib/rucola/initializer.rb,
+	  lib/rucola/tasks/main.rake,
+	  lib/rucola/tasks/xcode.rake:
+
+	Fixed setting the correct env and added a shortcut task: rake release
+
+2008-3-7 Eloy Duran <e.duran@superalloy.nl>
+
 	* Manifest.txt,
 	  app_generators/rucola/templates/config/dependencies.rb,
 	  bin/rucola,

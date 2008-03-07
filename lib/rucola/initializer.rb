@@ -1,10 +1,10 @@
 require 'osx/cocoa'
 require 'pathname'
 
-unless ENV['RUBYCOCOA_ENV'].nil?
+if ENV['RUBYCOCOA_ENV']
   RUBYCOCOA_ENV = ENV['RUBYCOCOA_ENV']
 else
-  unless ENV['DYLD_LIBRARY_PATH'].nil?
+  if ENV['DYLD_LIBRARY_PATH']
     env = ENV['DYLD_LIBRARY_PATH'].split('/').last.downcase
     if %(debug release test).include?(env)
       RUBYCOCOA_ENV = env
@@ -16,7 +16,7 @@ else
   end
 end
 
-unless ENV['RUBYCOCOA_ROOT'].nil?
+if ENV['RUBYCOCOA_ROOT']
   # rake will set the RUBYCOCOA_ROOT for debugging purpose
   RUBYCOCOA_ROOT = Pathname.new(ENV['RUBYCOCOA_ROOT'])
 else

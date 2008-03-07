@@ -6,12 +6,18 @@ require 'rucola/nib'
 require 'rucola/rucola_support'
 
 # set the env, default to debug if we are running a rake task.
-ENV['RUBYCOCOA_ENV']  ||= 'debug'
-ENV['RUBYCOCOA_ROOT'] ||= SOURCE_ROOT
+if ARGV[0] && ARGV[0] == 'release'
+  mode = 'release'
+else
+  ENV['RUBYCOCOA_ENV']  ||= 'debug'
+  ENV['RUBYCOCOA_ROOT'] ||= SOURCE_ROOT
+  
+  mode = ENV['RUBYCOCOA_ENV']
+end
+puts "Running in mode: #{mode}\n\n"
 
+# Now that the env is set let initializer do it's work
 require 'rucola/initializer'
-
-puts "RUNNING IN MODE: #{RUBYCOCOA_ENV.upcase}\n\n"
 
 # FIXME: We also need to check if the user uses a frozen rc framework
 RUBYCOCOA_FRAMEWORK = OSX::NSBundle.bundleWithIdentifier('com.apple.rubycocoa').bundlePath.to_s
@@ -20,7 +26,8 @@ RUBYCOCOA_FRAMEWORK = OSX::NSBundle.bundleWithIdentifier('com.apple.rubycocoa').
 
 # Get all the tasks
 Dir["#{File.dirname(__FILE__)}/*.rake"].each {|file| load file unless ['main.rake'].include? File.basename(file) }
-Dir[(ENV['RUBYCOCOA_ROOT'] + '/vendor/plugins/*/tasks/*.rake').to_s].each { |r| load r }
+Dir[(SOURCE_ROOT + '/vendor/plugins/*/tasks/*.rake').to_s].each { |r| load r }
+
 task :default => 'xcode:build'
 
 desc 'Runs all the clean tasks'

@@ -1,3 +1,9 @@
+desc "Shortcut for doing a release build"
+task :release do
+  RUBYCOCOA_ENV = 'release'
+  Rake::Task['xcode:build'].invoke
+end
+
 namespace :xcode do
   
   def config
@@ -41,7 +47,11 @@ namespace :xcode do
     end
     
     # launch app with the correct env set
-    sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' #{executable}"
+    if RUBYCOCOA_ENV == 'release'
+      sh executable
+    else
+      sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' #{executable}"
+    end
   end
   
   desc 'Removes the build'
