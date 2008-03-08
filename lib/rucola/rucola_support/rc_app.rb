@@ -2,6 +2,16 @@ require 'rucola/info_plist'
 
 module Rucola
   module RCApp
+    # Returns the current RUBYCOCOA_ENV, which normally is 'debug' during development, test in the tests and 'release' in a release.
+    def env; RUBYCOCOA_ENV; end
+    module_function :env
+    def test?; env == 'test'; end
+    module_function :test?
+    def debug?; env == 'debug'; end
+    module_function :debug?
+    def release?; env == 'release'; end
+    module_function :release?
+    
     # Returns the path to the current source root of the application.
     #
     # So in debug & test mode this will point to your development source root.

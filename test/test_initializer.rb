@@ -6,14 +6,6 @@ RUBYCOCOA_ROOT = Pathname.new('/MyApp')
 module Rucola::Reloader; end
 
 describe "Initializer's Class methods" do
-  before do
-    @original_rubycocoa_env = RUBYCOCOA_ENV
-  end
-  
-  after do
-    RUBYCOCOA_ENV = @original_rubycocoa_env
-  end
-  
   # it "should load the plugins directly after loading the initializer file" do
   #   Rucola::Initializer.expects(:load_plugins)
   #   load 'rucola/initializer.rb'
@@ -73,20 +65,23 @@ describe "Initializer's Class methods" do
   end
   
   it "should actually start the main app run loop" do
-    OSX.expects(:NSApplicationMain)
-    Rucola::Initializer.start_app
+    with_env('release') { should_start_app(1) }
   end
   
   it "should not start the main app run loop if the RUBYCOCOA_ENV is 'test'" do
-    ::RUBYCOCOA_ENV = 'test'
-    OSX.expects(:NSApplicationMain).times(0)
-    Rucola::Initializer.start_app
+    with_env('test') { should_start_app(0) }
   end
   
   it "should not start the main app run loop if ENV['DONT_START_RUBYCOCOA_APP'] has been set" do
-    ::RUBYCOCOA_ENV = 'release'
     ENV['DONT_START_RUBYCOCOA_APP'] = 'true'
-    OSX.expects(:NSApplicationMain).times(0)
+    should_start_app(0)
+    ENV['DONT_START_RUBYCOCOA_APP'] = nil
+  end
+  
+  private
+  
+  def should_start_app(times = 0)
+    OSX.expects(:NSApplicationMain).times(times)
     Rucola::Initializer.start_app
   end
 end
@@ -126,10 +121,7 @@ describe "Configuration" do
   
   it "should use the reloader by default if the RUBYCOCOA_ENV is set to 'debug'" do
     Rucola::Configuration.new.ivar(:use_reloader).should.be false
-    old_env = RUBYCOCOA_ENV
-    RUBYCOCOA_ENV = 'debug'
-    Rucola::Configuration.new.ivar(:use_reloader).should.be true
-    RUBYCOCOA_ENV = old_env
+    with_env('debug') { Rucola::Configuration.new.ivar(:use_reloader).should.be true }
   end
 end
 

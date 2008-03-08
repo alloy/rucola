@@ -1,7 +1,7 @@
 require 'rbconfig'
 require 'yaml'
 
-require 'dependencies/exclusions'
+require 'rucola/dependencies/exclusions'
 
 module Rucola
   class Dependencies
@@ -30,7 +30,6 @@ module Rucola
         dest_dir = File.join(path, File.dirname(@relative_path))
         dest_path = File.expand_path(File.join(dest_dir, File.basename(@relative_path)))
         return if File.exist?(dest_path)
-        
         FileUtils.mkdir_p(dest_dir) unless File.exist?(dest_dir)
         
         puts "  #{@full_path}" if Dependencies.verbose
@@ -77,14 +76,8 @@ module Rucola
       end
       
       def require!
-        activate_gem! unless RUBYCOCOA_ENV == 'release'
+        activate_gem! unless Rucola::RCApp.release?
         Kernel.require(@name)
-      rescue LoadError
-        if RUBYCOCOA_ENV == 'release'
-          puts "Trying to activate gem even-though we're in release mode: #{@name}"
-          activate_gem!
-          Kernel.require(@name)
-        end
       end
       
       RUBY_BIN = File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
@@ -182,13 +175,45 @@ module Rucola
     end
     
     attr_reader :dependencies
+    attr_reader :exceptions
     
     def initialize
       @dependencies = []
+      @exceptions = {}
     end
     
+    # Specify dependencies of your application.
+    # Eg:
+    #
+    #   dependency 'net/http'
+    #
+    # Or if it's a gem you can also specify a specific version.
+    # (See the gem documentation about the possibilities).
+    # Eg:
+    #
+    #   dependency 'daemons', '1.0.7'
     def dependency(name, version = '>=0')
       @dependencies << Dependency.new(name, version)
+      yield self if block_given?
+    end
+    
+    # Sometimes there will be some libraries that just can't be resolved. For these you can add exceptions:
+    # Eg:
+    #
+    #   # when "require 'xml-simple'" is called it will be replaced with "require 'xmlsimple'"
+    #   exception 'xml-simple', 'xmlsimple'
+    #
+    # Or you can pass these in a block for grouping,
+    # but note that it's exaclty the same as defining the exception outside of the block.
+    # Eg:
+    #
+    #   dependency 'activesupport' do
+    #     # there's a problem with the gem being named 'xml-simple',
+    #     # but the file's called 'xmlsimple'.
+    #     exception 'xml-simple', 'xmlsimple'
+    #   end
+    def exception(required_name, file_name)
+      @exceptions[required_name] = file_name
     end
     
     def require!

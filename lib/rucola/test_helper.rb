@@ -69,3 +69,11 @@ module OSX
     end
   end
 end
+
+# Sets the RUBYCOCOA_ENV for the duration of the block.
+def with_env(env)
+  before = Rucola::RCApp.env
+  Rucola::RCApp.stubs(:env).returns(env)
+  yield
+  Rucola::RCApp.stubs(:env).returns(before)
+end

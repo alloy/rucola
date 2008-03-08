@@ -1,3 +1,30 @@
+2008-3-8 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  app_generators/rucola/templates/config/dependencies.rb,
+	  app_generators/rucola/templates/misc/rb_main.rb.erb,
+	  lib/rucola/dependencies.rb,
+	  lib/rucola/dependencies/resolver.rb,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/ruby_debug.rb,
+	  lib/rucola/rucola_support.rb,
+	  lib/rucola/rucola_support/core_ext.rb,
+	  lib/rucola/rucola_support/core_ext/objc.rb,
+	  lib/rucola/rucola_support/core_ext/ruby.rb,
+	  lib/rucola/rucola_support/rc_app.rb,
+	  lib/rucola/tasks/dependencies.rake,
+	  lib/rucola/tasks/xcode.rake,
+	  lib/rucola/test_helper.rb,
+	  test/test_dependencies.rb,
+	  test/test_fsevents.rb,
+	  test/test_initializer.rb:
+
+	- Bundling all gem dependent files is now completely working.
+	- When a bundled version of rucola is found the app will use that and no longer use rubygems.
+	  (Still need to allow the dev to specify what is and sn't allowed. Eg. Gems, site etc.)
+	- Refactored all unnecessary uses of RUBYCOCOA_ENV to use the following new methods on Rucola::RCApp:
+	  #env, #test?, #debug?, #release?
+
 2008-3-7 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/initializer.rb,

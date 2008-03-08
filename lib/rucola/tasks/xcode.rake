@@ -56,8 +56,10 @@ namespace :xcode do
   
   desc 'Removes the build'
   task :clean do
-    puts "Removing #{build_root}"
-    FileUtils.rm_rf build_root
+    if File.exist? build_dir
+      puts "Removing #{build_dir}"
+      FileUtils.rm_rf build_dir
+    end
   end
   
   namespace :frameworks do

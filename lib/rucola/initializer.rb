@@ -1,33 +1,37 @@
 require 'osx/cocoa'
 require 'pathname'
 
-if ENV['RUBYCOCOA_ENV']
-  RUBYCOCOA_ENV = ENV['RUBYCOCOA_ENV']
-else
-  if ENV['DYLD_LIBRARY_PATH']
-    env = ENV['DYLD_LIBRARY_PATH'].split('/').last.downcase
-    if %(debug release test).include?(env)
-      RUBYCOCOA_ENV = env
-    else
-      RUBYCOCOA_ENV = 'debug'
-    end
+if !defined?(RUBYCOCOA_ENV) or RUBYCOCOA_ENV.nil?
+  if ENV['RUBYCOCOA_ENV']
+    RUBYCOCOA_ENV = ENV['RUBYCOCOA_ENV']
   else
-    RUBYCOCOA_ENV = 'release'
+    if ENV['DYLD_LIBRARY_PATH']
+      env = ENV['DYLD_LIBRARY_PATH'].split('/').last.downcase
+      if %(debug release test).include?(env)
+        RUBYCOCOA_ENV = env
+      else
+        RUBYCOCOA_ENV = 'debug'
+      end
+    else
+      RUBYCOCOA_ENV = 'release'
+    end
   end
 end
 
-if ENV['RUBYCOCOA_ROOT']
-  # rake will set the RUBYCOCOA_ROOT for debugging purpose
-  RUBYCOCOA_ROOT = Pathname.new(ENV['RUBYCOCOA_ROOT'])
-else
-  # We are running in debug from xcode, which doesn't set RUBYCOCOA_ROOT.
-  # Or we are simply running in release.
-  RUBYCOCOA_ROOT = 
-    if RUBYCOCOA_ENV == 'release'
-      Pathname.new(OSX::NSBundle.mainBundle.resourcePath.fileSystemRepresentation)
-    else
-      Pathname.new(ENV['DYLD_LIBRARY_PATH'] + "../../../").cleanpath
-    end
+if !defined?(RUBYCOCOA_ROOT) or RUBYCOCOA_ROOT.nil?
+  if ENV['RUBYCOCOA_ROOT']
+    # rake will set the RUBYCOCOA_ROOT for debugging purpose
+    RUBYCOCOA_ROOT = Pathname.new(ENV['RUBYCOCOA_ROOT'])
+  else
+    # We are running in debug from xcode, which doesn't set RUBYCOCOA_ROOT.
+    # Or we are simply running in release.
+    RUBYCOCOA_ROOT = 
+      if RUBYCOCOA_ENV == 'release'
+        Pathname.new(OSX::NSBundle.mainBundle.resourcePath.fileSystemRepresentation)
+      else
+        Pathname.new(ENV['DYLD_LIBRARY_PATH'] + "../../../").cleanpath
+      end
+  end
 end
 
 $:.unshift(RUBYCOCOA_ROOT.to_s)
@@ -44,6 +48,9 @@ end
 # we need to require everything that would be needed by a standalone application
 require 'erb' # FIXME: this should only be required if we're really gonna use erb (AR project)
 require 'rucola/rucola_support'
+require 'rucola/dependencies'
+require 'rucola/dependencies/exclusions'
+require 'rucola/dependencies/override_require_and_gem'
 require 'rucola/plugin'
 require 'rucola/ruby_debug'
 
@@ -65,7 +72,7 @@ module Rucola
       # to alter behaviour before any of the application's files are required
       # and the app is started.
       def do_boot
-        require RUBYCOCOA_ROOT + 'config/boot'
+        Kernel.require Rucola::RCApp.root_path + '/config/boot'
       end
       
       # Returns the path to the plugins root directory. Eg /MyApp/vendor/plugins.
@@ -89,7 +96,7 @@ module Rucola
       # runs all the initialization routines.  You can alternatively specify 
       # a command to run.
       # 
-      #    OSX::Initializer.run(:set_load_path)
+      #    OSX::Initializer.run(:set_load_path!)
       #
       def run(command = :process, configuration = Configuration.new)
         yield configuration if block_given?
@@ -100,7 +107,7 @@ module Rucola
       
       # Starts the application's run loop.
       def start_app
-        OSX.NSApplicationMain(0, nil) unless RUBYCOCOA_ENV == 'test' || ENV['DONT_START_RUBYCOCOA_APP']
+        OSX.NSApplicationMain(0, nil) unless Rucola::RCApp.test? || ENV['DONT_START_RUBYCOCOA_APP']
       end
     end
     
@@ -113,11 +120,12 @@ module Rucola
     # Step through the initialization routines, skipping the active_record 
     # routines if active_record isnt' being used.
     def process
+      #set_load_path!
       Rucola::Plugin.before_process(self)
-      unless ENV['DYLD_LIBRARY_PATH'].nil?
-        set_load_path
-        copy_load_paths_for_release
-      end
+      # unless ENV['DYLD_LIBRARY_PATH'].nil?
+      #   set_load_path
+      #   copy_load_paths_for_release
+      # end
       
       require_dependencies
       require_frameworks
@@ -206,10 +214,16 @@ module Rucola
     end
     
     # Set the paths from which your application will automatically load source files.
-    def set_load_path
-      load_paths = configuration.load_paths || [] # TODO: from script/console the configuration isn't ran.
-      load_paths.reverse_each { |dir| $LOAD_PATH.unshift(dir) if File.directory?(dir) } unless RUBYCOCOA_ENV == 'test' # FIXME: why??
-      $LOAD_PATH.uniq!
+    def set_load_path!
+      puts 'here!'
+      if Rucola::RCApp.release?
+        $LOAD_PATH.replace([Rucola::RCApp.root_path, File.join(Rucola::RCApp.root_path, 'vendor/third_party/')])
+        p $LOAD_PATH
+      else
+        load_paths = configuration.load_paths || [] # TODO: from script/console the configuration isn't ran.
+        load_paths.reverse_each { |dir| $LOAD_PATH.unshift(dir) if File.directory?(dir) } unless Rucola::RCApp.test? # FIXME: why??
+        $LOAD_PATH.uniq!
+      end
     end
     
     # Copy the default load paths to the resource directory for the application if 
@@ -250,7 +264,7 @@ module Rucola
       
       self.objc_frameworks = []
       self.load_paths      = default_load_paths
-      self.use_reloader    = (RUBYCOCOA_ENV == 'debug')
+      self.use_reloader    = Rucola::RCApp.debug?
     end
     
     def set_root_path!
@@ -259,7 +273,7 @@ module Rucola
     
     def set_application_support_path!
       # TODO: we might want to set this to something in test mode.
-      return if RUBYCOCOA_ENV == 'test'
+      return if Rucola::RCApp.test?
       
       user_app_support_path = File.join(OSX::NSSearchPathForDirectoriesInDomains(OSX::NSLibraryDirectory, OSX::NSUserDomainMask, true)[0].to_s, "Application Support")
       @application_support_path = File.join(user_app_support_path, Rucola::RCApp.app_name)
@@ -267,7 +281,7 @@ module Rucola
     
     # Returns the value of RUBYCOCOA_ENV
     def environment
-      ::RUBYCOCOA_ENV
+      Rucola::RCApp.env
     end
     
     # The path to the current environment's file (development.rb, etc.). By

@@ -1,5 +1,5 @@
 module Kernel
-  if ::RUBYCOCOA_ENV == 'debug'
+  if Rucola::RCApp.debug?
     # When in `debug` mode, calling #debugger will try to load the ruby-debug gem.
     # In other modes however any call to #debugger will be ignored.
     # However, for performance reasons you still might want to take out any calls in a release build.

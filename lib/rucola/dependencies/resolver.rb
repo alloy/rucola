@@ -60,7 +60,7 @@ class DependencyResolver
 end
 
 name, version = ARGV[0..1]
-$LOAD_PATH.replace(YAML.load(ARGV[2]))
+$LOAD_PATH.replace(YAML.load(ARGV[2])) unless ARGV[2].nil?
 
 dr = DependencyResolver.new(name, version)
 # print to stdout the serialized results array

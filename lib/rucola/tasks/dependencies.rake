@@ -34,6 +34,9 @@ namespace :dependencies do
   
   desc "Removes the 'vendor/third_party/' directory."
   task :clean do
-    FileUtils.rm_rf(THIRD_PARTY_DIR) if File.exist?(THIRD_PARTY_DIR)
+    if File.exist? THIRD_PARTY_DIR
+      puts "Removing #{THIRD_PARTY_DIR}"
+      FileUtils.rm_rf(THIRD_PARTY_DIR)
+    end
   end
 end

@@ -1,2 +1,4 @@
-require 'rucola_support/core_ext/ruby'
-require 'rucola_support/core_ext/objc'
+$:.unshift(File.dirname(__FILE__))
+
+require 'core_ext/ruby'
+require 'core_ext/objc'
