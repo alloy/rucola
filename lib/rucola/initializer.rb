@@ -120,8 +120,9 @@ module Rucola
     # Step through the initialization routines, skipping the active_record 
     # routines if active_record isnt' being used.
     def process
-      #set_load_path!
       Rucola::Plugin.before_process(self)
+      
+      # TODO: cleanup
       # unless ENV['DYLD_LIBRARY_PATH'].nil?
       #   set_load_path
       #   copy_load_paths_for_release
@@ -215,15 +216,9 @@ module Rucola
     
     # Set the paths from which your application will automatically load source files.
     def set_load_path!
-      puts 'here!'
-      if Rucola::RCApp.release?
-        $LOAD_PATH.replace([Rucola::RCApp.root_path, File.join(Rucola::RCApp.root_path, 'vendor/third_party/')])
-        p $LOAD_PATH
-      else
-        load_paths = configuration.load_paths || [] # TODO: from script/console the configuration isn't ran.
-        load_paths.reverse_each { |dir| $LOAD_PATH.unshift(dir) if File.directory?(dir) } unless Rucola::RCApp.test? # FIXME: why??
-        $LOAD_PATH.uniq!
-      end
+      load_paths = configuration.load_paths || [] # TODO: from script/console the configuration isn't ran.
+      load_paths.reverse_each { |dir| $LOAD_PATH.unshift(dir) if File.directory?(dir) } unless Rucola::RCApp.test? # FIXME: why??
+      $LOAD_PATH.uniq!
     end
     
     # Copy the default load paths to the resource directory for the application if 
