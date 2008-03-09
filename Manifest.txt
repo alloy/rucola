@@ -46,6 +46,7 @@ lib/rucola/dependencies/resolver.rb
 lib/rucola/fsevents.rb
 lib/rucola/info_plist.rb
 lib/rucola/initializer.rb
+lib/rucola/log.rb
 lib/rucola/nib.rb
 lib/rucola/plugin.rb
 lib/rucola/reloader.rb
@@ -60,6 +61,7 @@ lib/rucola/rucola_support/core_ext/objc/nsimage.rb
 lib/rucola/rucola_support/core_ext/objc/nsobject.rb
 lib/rucola/rucola_support/core_ext/ruby.rb
 lib/rucola/rucola_support/core_ext/ruby/file.rb
+lib/rucola/rucola_support/core_ext/ruby/kernel.rb
 lib/rucola/rucola_support/core_ext/ruby/object.rb
 lib/rucola/rucola_support/core_ext/ruby/string.rb
 lib/rucola/rucola_support/initialize_hooks.rb
@@ -125,6 +127,7 @@ test/test_generator_helper.rb
 test/test_helper.rb
 test/test_info_plist.rb
 test/test_initializer.rb
+test/test_log.rb
 test/test_nib.rb
 test/test_notifications.rb
 test/test_objc_core_ext.rb

@@ -1,3 +1,9 @@
+2008-3-9 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt:
+
+	Added the Log related files to the manifest so they get included in the gem.
+
 2008-3-9 Manfred Stienstra <manfred@fngtps.com>
 
 	* Manifest.txt,
