@@ -17,7 +17,6 @@ namespace :deploy do
     check_if_sparkle_info_exists!
     
     puts "Creating appcast..."
-    #info = OSX::NSDictionary.dictionaryWithContentsOfFile(File.join(SOURCE_ROOT, 'Info.plist'))
     appcast_filename = File.basename(INFO_PLIST['SUFeedURL'])
     
     appcast = %{

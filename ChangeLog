@@ -7,7 +7,7 @@
 	  lib/rucola/tasks/main.rake,
 	  lib/rucola/tasks/xcode.rake:
 
-	- Shizzle my nizzle, forgot to add the override_require_and_gem.rb file in the previous commit.
+	- Oops forgot to add the override_require_and_gem.rb file in the previous commit.
 	- Added deploy.rake which has a task for packaging a release build in a dmg & one to write a sparkle appcast xml file.
 	  (Still need to implement the scp/ftp tasks.)
 	- Added a INFO_PLIST constant which holds the dictionary loaded from the applications Info.plist file.
