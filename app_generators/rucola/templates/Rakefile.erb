@@ -1,12 +1,34 @@
-# Application configuration
-APPNAME               = "<%= name %>"
-TARGET                = "#{APPNAME}.app"
-#APPVERSION           = "rev#{`svn info`[/Revision: (\d+)/, 1]}"
-APPVERSION            = Time.now.strftime("%Y-%m-%d")
-PUBLISH               = 'yourname@yourhost:path'
-
 # Load Rucola tasks
 SOURCE_ROOT = File.dirname(__FILE__)
 require 'rubygems'
 require 'rucola/rucola_support'
 load 'rucola/tasks/main.rake'
+
+# Application configuration
+
+# You only need to specify this if for some reason the applications name
+# might be different than the one specified in the Info.plist file under key: CFBundleExecutable
+#
+# APPNAME = "<%= name %>"
+# TARGET  = "#{APPNAME}.app"
+
+# You only need to specify this if for some reason the applications version
+# might be different than the one specified in the Info.plist file under key: CFBundleVersion
+#
+# APPVERSION = INFO_PLIST['CFBundleShortVersionString']
+# APPVERSION = "rev#{`svn info`[/Revision: (\d+)/, 1]}"
+# APPVERSION = Time.now.strftime("%Y-%m-%d")
+
+PUBLISH = 'yourname@yourhost:path'
+
+# Tasks
+
+desc 'Deploy a release build.'
+task :deploy => :release do
+  puts "\nDeploying...\n\n"
+  
+  # Rake::Task['deploy:package'].invoke
+  # Rake::Task['deploy:scp'].invoke
+  # Rake::Task['deploy:ftp'].invoke
+  # Rake::Task['deploy:sparkle_appcast'].invoke
+end

@@ -1,3 +1,19 @@
+2008-3-9 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  app_generators/rucola/templates/Rakefile.erb,
+	  lib/rucola/dependencies/override_require_and_gem.rb,
+	  lib/rucola/tasks/deploy.rake,
+	  lib/rucola/tasks/main.rake,
+	  lib/rucola/tasks/xcode.rake:
+
+	- Shizzle my nizzle, forgot to add the override_require_and_gem.rb file in the previous commit.
+	- Added deploy.rake which has a task for packaging a release build in a dmg & one to write a sparkle appcast xml file.
+	  (Still need to implement the scp/ftp tasks.)
+	- Added a INFO_PLIST constant which holds the dictionary loaded from the applications Info.plist file.
+	- The APPNAME & TARGET constants are now setup in main.rake with info from the INFO_PLIST.
+	- Refactored the Rakefile that's generated for an application to use the new deploy tasks and the changes to main.rake file.
+
 2008-3-8 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,

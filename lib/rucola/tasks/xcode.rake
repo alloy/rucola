@@ -4,6 +4,7 @@ task :release do
   Rake::Task['xcode:build'].invoke
 end
 
+# we should probably rename this namespace and task to 'build'
 namespace :xcode do
   
   def config
@@ -40,17 +41,19 @@ namespace :xcode do
     #   puts "Build already exists, skipping. (Use clean if you really really want a new build.)\n\n"
     # end
     
-    # Make sure the app is brought to the front once launched.
-    Thread.new(executable) do |executable|
-      sleep 0.025 until OSX::NSWorkspace.sharedWorkspace.launchedApplications.any? {|dict| dict['NSApplicationName'] == APPNAME }
-      `osascript -e 'tell application "#{executable}" to activate'`
-    end
+    unless ENV['DONT_START_RUBYCOCOA_APP']
+      # Make sure the app is brought to the front once launched.
+      Thread.new(executable) do |executable|
+        sleep 0.025 until OSX::NSWorkspace.sharedWorkspace.launchedApplications.any? {|dict| dict['NSApplicationName'] == APPNAME }
+        `osascript -e 'tell application "#{executable}" to activate'`
+      end
     
-    # launch app with the correct env set
-    if RUBYCOCOA_ENV == 'release'
-      sh executable
-    else
-      sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' #{executable}"
+      # launch app with the correct env set
+      if RUBYCOCOA_ENV == 'release'
+        sh executable
+      else
+        sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' #{executable}"
+      end
     end
   end
   
