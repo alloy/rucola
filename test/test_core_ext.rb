@@ -81,3 +81,15 @@ describe "File.constantize" do
     File.constantize('foo_bar.rb').should.be FooBar
   end
 end
+
+# Kernel ext. specs
+
+describe "Kernel.logger" do
+  it "should return a Rucola Log class instance" do
+    Kernel.log.kind_of?(Rucola::Log).should == true
+  end
+  
+  it "should return the same logger instance on multiple calls" do
+    Kernel.log.object_id.should == Kernel.log.object_id
+  end
+end

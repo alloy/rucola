@@ -1,3 +1,14 @@
+2008-3-9 Manfred Stienstra <manfred@fngtps.com>
+
+	* Manifest.txt,
+	  test/test_log.rb
+	  test/test_core_ext.rb
+	  lib/rucola/rucola_support/core_ext/ruby/kernel.rb
+	  lib/rucola/rucola_support/core_ext/ruby.rb
+	  lib/rucola/log.rb
+
+	- Added the Rucola::Log class and an extension to Kernel to access it easily.
+
 2008-3-9 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,

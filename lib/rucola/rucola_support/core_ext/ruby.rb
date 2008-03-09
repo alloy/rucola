@@ -8,3 +8,4 @@ $:.unshift(File.dirname(__FILE__))
 require 'ruby/file'
 require 'ruby/object'
 require 'ruby/string'
+require 'ruby/kernel'
