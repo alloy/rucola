@@ -116,5 +116,13 @@ module Rucola
       Rucola::InfoPlist.open((RUBYCOCOA_ROOT + 'config/Info.plist').to_s).app_name
     end
     module_function :app_name
+    
+    # Returns the path to the application support directory for this application.
+    #
+    #   Rucola::RCApp.application_support_path #=> '/Users/eddy/Library/Application Support/MyApp/'
+    def application_support_path
+      File.join File.expand_path('~/Library/Application Support'), app_name
+    end
+    module_function :application_support_path
   end
 end

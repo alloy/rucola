@@ -209,7 +209,7 @@ module Rucola
     #
     #   dependency 'activesupport' do
     #     # there's a problem with the gem being named 'xml-simple',
-    #     # but the file's called 'xmlsimple'.
+    #     # but the file is actually called 'xmlsimple'.
     #     exception 'xml-simple', 'xmlsimple'
     #   end
     def exception(required_name, file_name)

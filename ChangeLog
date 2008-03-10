@@ -1,3 +1,22 @@
+2008-3-10 Eloy Duran <e.duran@superalloy.nl>
+
+	* app_generators/rucola/templates/Rakefile.erb,
+	  app_generators/rucola/templates/config/boot.rb,
+	  app_generators/rucola/templates/config/environments/debug.rb,
+	  app_generators/rucola/templates/config/environments/release.rb,
+	  app_generators/rucola/templates/config/environments/test.rb,
+	  app_generators/rucola/templates/misc/rb_main.rb.erb,
+	  lib/rucola/dependencies.rb,
+	  lib/rucola/initializer.rb,
+	  lib/rucola/ruby_debug.rb,
+	  lib/rucola/rucola_support/rc_app.rb,
+	  lib/rucola/tasks/dependencies.rake,
+	  test/test_initializer.rb,
+	  test/test_rc_app.rb:
+
+	- Refactored a lot of the initializer/configuration related code.
+	- Now possible to bundle libs specified in release.rb, create a dmg and it works standalone!
+
 2008-3-9 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt:

@@ -11,6 +11,10 @@ describe "Initializer's Class methods" do
   #   load 'rucola/initializer.rb'
   # end
   
+  after do
+    Rucola::Initializer.instance_variable_set(:@initializer, nil)
+  end
+  
   it "should return the path to the plugins root directory" do
     Rucola::Initializer.plugins_root.to_s.should == '/MyApp/vendor/plugins'
   end
@@ -43,10 +47,8 @@ describe "Initializer's Class methods" do
   end
   
   it "should perform the application's specific configuration and start the app" do
-    config_mock = mock('Configuration')
-    Rucola::Configuration.expects(:new).returns(config_mock)
     initializer_mock = mock('Initializer')
-    Rucola::Initializer.expects(:new).with(config_mock).returns(initializer_mock)
+    Rucola::Initializer.expects(:new).returns(initializer_mock)
     initializer_mock.expects(:process)
     Rucola::Initializer.expects(:start_app)
     
@@ -54,13 +56,14 @@ describe "Initializer's Class methods" do
   end
   
   it "should yield the configuration instance for setup purposes (this is used in the environments)" do
-    config_mock = mock('Configuration')
-    Rucola::Configuration.expects(:new).returns(config_mock)
-    Rucola::Initializer.any_instance.expects(:process)
-    Rucola::Initializer.expects(:start_app)
+    Rucola::Initializer.any_instance.stubs(:process)
     
     Rucola::Initializer.run do |config|
-      config.should.be config_mock
+      config.should.be.instance_of Rucola::Configuration
+      
+      Rucola::Initializer.run do |same_config|
+        same_config.should.be config
+      end
     end
   end
   
@@ -86,42 +89,24 @@ describe "Initializer's Class methods" do
   end
 end
 
-module StubConfigurationHelper
-  def setup
-    Rucola::Configuration.any_instance.stubs(:set_root_path!)
-    Rucola::Configuration.any_instance.stubs(:set_application_support_path!)
-    @config = Rucola::Configuration.new
-  end
-end
-
 describe "Initializer's instance methods" do
-  include StubConfigurationHelper
   
   it "should not start the Reloader if that's set in the config" do
-    @config.use_reloader = false
-    initializer = Rucola::Initializer.new(@config)
+    initializer = Rucola::Initializer.new
+    initializer.configuration.use_reloader = false
     
     Kernel.expects(:require).times(0)
     Rucola::Reloader.expects(:start!).times(0)
-    initializer.require_reloader
+    initializer.use_reloader!
   end
   
   it "should start the Reloader if that's set in the config" do
-    @config.use_reloader = true
-    initializer = Rucola::Initializer.new(@config)
+    initializer = Rucola::Initializer.new
+    initializer.configuration.use_reloader = true
     
     Kernel.expects(:require).with('rucola/reloader')
     Rucola::Reloader.expects(:start!)
-    initializer.require_reloader
-  end
-end
-
-describe "Configuration" do
-  include StubConfigurationHelper
-  
-  it "should use the reloader by default if the RUBYCOCOA_ENV is set to 'debug'" do
-    Rucola::Configuration.new.ivar(:use_reloader).should.be false
-    with_env('debug') { Rucola::Configuration.new.ivar(:use_reloader).should.be true }
+    initializer.use_reloader!
   end
 end
 

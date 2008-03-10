@@ -24,9 +24,11 @@ PUBLISH = 'yourname@yourhost:path'
 # Tasks
 
 desc 'Deploy a release build.'
-task :deploy => :release do
+task :deploy do
   puts "\nDeploying...\n\n"
   
+  # Rake::Task['dependencies:copy'].invoke
+  # Rake::Task['release'].invoke
   # Rake::Task['deploy:package'].invoke
   # Rake::Task['deploy:scp'].invoke
   # Rake::Task['deploy:ftp'].invoke

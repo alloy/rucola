@@ -57,10 +57,11 @@ require 'rucola/ruby_debug'
 module Rucola
   # Rails-like Initializer responsible for processing configuration.
   class Initializer
-    # The Configuration instance used by this Initializer instance.
-    attr_reader :configuration
-    
     class << self
+      def instance
+        @initializer ||= new
+      end
+      
       # Load the config/boot.rb file.
       def boot
         Rucola::Plugin.before_boot
@@ -92,17 +93,24 @@ module Rucola
         end
       end
       
-      # Run the initializer and start the application.  The #process method is run by default which 
-      # runs all the initialization routines.  You can alternatively specify 
-      # a command to run.
-      # 
-      #    OSX::Initializer.run(:set_load_path!)
+      # Run the initializer and start the application.
+      # Pass it a block to set the configuration.
       #
-      def run(command = :process, configuration = Configuration.new)
-        yield configuration if block_given?
-        initializer = new configuration
-        initializer.send(command)
-        start_app
+      #   Rucola::Initializer.run do |config|
+      #     config.use_debugger = true
+      #     # See +Configuration+ for more info on the options.
+      #   end
+      def run
+        if @initializer.nil?
+          @initializer = new
+          
+          yield @initializer.configuration if block_given?
+          @initializer.process
+          
+          start_app
+        else
+          yield @initializer.configuration if block_given?
+        end
       end
       
       # Starts the application's run loop.
@@ -111,41 +119,36 @@ module Rucola
       end
     end
     
-    # Create an initializer instance that references the given 
-    # Configuration instance. 
-    def initialize(configuration)
-      @configuration = configuration
+    # The Configuration instance used by this Initializer instance.
+    attr_reader :configuration
+    
+    # Create an initializer instance.
+    def initialize
+      @configuration = Configuration.new
     end
     
-    # Step through the initialization routines, skipping the active_record 
-    # routines if active_record isnt' being used.
+    # Step through the initialization routines.
     def process
       Rucola::Plugin.before_process(self)
       
-      # TODO: cleanup
-      # unless ENV['DYLD_LIBRARY_PATH'].nil?
-      #   set_load_path
-      #   copy_load_paths_for_release
-      # end
+      # load the environment config
+      @configuration.load_environment_configuration!
+      
+      Rucola::Debugger.use! if @configuration.use_debugger
+      use_reloader! if @configuration.use_reloader
       
       require_dependencies
       require_frameworks
       require_lib_source_files
       require_ruby_source_files
-      require_reloader
-      load_environment
+      
       Rucola::Plugin.after_process(self)
     end
     
     # Requires all the dependencies specified in config/dependencies.rb
     def require_dependencies
       deps_file = (RUBYCOCOA_ROOT + 'config/dependencies.rb').to_s
-      if File.exist?(deps_file)
-        require 'rucola/dependencies'
-        Rucola::Dependencies.load(deps_file).require!
-      else
-        puts "\nWARNING: You are encouraged to specify your application's dependencies in config/dependencies.rb\n\n"
-      end
+      Rucola::Dependencies.load(deps_file).require!
     end
     
     # Requires all frameworks specified by the Configuration#objc_frameworks
@@ -186,7 +189,7 @@ module Rucola
     end
     
     # Loads the +Reloader+ lib if +use_reloader+ is set to +true+ on the +Configuration+.
-    def require_reloader
+    def use_reloader!
       if configuration.use_reloader
         Kernel.require 'rucola/reloader'
         Rucola::Reloader.start!
@@ -199,38 +202,11 @@ module Rucola
       end
     end
     
-    # Loads the environment specified by Configuration#environment_path, which
-    # can be debug or release
-    def load_environment
-      return if @environment_loaded
-      @environment_loaded = true
-      
-      config = configuration
-      constants = self.class.constants
-      eval(IO.read(configuration.environment_path), binding, configuration.environment_path)
-
-      (self.class.constants - constants).each do |const|
-        Object.const_set(const, self.class.const_get(const))
-      end
-    end
-    
     # Set the paths from which your application will automatically load source files.
     def set_load_path!
       load_paths = configuration.load_paths || [] # TODO: from script/console the configuration isn't ran.
       load_paths.reverse_each { |dir| $LOAD_PATH.unshift(dir) if File.directory?(dir) } unless Rucola::RCApp.test? # FIXME: why??
       $LOAD_PATH.uniq!
-    end
-    
-    # Copy the default load paths to the resource directory for the application if 
-    # we are building a release, otherwise we do nothing. When in debug or test mode,
-    # the files are loaded directly from your working directory.
-    #
-    # TODO: Remove debug database from released app if it exists.
-    def copy_load_paths_for_release
-      return unless configuration.environment == 'release'
-      configuration.load_paths.each do |path|
-        `cp -R #{path} #{RUBYCOCOA_ROOT}/#{File.basename(path)}` if File.directory?(path)
-      end
     end
   end
   
@@ -250,39 +226,56 @@ module Rucola
     attr_accessor :load_paths
     
     # Defines wether or not you want to use the +Reloader+.
-    # In debug mode this defaults to +true+.
+    #
+    # Turning on the reloader will start a fsevent loop which watches the files in app/ for changes
+    # and try to reload any classes that have been saved while the app is running.
+    #
+    # It could however lead to erratic behaviour so use it with caution.
     attr_accessor :use_reloader
     
+    # Defines wether or not you want to use the +debugger+.
+    #
+    # The debugger allows you to easily set breakpoints and debug them.
+    # See the documentation from ruby-debug for its usage:
+    # http://www.datanoise.com/ruby-debug/
+    attr_accessor :use_debugger
+    
+    # Defines wether or not you want to allow the use of RubyGems.
+    #
+    # You can completely disable the usage of RubyGems by setting this to false.
+    #
+    # Unless you're using gems which are installed on a system by default, it's
+    # better to set it to false. This will enable you to debug wether or not your
+    # application has been bundled succesfully, PLUS not using rubygems will improve
+    # the performance of your application.
+    attr_accessor :use_rubygems
+    
+    # Declare which dependency types should be bundled with a release build.
+    # Most of the times you would probably only bundle gems if you're targeting
+    # a ruby which is compatible and contains the right site libs.
+    #
+    #   # Only bundles gems
+    #   config.dependency_types = :gem
+    #
+    #   # Bundles gems and site libs
+    #   config.dependency_types = :gem, :site
+    #
+    #   # Bundles site and other libs, where other are libs outside any of the default load paths.
+    #   config.dependency_types = :site, :other
+    attr_accessor :dependency_types
+    
     def initialize
-      set_root_path!
-      set_application_support_path!
-      
-      self.objc_frameworks = []
-      self.load_paths      = default_load_paths
-      self.use_reloader    = Rucola::RCApp.debug?
+      @objc_frameworks  = []
+      @load_paths       = default_load_paths
+      @dependency_types = []
+      @use_reloader = @use_debugger = @use_debugger = false
     end
     
-    def set_root_path!
-      @root_path = Pathname.new(::RUBYCOCOA_ROOT).realpath.to_s
-    end
-    
-    def set_application_support_path!
-      # TODO: we might want to set this to something in test mode.
-      return if Rucola::RCApp.test?
-      
-      user_app_support_path = File.join(OSX::NSSearchPathForDirectoriesInDomains(OSX::NSLibraryDirectory, OSX::NSUserDomainMask, true)[0].to_s, "Application Support")
-      @application_support_path = File.join(user_app_support_path, Rucola::RCApp.app_name)
-    end
-    
-    # Returns the value of RUBYCOCOA_ENV
-    def environment
-      Rucola::RCApp.env
-    end
-    
-    # The path to the current environment's file (development.rb, etc.). By
-    # default the file is at <tt>config/environments/#{environment}.rb</tt>.
-    def environment_path
-      "#{root_path}/config/environments/#{environment}.rb"
+    # Loads the current environment's file (debug.rb, release.rb, test.rb).
+    # By default the file is at <tt>config/environments/#{environment}.rb</tt>.
+    def load_environment_configuration!
+      root = defined?(SOURCE_ROOT) ? SOURCE_ROOT : RCApp.root_path
+      require "#{root}/config/environments/#{RCApp.env}.rb"
     end
     
     private

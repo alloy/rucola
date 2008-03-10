@@ -45,6 +45,11 @@ describe 'Rucola::RCApp' do
     RCApp.path_for_model(Person).should == "#{@root_path}/app/models/person.rb"
   end
   
+  it "should return the path to this applications app support dir" do
+    RCApp.stubs(:app_name).returns('FooApp')
+    RCApp.application_support_path.should == File.expand_path('~/Library/Application Support/FooApp')
+  end
+  
   it "should return the path for a given view" do
     view_path = "#{@root_path}/app/views/Preferences.nib"
     RCApp.path_for_view('Preferences').should == view_path
