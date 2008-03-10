@@ -42,6 +42,32 @@ namespace :deploy do
     puts "created: pkg/#{appcast_filename}\n\n"
   end
   
+  desc "Write a new release notes html file. Looks for ReleaseNotes/#{DEPLOY_NAME}"
+  task :release_notes => :pkg do
+    begin
+      require 'RedCloth'
+    rescue LoadError
+      puts "Unable write the release notes html, because the RedCloth gem was not found."
+      exit
+    end
+    
+    puts "Creating release notes..."
+    
+    changelog = File.join(SOURCE_ROOT, 'ReleaseNotes', DEPLOY_NAME)
+    body = RedCloth.new(File.read changelog)
+    html = %{
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <body>
+    #{body.to_html}
+  </body>
+</html>
+    }.sub(/^\n/, '').gsub(/\t/, '    ').gsub(/\n+/, "\n")
+    
+    File.open("pkg/#{DEPLOY_NAME}_release_notes.html", 'w') { |f| f.write html }
+    puts "created: pkg/#{DEPLOY_NAME}_release_notes.html\n\n"
+  end
+    
   desc 'Removes the pkg/ directory.'
   task :clean do
     build_dir = 'pkg/'
@@ -55,14 +81,21 @@ namespace :deploy do
   task :upload do
     if File.exist? PKG
       puts "\nUploading: #{PKG}"
-      do_upload(PUBLISH_URI, PKG, File.basename(PKG))
+      do_upload(PUBLISH_URI, PKG)
       puts "\n\n"
     end
     
     appcast_path = "pkg/#{File.basename(INFO_PLIST['SUFeedURL'])}" if INFO_PLIST['SUFeedURL']
     if appcast_path and File.exist?(appcast_path)
       puts "\nUploading: #{appcast_path}"
-      do_upload(APPCAST_URI, appcast_path, File.basename(appcast_path))
+      do_upload(APPCAST_URI, appcast_path)
+      puts "\n\n"
+    end
+    
+    release_notes_path = "pkg/#{DEPLOY_NAME}_release_notes.html"
+    if File.exist? release_notes_path
+      puts "\nUploading: #{release_notes_path}"
+      do_upload(APPCAST_URI, release_notes_path)
       puts "\n\n"
     end
   end
@@ -88,8 +121,8 @@ namespace :deploy do
   end
   
   # calls the upload method based on the scheme
-  def do_upload(uri, file, dest_file)
-    send(uri.scheme, uri, file, dest_file)
+  def do_upload(uri, file)
+    send(uri.scheme, uri, file, File.basename(file))
   end
   
   def scp(uri, file, dest_file)

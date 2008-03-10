@@ -1,15 +1,5 @@
 require 'rucola/dependencies'
 
-module Rucola
-  class Initializer
-    class << self
-      def run
-        yield instance.configuration
-      end
-    end
-  end
-end
-
 namespace :dependencies do
   THIRD_PARTY_DIR = (SOURCE_ROOT + '/vendor/third_party/').to_s
   
@@ -23,10 +13,7 @@ namespace :dependencies do
     if ENV['FILE_TYPES']
       ENV['FILE_TYPES'].split(',').map {|t| t.strip.to_sym }
     else
-      config = Rucola::Configuration.new
-      Rucola::Initializer.instance.instance_variable_set(:@configuration, config)
-      config.load_environment_configuration!
-      config.dependency_types
+      CONFIGURATION.dependency_types
     end
   end
   
@@ -44,9 +31,12 @@ namespace :dependencies do
   
   desc "Copies all the required files to 'vendor/third_party/'."
   task :copy do
-    FileUtils.mkdir_p(THIRD_PARTY_DIR) unless File.exist?(THIRD_PARTY_DIR)
-    $VERBOSE = nil # we don't want all the warnings about constant being redefined.
-    dependencies_holder.copy_to(THIRD_PARTY_DIR, :types => file_types)
+    # Check if we have enough info to do a copy
+    if file_types.is_a?(Symbol) or !file_types.empty?
+      FileUtils.mkdir_p(THIRD_PARTY_DIR) unless File.exist?(THIRD_PARTY_DIR)
+      $VERBOSE = nil # we don't want all the warnings about constant being redefined.
+      dependencies_holder.copy_to(THIRD_PARTY_DIR, :types => file_types)
+    end
   end
   
   desc "Removes the 'vendor/third_party/' directory."

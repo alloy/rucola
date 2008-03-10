@@ -29,6 +29,19 @@ TARGET     = "#{APPNAME}.app"
 
 # Now that the env is set let initializer do it's work
 require 'rucola/initializer'
+# Load the configuration
+module Rucola
+  class Initializer
+    class << self
+      def run
+        yield instance.configuration
+      end
+    end
+  end
+end
+CONFIGURATION = Rucola::Configuration.new
+Rucola::Initializer.instance.instance_variable_set(:@configuration, CONFIGURATION)
+CONFIGURATION.load_environment_configuration!
 
 # FIXME: We also need to check if the user uses a frozen rc framework
 RUBYCOCOA_FRAMEWORK = OSX::NSBundle.bundleWithIdentifier('com.apple.rubycocoa').bundlePath.to_s

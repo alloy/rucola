@@ -29,6 +29,9 @@ namespace :xcode do
   
   desc 'Builds the application'
   task :build do
+    # First check if we're in release and need to bundle anything
+    Rake::Task['dependencies:copy'].invoke if RUBYCOCOA_ENV == 'release'
+    
     executable = "#{build_root}/Contents/MacOS/#{APPNAME}"
     
     # For now let's do xcodebuild everytime.
