@@ -7,8 +7,4 @@ Rucola::Initializer.run do |config|
   #
   # Use active_record bindings
   # config.use_active_record = true
-  #
-  # In debug mode the Reloader will be used,
-  # if you want to turn it off/on explicitely use:
-  # config.use_reloader = false OR true
 end

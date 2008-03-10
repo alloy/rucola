@@ -1,6 +1,19 @@
 2008-3-10 Eloy Duran <e.duran@superalloy.nl>
 
 	* app_generators/rucola/templates/Rakefile.erb,
+	  app_generators/rucola/templates/config/environment.rb,
+	  lib/rucola/reloader.rb,
+	  lib/rucola/tasks/deploy.rake,
+	  test/test_log.rb:
+
+	- Added a deploy:upload task which atm can upload via scp.
+	  (Implementing the possibility to use other schemes should be fairly simple.)
+	- Cleaned up the Log tests.
+	- Cleaned up the Reloader to use the new Log.
+
+2008-3-10 Eloy Duran <e.duran@superalloy.nl>
+
+	* app_generators/rucola/templates/Rakefile.erb,
 	  app_generators/rucola/templates/config/boot.rb,
 	  app_generators/rucola/templates/config/environments/debug.rb,
 	  app_generators/rucola/templates/config/environments/release.rb,

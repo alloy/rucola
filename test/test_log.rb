@@ -15,13 +15,14 @@ describe "A Log instance" do
     OSX.stubs(:NSLog).raises(LogCall)
   end
   
+  after do
+    @log.level = @log.level_for_env
+  end
+  
   it "should return the default level for a certain env" do
-    Rucola::RCApp.stubs(:env).returns('test')
-    @log.level_for_env.should == Rucola::Log::SILENT
-    Rucola::RCApp.stubs(:env).returns('debug')
-    @log.level_for_env.should == Rucola::Log::DEBUG
-    Rucola::RCApp.stubs(:env).returns('release')
-    @log.level_for_env.should == Rucola::Log::ERROR
+    with_env('test') { @log.level_for_env.should == Rucola::Log::SILENT }
+    with_env('debug') { @log.level_for_env.should == Rucola::Log::DEBUG }
+    with_env('release') { @log.level_for_env.should == Rucola::Log::ERROR }
   end
   
   it "should only log messages of the right level" do

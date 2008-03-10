@@ -1,3 +1,5 @@
+require 'uri'
+
 namespace :deploy do
   DEPLOY_NAME = "#{APPNAME}_#{APPVERSION}"
   PKG = File.join('pkg', "#{DEPLOY_NAME}.dmg")
@@ -49,6 +51,22 @@ namespace :deploy do
     end
   end
   
+  desc "Upload pkg/ files. Specify the uri's with the constants PUBLISH_URI & APPCAST_URI."
+  task :upload do
+    if File.exist? PKG
+      puts "\nUploading: #{PKG}"
+      do_upload(PUBLISH_URI, PKG, File.basename(PKG))
+      puts "\n\n"
+    end
+    
+    appcast_path = "pkg/#{File.basename(INFO_PLIST['SUFeedURL'])}" if INFO_PLIST['SUFeedURL']
+    if appcast_path and File.exist?(appcast_path)
+      puts "\nUploading: #{appcast_path}"
+      do_upload(APPCAST_URI, appcast_path, File.basename(appcast_path))
+      puts "\n\n"
+    end
+  end
+  
   private
   
   def check_if_sparkle_info_exists!
@@ -69,4 +87,12 @@ namespace :deploy do
     end
   end
   
+  # calls the upload method based on the scheme
+  def do_upload(uri, file, dest_file)
+    send(uri.scheme, uri, file, dest_file)
+  end
+  
+  def scp(uri, file, dest_file)
+    sh "scp -P #{ uri.port || '22' } #{file} #{uri.userinfo}@#{uri.host}:#{uri.path}/#{dest_file}"
+  end
 end
