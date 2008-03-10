@@ -19,7 +19,8 @@ load 'rucola/tasks/main.rake'
 # APPVERSION = "rev#{`svn info`[/Revision: (\d+)/, 1]}"
 # APPVERSION = Time.now.strftime("%Y-%m-%d")
 
-PUBLISH = 'yourname@yourhost:path'
+PUBLISH_URI = URI.parse('scp://yourname@yourhost:port/path')
+APPCAST_URI = PUBLISH_URI
 
 # Tasks
 
