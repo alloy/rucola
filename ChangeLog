@@ -1,3 +1,11 @@
+2008-3-14 Eloy Duran <e.duran@superalloy.nl>
+
+	* app_generators/rucola/templates/Rakefile.erb,
+	  lib/rucola/tasks/main.rake:
+
+	- When deploying, start the application after building to test if the application runs before actually deploying.
+	- Comment the URI suggestions in an applications Rakefile.
+
 2008-3-10 Eloy Duran <e.duran@superalloy.nl>
 
 	* app_generators/rucola/templates/Rakefile.erb,

@@ -8,9 +8,6 @@ require 'rucola/rucola_support'
 # set the env, default to debug if we are running a rake task.
 if ARGV[0] && %w{ release deploy }.include?(ARGV[0])
   mode = 'release'
-  
-  # we don't want the app to be started if we are deploying.
-  ENV['DONT_START_RUBYCOCOA_APP'] = 'true' if ARGV[0] == 'deploy'
 else
   ENV['RUBYCOCOA_ENV']  ||= 'debug'
   ENV['RUBYCOCOA_ROOT'] ||= SOURCE_ROOT

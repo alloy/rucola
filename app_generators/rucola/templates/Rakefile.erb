@@ -19,8 +19,10 @@ load 'rucola/tasks/main.rake'
 # APPVERSION = "rev#{`svn info`[/Revision: (\d+)/, 1]}"
 # APPVERSION = Time.now.strftime("%Y-%m-%d")
 
-PUBLISH_URI = URI.parse('scp://yourname@yourhost:port/path')
-APPCAST_URI = PUBLISH_URI
+# Use these constants to define the urls that should be used by the deploy:upload task.
+#
+# PUBLISH_URI = URI.parse('scp://yourname@yourhost:port/path')
+# APPCAST_URI = PUBLISH_URI
 
 # Tasks
 
