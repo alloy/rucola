@@ -76,6 +76,7 @@ lib/rucola/tasks/freeze.rake
 lib/rucola/tasks/interface_builder.rake
 lib/rucola/tasks/main.rake
 lib/rucola/tasks/xcode.rake
+lib/rucola/test_case.rb
 lib/rucola/test_helper.rb
 lib/rucola/version.rb
 lib/rucola/xcode.rb
