@@ -1,3 +1,10 @@
+2008-3-16 Eloy Duran <e.duran@superalloy.nl>
+
+	* Manifest.txt,
+	  lib/rucola/test_case.rb:
+
+	Added a test case mixin which sets up a test case for a controller and defines helper methods and creates stubs for all ib_outlets that are defined in the controller.
+
 2008-3-14 Eloy Duran <e.duran@superalloy.nl>
 
 	* app_generators/rucola/templates/Rakefile.erb,
