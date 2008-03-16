@@ -1,11 +1,15 @@
 class OSX::NSObject
   class << self
     # An array of defined ib_outlets.
+    #
+    # Only used in test cases.
     def defined_ib_outlets
       @defined_ib_outlets ||= []
     end
     
     # Override ib_outlets so we can store which ones need to be defined.
+    #
+    # Only used in test cases.
     def ib_outlets(*outlets)
       defined_ib_outlets.concat(outlets.flatten)
     end
