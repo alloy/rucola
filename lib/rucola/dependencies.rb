@@ -137,7 +137,7 @@ module Rucola
       
       def activate_gem!
         begin
-          Gem.activate(@name, true, @version)
+          Gem.activate(@name, @version)
         rescue Gem::LoadError
         end
       end

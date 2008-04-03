@@ -56,7 +56,7 @@ describe "Dependencies::Dependency" do
   it "should activate a specific gem if a version is specified" do
     Kernel.stubs(:require)
     @dep.instance_variable_set(:@version, '1.1.1')
-    Gem.expects(:activate).with('foo', true, '1.1.1')
+    Gem.expects(:activate).with('foo', '1.1.1')
     @dep.require!
   end
   
