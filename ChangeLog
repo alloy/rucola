@@ -1,3 +1,13 @@
+2008-4-12 Eloy Duran <e.duran@superalloy.nl>
+
+	* app_generators/rucola/templates/test/controllers/test_application_controller.rb,
+	  app_generators/rucola/templates/test/test_helper.rb,
+	  lib/rucola/test_helper.rb,
+	  rucola_generators/controller/templates/test_controller_template.rb.erb,
+	  rucola_generators/window_controller/templates/test_window_controller_template.rb.erb:
+
+	Added Rucola::TestCase to the default test_helper and adjusted the controller test templates to use Rucola::TestCase.
+
 2008-3-16 Eloy Duran <e.duran@superalloy.nl>
 
 	* Manifest.txt,

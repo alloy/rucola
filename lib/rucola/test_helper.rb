@@ -15,7 +15,7 @@ module OSX
   # TODO: Check with Laurent if this is bad?
   # Otherwise we should maybe override the stub method to set this to true
   # when the object is a subclass of OSX::NSObject and set it to false again after the stubbing.
-  def self._ignore_ns_override; true; end
+  def self._ignore_ns_override; true; end # FIXME: This seems to destroy the #super_init etc from working
 
   class NSObject
     # A mocha helper to get at an outlet (ivar) without having to use instance_variable_get.
