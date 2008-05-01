@@ -1,3 +1,8 @@
+2008-5-1 Eloy Duran <e.duran@superalloy.nl>
+
+	* lib/rucola/tasks/xcode.rake:
+	Moved the running of a build into it's own task so building and running can be done freely from other tasks.
+
 2008-4-12 Eloy Duran <e.duran@superalloy.nl>
 
 	* app_generators/rucola/templates/test/controllers/test_application_controller.rb,

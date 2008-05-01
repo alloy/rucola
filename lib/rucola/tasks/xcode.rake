@@ -27,36 +27,35 @@ namespace :xcode do
     File.expand_path("#{build_dir}/#{config}/#{TARGET}")
   end
   
+  def executable
+    "#{build_root}/Contents/MacOS/#{APPNAME}"
+  end
+  
   desc 'Builds the application'
   task :build do
     # First check if we're in release and need to bundle anything
     Rake::Task['dependencies:copy'].invoke if RUBYCOCOA_ENV == 'release'
     
-    executable = "#{build_root}/Contents/MacOS/#{APPNAME}"
-    
     # For now let's do xcodebuild everytime.
     # Otherwise nibs that are updated will not be updated in the bundle...
     sh "xcodebuild -configuration #{config}"
     
-    # unless File.exists?(executable)
-    #   sh "xcodebuild -configuration #{config}"
-    # else
-    #   puts "Build already exists, skipping. (Use clean if you really really want a new build.)\n\n"
-    # end
+    Rake::Task['xcode:run'].invoke unless ENV['DONT_START_RUBYCOCOA_APP']
+  end
+  
+  desc 'Run a build'
+  task :run do
+    # Make sure the app is brought to the front once launched.
+    Thread.new(executable) do |executable|
+      sleep 0.025 until OSX::NSWorkspace.sharedWorkspace.launchedApplications.any? {|dict| dict['NSApplicationName'] == APPNAME }
+      `osascript -e 'tell application "#{executable}" to activate'`
+    end
     
-    unless ENV['DONT_START_RUBYCOCOA_APP']
-      # Make sure the app is brought to the front once launched.
-      Thread.new(executable) do |executable|
-        sleep 0.025 until OSX::NSWorkspace.sharedWorkspace.launchedApplications.any? {|dict| dict['NSApplicationName'] == APPNAME }
-        `osascript -e 'tell application "#{executable}" to activate'`
-      end
-    
-      # launch app with the correct env set
-      if RUBYCOCOA_ENV == 'release'
-        sh executable
-      else
-        sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' #{executable}"
-      end
+    # launch app with the correct env set
+    if RUBYCOCOA_ENV == 'release'
+      sh executable
+    else
+      sh "RUBYCOCOA_ENV='#{RUBYCOCOA_ENV}' RUBYCOCOA_ROOT='#{RUBYCOCOA_ROOT}' #{executable}"
     end
   end
   
