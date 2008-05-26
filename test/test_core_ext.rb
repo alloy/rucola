@@ -60,25 +60,25 @@ describe 'String#camel_case' do
   end
 end
 
-describe "String#constantize" do
+describe "String#to_const" do
   it "should return the constant FooBar for string 'foo_bar'" do
-    "foo_bar".constantize.should.be FooBar
+    "foo_bar".to_const.should.be FooBar
   end
   
   it "should return the constant FooBar for string 'FooBar'" do
-    "FooBar".constantize.should.be FooBar
+    "FooBar".to_const.should.be FooBar
   end
 end
 
 # File ext. specs
 
-describe "File.constantize" do
+describe "File.to_const" do
   it "should return the constant FooBar for file '/some/path/foo_bar.rb'" do
-    File.constantize('/some/path/foo_bar.rb').should.be FooBar
+    File.to_const('/some/path/foo_bar.rb').should.be FooBar
   end
   
   it "should return the constant FooBar for file 'foo_bar.rb'" do
-    File.constantize('foo_bar.rb').should.be FooBar
+    File.to_const('foo_bar.rb').should.be FooBar
   end
 end
 

@@ -15,7 +15,7 @@ module Rucola
       
       # Reload a file (class).
       def reload(file)
-        klass = File.constantize(file)
+        klass = File.to_const(file)
         begin
           File.read(file).parse_to_nodes
           

@@ -21,9 +21,9 @@ class String
   
   # Returns the constant that this string refers to.
   #
-  #  "FooBar".constantize # => FooBar
-  #  "foo_bar".constantize # => FooBar
-  def constantize
+  #  "FooBar".to_const # => FooBar
+  #  "foo_bar".to_const # => FooBar
+  def to_const
     Object.const_get(camel_case)
   end
 end
