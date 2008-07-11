@@ -4,8 +4,8 @@ require 'rubygems'
 require 'rubigen'
 
 if %w(-v --version).include? ARGV.first
-  require 'newgem/version'
-  puts "#{File.basename($0)} #{Newgem::VERSION::STRING}"
+  require 'rucola/version'
+  puts "#{File.basename($0)} #{Rucola::VERSION::STRING}"
   exit(0)
 end
 

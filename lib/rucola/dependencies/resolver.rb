@@ -3,8 +3,9 @@ require 'osx/cocoa'
 
 require File.expand_path('../exclusions', __FILE__)
 
-class DependencyResolver
-  class UnableToResolveError < StandardError; end
+class DependencyResolver #:nodoc:
+  class UnableToResolveError < StandardError #:nodoc:
+  end
 
   def initialize(name, version)
     @name, @version = name, version

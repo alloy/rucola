@@ -1,3 +1,28 @@
+== 0.5 2008-07-10
+
+=== Dependency resolver:
+* You can now specify your dependencies in environment.rb and they will resolved and vendored in release mode.
+  This applies to gems and any other ruby lib. Because of this agnostic system there might still be some edge cases, for this purpose
+  there's the possibility to specify exceptions.
+* In release mode RubyGems will NOT be loaded even if it's required at some point. This results in application startup time going from ~3 bounces in the dock to ~1.
+
+=== Deploying:
+* Added rake task for packaging a release build in a dmg
+* Added rake task for uploading via scp, adding others is easy.
+* Added rake task for creating a Sparkle appcast file.
+* Added rake task that looks for textile files in ReleaseNotes/AppName_Version and creates HTML for Sparkle.
+
+=== Others:
+* Added Rucola::FSEvents which is a rubyesque wrapper around FSEvents.
+* Added Rucola::Reloader, which uses Rucola::FSEvents to watch the app/controllers path for modifications and reloads the class.
+  In debug mode this will be enabled by default, you can override this setting on the `config` of Initializer.
+* Added the Rucola::Log class and an extension to Kernel to access it easily. (Manfred Stienstra)
+* Added Rucola::TestCase which is a test case mixin, like the one in Rails, which sets up a test case for a controller, defines helper methods and creates stubs for all ib_outlets that are defined in the controller.
+* Added support for ruby-debug. If a call is made to Kernel.debugger and the RUBYCOCOA_ENV is 'debug', then the ruby-debug library will be required and ran.
+* NSImage.imageNamed will also look in app/assets for a given image name.
+* Added a script/console script which will run a irb console with the application loaded. (Jelle Helsen)
+* Added a simple model generator, which is simply a subclass of NSObject.
+
 == 0.0.3 2007-12-08
 
 * Fixed some critical bugs in the xcode & nib manipulation code, which were introduced because the default is to return mutable objects in RubyCocoa again.

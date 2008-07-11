@@ -2,8 +2,9 @@
 
 # make Gem work
 unless defined? Gem
-  module Gem
-    class LoadError < StandardError; end
+  module Gem #:nodoc:
+    class LoadError < StandardError #:nodoc:
+    end
   end
 end
 

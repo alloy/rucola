@@ -33,7 +33,7 @@
     <h1>rucola</h1>
     <div id="version" class="clickable" onclick='document.location = "http://rubyforge.org/projects/rucola"; return false'>
       <p>Get Version</p>
-      <a href="http://rubyforge.org/projects/rucola" class="numbers">0.0.3</a>
+      <a href="http://rubyforge.org/projects/rucola" class="numbers">0.5.0</a>
     </div>
     <h1>&#x2192; &#8216;rucola&#8217;</h1>
 
@@ -41,12 +41,12 @@
 	<h2>What</h2>
 
 
-	<p>A Framework for building Cocoa applications in Ruby</p>
+	<p>A Framework for rapidly building RubyCocoa applications</p>
 
 
 	<p>Rucola is a light weight framework that helps you write RubyCocoa apps.
 It allows you to build, test, and deploy applications using rake commands, 
-eliminating the need to use XCode, however you can use XCode if you wish.</p>
+eliminating the need to use XCode for the most common tasks.</p>
 
 
 	<p>Rucola provides a set of generators to help you generate controllers, window controllers, 
@@ -58,7 +58,7 @@ ways of doing things.</p>
 
 
 	<ul>
-	<li><a href="http://sourceforge.net/project/showfiles.php?group_id=44114&#38;package_id=36578">RubyCocoa 0.13</a> That&#8217;s <span class="caps">NOT</span> the one included with Leopard, which is 0.12</li>
+	<li><a href="http://sourceforge.net/project/showfiles.php?group_id=44114&#38;package_id=36578">RubyCocoa 0.13.2</a> <em>That&#8217;s <span class="caps">NOT</span> the one currently included with Leopard</em></li>
 		<li>For testing it&#8217;s adviced to install the following gems: test-spec, mocha, zentest (autotest)</li>
 	</ul>
 
@@ -66,7 +66,7 @@ ways of doing things.</p>
 	<h2>Installing</h2>
 
 
-	<p><pre class='syntax'>sudo gem install rucola</pre></p>
+	<p><pre class='syntax'>$ sudo gem install rucola</pre></p>
 
 
 	<h2>Demonstration of usage</h2>
@@ -75,100 +75,21 @@ ways of doing things.</p>
 	<h3>Generating an application skeleton</h3>
 
 
-	<pre><code>rucola MyApp -a "Your Name"</code></pre>
-
+<code>$ rucola MyApp -a "Your Name"</code>
 
 	<p>Running this command will give you a complete, working application with a single window already 
 bound to your application controller.</p>
 
 
-	<h3>Using Notifications</h3>
+	<h3>Running an application</h3>
 
 
-	<h4>Rucola
-<pre class='syntax'>
-    <span class="keyword">class </span><span class="class">Foo</span> <span class="punct">&lt;</span> <span class="constant">Rucola</span><span class="punct">::</span><span class="constant">RCController</span>
-      <span class="ident">notify</span> <span class="symbol">:some_method</span><span class="punct">,</span> <span class="symbol">:when</span> <span class="punct">=&gt;</span> <span class="symbol">:something_happens</span>
-  
-      <span class="keyword">def </span><span class="method">some_method</span><span class="punct">(</span><span class="ident">notification</span><span class="punct">)</span>
-        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">w00t!</span><span class="punct">&quot;</span>
-      <span class="keyword">end</span>
-    <span class="keyword">end</span>
-    </pre></h4>
-
-
-	<h4>Objective C (Excluding header file)
-<pre class='syntax'>
-    @implementation Foo
-    -(id)init {
-      if(self = [super init]) {
-        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-        [center addObserver:self selector:(some_method:) name:@&quot;SomethingHappensNotification&quot; object:nil];
-      }
-      return self;
-    }
-    
-    -(void)some_method:(NSNotification *) notification {
-      NSLog(&quot;w00t!&quot;);
-    }
-    @end
-    </pre></h4>
-
-
-	<h3>Alternative Way Of Using Notifications</h3>
-
-
-	<pre class='syntax'>
-    <span class="keyword">class </span><span class="class">Foo</span> <span class="punct">&lt;</span> <span class="constant">Rucola</span><span class="punct">::</span><span class="constant">RCController</span>
-      <span class="ident">notify_on</span> <span class="symbol">:something_happens</span> <span class="keyword">do</span> <span class="punct">|</span><span class="ident">notification</span><span class="punct">|</span>
-        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">w0t0!</span><span class="punct">&quot;</span>
-      <span class="keyword">end</span>
-    <span class="keyword">end</span>
-    </pre>
-
-
-	<h3>Working with Interface Builder</h3>
-
-
-	<p>A Cocoa application contains `outlets`.  Outlets allow you to bind variable names to objects.
-An object can be a user interface element or an instance of a class.</p>
-
-
-	<pre class='syntax'>
-    <span class="keyword">class </span><span class="class">ApplicationController</span> <span class="punct">&lt;</span> <span class="constant">Rucola</span><span class="punct">::</span><span class="constant">RCController</span>
-      <span class="ident">ib_outlet</span> <span class="symbol">:main_window</span>
-
-      <span class="keyword">def </span><span class="method">awakeFromNib</span>
-        <span class="comment"># All the application delegate methods will be called on this object.</span>
-        <span class="constant">OSX</span><span class="punct">::</span><span class="constant">NSApp</span><span class="punct">.</span><span class="ident">delegate</span> <span class="punct">=</span> <span class="constant">self</span>
-
-        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">ApplicationController awoke.</span><span class="punct">&quot;</span>
-        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string">Edit: app/controllers/application_controller.rb</span><span class="punct">&quot;</span>
-        <span class="ident">puts</span>  <span class="punct">&quot;</span><span class="string"><span class="escape">\n</span>It's window is: <span class="expr">#{@main_window.inspect}</span></span><span class="punct">&quot;</span>
-      <span class="keyword">end</span>
-
-      <span class="comment"># NSApplication delegate methods</span>
-      <span class="keyword">def </span><span class="method">applicationDidFinishLaunching</span><span class="punct">(</span><span class="ident">notification</span><span class="punct">)</span>
-        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string"><span class="escape">\n</span>Application finished launching.</span><span class="punct">&quot;</span>
-      <span class="keyword">end</span>
-
-      <span class="keyword">def </span><span class="method">applicationWillTerminate</span><span class="punct">(</span><span class="ident">notification</span><span class="punct">)</span>
-        <span class="ident">puts</span> <span class="punct">&quot;</span><span class="string"><span class="escape">\n</span>Application will terminate.</span><span class="punct">&quot;</span>
-      <span class="keyword">end</span>
-    <span class="keyword">end</span>
-    </pre>
-
-
-	<p>The `@main_window` variable now points to the user interface window.  You can invoke any methods of NSWindow.</p>
-
-
-	<p>There is also a `rake ib:update` that will update your nib files with the outlets you specify in your code.
-For example, if we wanted to add a button to the application controller above, we could add `ib_outlet :my_button`.
-After you&#8217;ve added this, you can run `rake ib:update` and your outlet will be available in interface builder that 
-you can now hook up to your UI button.</p>
-
+<code>$ rake</code>
 
 	<h2>Extras</h2>
+
+
+	<p>Documentation can be found <a href="http://rucola.rubyforge.org/rdoc/">here.</a></p>
 
 
 	<p>Sample apps can be found at:</p>
@@ -216,8 +137,13 @@ script/plugin install SACrashReporter
 	<p>Read the <a href="http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/">8 steps for fixing other people&#8217;s code</a> and for section <a href="http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups">8b: Submit patch to Google Groups</a>, use the Google Group above.</p>
 
 
-	<p>The trunk repository is <code>svn://rubyforge.org/var/svn/rucola/trunk</code> for anonymous access.</p>
+	<p>Browse the git repo online at: <code>http://github.com/alloy/rucola/tree/master</code></p>
 
+
+	<p>The latest version can be checked out with:</p>
+
+
+<code>$ git clone git://github.com/alloy/rucola.git</code>
 
 	<h2>License</h2>
 
@@ -230,7 +156,7 @@ script/plugin install SACrashReporter
 
 	<p>Comments are welcome. Send an email via the <a href="http://groups.google.com/group/rucola">forum</a></p>
     <p class="coda">
-      <a href="http://groups.google.com/group/rucola">Eloy Duran, Justin Palmer</a>, 26th November 2007<br>
+      <a href="http://groups.google.com/group/rucola">Eloy Duran</a>, 11th July 2008<br>
       Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a>
     </p>
 </div>

@@ -2,7 +2,7 @@ require 'osx/cocoa'
 require 'fileutils'
 
 module Rucola
-  module Nib
+  module Nib  #:nodoc:
     
     def self.backup(path)
       nib = File.dirname(path)
@@ -18,7 +18,7 @@ module Rucola
       FileUtils.cp_r(nib, backup)
     end
     
-    class Classes
+    class Classes #:nodoc:
       attr_reader :data
       
       def self.open(classes_nib_path)
@@ -53,7 +53,7 @@ module Rucola
       
     end
     
-    class KeyedObjects
+    class KeyedObjects #:nodoc:
       attr_reader :data
       
       def self.open(path)

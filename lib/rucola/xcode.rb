@@ -2,9 +2,7 @@ require 'osx/cocoa'
 require 'pathname'
 
 module Rucola
-  class Xcode
-    # FIXME: We should probably generate random id keys!
-    
+  class Xcode #:nodoc:
     attr_reader :project
     attr_reader :project_path
     attr_reader :project_data

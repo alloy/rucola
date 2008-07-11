@@ -1,34 +1,32 @@
 require 'osx/cocoa'
 
 module Rucola
-  module Notifications
-    # This Notifications module will add a class method called +notify_on+, which registers
-    # your object for the given notification and executes the given block when the
-    # notification is posted to the OSX::NSNotificationCenter.defaultCenter.
-    #
-    #   class FooController < OSX::NSObject
-    #
-    #     notify_on OSX::NSApplicationDidFinishLaunchingNotification do |notification|
-    #       puts "Application did finish launching."
-    #       p notification
-    #     end
-    #
-    #     # code
-    #
-    #   end
-    #   
-    #   In addition to notify_on, you also get a method called notify which allows you to specify methods
-    #   to be invoked when a notification is posted.
-    #     
-    #     class FooController < OSX::NSObject
-    #       notify :some_method, :when => :application_did_finish_launching
-    #     
-    #       def some_method(notification)
-    #         puts "Application finished launching"
-    #       end
-    #     end
-
-
+  module Notifications #:nodoc:
+      # This Notifications module will add a class method called +notify_on+, which registers
+      # your object for the given notification and executes the given block when the
+      # notification is posted to the OSX::NSNotificationCenter.defaultCenter.
+      #
+      #   class FooController < OSX::NSObject
+      #
+      #     notify_on OSX::NSApplicationDidFinishLaunchingNotification do |notification|
+      #       puts "Application did finish launching."
+      #       p notification
+      #     end
+      #
+      #     # code
+      #
+      #   end
+      #   
+      #   In addition to notify_on, you also get a method called notify which allows you to specify methods
+      #   to be invoked when a notification is posted.
+      #     
+      #     class FooController < OSX::NSObject
+      #       notify :some_method, :when => :application_did_finish_launching
+      #     
+      #       def some_method(notification)
+      #         puts "Application finished launching"
+      #       end
+      #     end
       module ClassMethods
         # Add prefix shortcuts as a hash.
         #

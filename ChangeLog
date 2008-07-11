@@ -1,3 +1,24 @@
+2008-7-11 Eloy Duran <e.duran@superalloy.nl>
+
+	* History.txt,
+	  License.txt,
+	  README.txt,
+	  TODO,
+	  bin/rucola,
+	  lib/rucola/dependencies/override_require_and_gem.rb,
+	  lib/rucola/dependencies/resolver.rb,
+	  lib/rucola/nib.rb,
+	  lib/rucola/ruby_debug.rb,
+	  lib/rucola/rucola_support/notifications/notifications.rb,
+	  lib/rucola/test_helper.rb,
+	  lib/rucola/version.rb,
+	  lib/rucola/xcode.rb,
+	  website/index.html,
+	  website/index.txt,
+	  website/template.rhtml:
+
+	Prepared for release 0.5. This will be the final ChangeLog entry, after this we'll rely on the nice git logs. Yay! :)
+
 2008-5-1 Eloy Duran <e.duran@superalloy.nl>
 
 	* lib/rucola/tasks/xcode.rake:

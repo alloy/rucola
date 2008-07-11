@@ -4,11 +4,11 @@ h1. &#x2192; 'rucola'
 
 h2. What
 
-A Framework for building Cocoa applications in Ruby
+A Framework for rapidly building RubyCocoa applications
 
 Rucola is a light weight framework that helps you write RubyCocoa apps.
 It allows you to build, test, and deploy applications using rake commands, 
-eliminating the need to use XCode, however you can use XCode if you wish.
+eliminating the need to use XCode for the most common tasks.
 
 Rucola provides a set of generators to help you generate controllers, window controllers, 
 and document-based applications.  It also provides APIs for simplifying some of Objective-C's 
@@ -16,100 +16,29 @@ ways of doing things.
 
 h2. Requirements
 
-* "RubyCocoa 0.13":http://sourceforge.net/project/showfiles.php?group_id=44114&package_id=36578 That's NOT the one included with Leopard, which is 0.12
+* "RubyCocoa 0.13.2":http://sourceforge.net/project/showfiles.php?group_id=44114&package_id=36578 <em>That's NOT the one currently included with Leopard</em>
 * For testing it's adviced to install the following gems: test-spec, mocha, zentest (autotest)
 
 h2. Installing
 
-<pre syntax="sh">sudo gem install rucola</pre>
+<pre syntax="sh">$ sudo gem install rucola</pre>
 
 h2. Demonstration of usage
 
 h3. Generating an application skeleton
 
-    rucola MyApp -a "Your Name"
+    <code>$ rucola MyApp -a "Your Name"</code>
 
 Running this command will give you a complete, working application with a single window already 
 bound to your application controller.
 
+h3. Running an application
 
-h3. Using Notifications
-
-    h4. Rucola
-    <pre syntax="ruby">
-    class Foo < Rucola::RCController
-      notify :some_method, :when => :something_happens
-  
-      def some_method(notification)
-        puts "w00t!"
-      end
-    end
-    </pre>
-
-    h4. Objective C (Excluding header file)
-    <pre syntax="c">
-    @implementation Foo
-    -(id)init {
-      if(self = [super init]) {
-        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-        [center addObserver:self selector:(some_method:) name:@"SomethingHappensNotification" object:nil];
-      }
-      return self;
-    }
-    
-    -(void)some_method:(NSNotification *) notification {
-      NSLog("w00t!");
-    }
-    @end
-    </pre>
-
-h3. Alternative Way Of Using Notifications
-
-    <pre syntax="ruby">
-    class Foo < Rucola::RCController
-      notify_on :something_happens do |notification|
-        puts "w0t0!"
-      end
-    end
-    </pre>
-
-h3. Working with Interface Builder
-
-A Cocoa application contains `outlets`.  Outlets allow you to bind variable names to objects.
-An object can be a user interface element or an instance of a class.
-
-    <pre syntax="ruby">
-    class ApplicationController < Rucola::RCController
-      ib_outlet :main_window
-
-      def awakeFromNib
-        # All the application delegate methods will be called on this object.
-        OSX::NSApp.delegate = self
-
-        puts "ApplicationController awoke."
-        puts "Edit: app/controllers/application_controller.rb"
-        puts  "\nIt's window is: #{@main_window.inspect}"
-      end
-
-      # NSApplication delegate methods
-      def applicationDidFinishLaunching(notification)
-        puts "\nApplication finished launching."
-      end
-
-      def applicationWillTerminate(notification)
-        puts "\nApplication will terminate."
-      end
-    end
-    </pre>
-
-The `@main_window` variable now points to the user interface window.  You can invoke any methods of NSWindow.
-
-There is also a `rake ib:update` that will update your nib files with the outlets you specify in your code.
-For example, if we wanted to add a button to the application controller above, we could add `ib_outlet :my_button`.
-After you've added this, you can run `rake ib:update` and your outlet will be available in interface builder that 
-you can now hook up to your UI button.
+    <code>$ rake</code>
 
 h2. Extras
+
+Documentation can be found "here.":http://rucola.rubyforge.org/rdoc/
 
 Sample apps can be found at:
 
@@ -144,7 +73,11 @@ h2. How to submit patches
 
 Read the "8 steps for fixing other people's code":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/ and for section "8b: Submit patch to Google Groups":http://drnicwilliams.com/2007/06/01/8-steps-for-fixing-other-peoples-code/#8b-google-groups, use the Google Group above.
 
-The trunk repository is <code>svn://rubyforge.org/var/svn/rucola/trunk</code> for anonymous access.
+Browse the git repo online at: <code>http://github.com/alloy/rucola/tree/master</code>
+
+The latest version can be checked out with:
+
+    <code>$ git clone git://github.com/alloy/rucola.git</code>
 
 h2. License
 
