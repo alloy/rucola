@@ -64,10 +64,11 @@ class TestRucolaGenerator < Test::Unit::TestCase
 
     assert_generated_file   "misc/main.m"
     assert_generated_file   "misc/rb_main.rb"
-    assert_generated_file   "misc/English.lproj/InfoPlist.strings"
     assert_generated_file   "misc/English.lproj/MainMenu.nib/classes.nib"
     assert_generated_file   "misc/English.lproj/MainMenu.nib/info.nib"
     assert_generated_file   "misc/English.lproj/MainMenu.nib/keyedobjects.nib"
+    assert_generated_file   "misc/English.lproj/InfoPlist.strings"
+    assert `file #{File.expand_path('../tmp/myproject/misc/English.lproj/InfoPlist.strings', __FILE__)}`.include?('Big-endian UTF-16')
     
     assert_directory_exists "myproject.xcodeproj"
     assert_generated_file   "myproject.xcodeproj/project.pbxproj"

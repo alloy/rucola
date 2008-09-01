@@ -5,6 +5,14 @@ class RubiGen::Commands::Create
     # so change to the destination_root and create the symlink.
     Dir.chdir(destination_root) { File.symlink relative_source, relative_destination }
   end
+  
+  require 'iconv'
+  def template_with_big_endian_utf16_encoding(relative_source, relative_destination, template_options = {})
+    template(relative_source, relative_destination, template_options = {})
+    
+    data = File.read(destination_path(relative_destination))
+    File.open(destination_path(relative_destination), 'w') { |f| f << Iconv.new('utf-16', 'utf-8').iconv(data) }
+  end
 end
 
 class RucolaGenerator < RubiGen::Base
@@ -48,8 +56,9 @@ class RucolaGenerator < RubiGen::Base
       m.template            "misc/rb_main.rb.erb", "misc/rb_main.rb"
 
       # TODO - allow alternate default languages
-      m.template            "misc/English.lproj/InfoPlist.strings.erb", "misc/English.lproj/InfoPlist.strings"
       m.file_copy_each      %w[classes.nib info.nib keyedobjects.nib], "misc/English.lproj/MainMenu.nib"
+      #m.template            "misc/English.lproj/InfoPlist.strings.erb", "misc/English.lproj/InfoPlist.strings"
+      m.template_with_big_endian_utf16_encoding "misc/English.lproj/InfoPlist.strings.erb", "misc/English.lproj/InfoPlist.strings"
 
       # xocde project
       m.directory           "#{@project}.xcodeproj"
