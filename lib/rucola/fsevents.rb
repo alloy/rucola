@@ -33,39 +33,61 @@ module Rucola
     attr_accessor :latency
     attr_accessor :flags
     
-    class << self
-      # Initializes a new FSEvents `watchdog` object,
-      # creates, starts and then returns the stream.
-      #
-      # Pass it a block which will be used as a callback.
-      # The block will receive an array of FSEvent objects.
-      #
-      #   fsevents = Rucola::FSEvents.start_watching('/some/path') do |events|
-      #     events.each do |event|
-      #       p event
-      #     end
-      #   end
-      #   p fsevents
-      def start_watching(*paths, &block)
-        fsevents = new(paths.flatten, &block)
-        fsevents.create_stream
-        fsevents.start
-        fsevents
-      end
+    # Initializes a new FSEvents `watchdog` object and starts watching the directories you specify for events. The
+    # block is used as a handler for events, which are passed as the block's argument. This method is the easiest
+    # way to start watching some directories if you don't care about the details of setting up the event stream.
+    #
+    #   Rucola::FSEvents.start_watching('/tmp') do |events|
+    #     events.each { |event| log.debug("#{event.files.inspect} were changed.") }
+    #   end
+    #   
+    #   Rucola::FSEvents.start_watching('/var/log/system.log', '/var/log/secure.log', :since => last_id, :latency => 5) do
+    #     Growl.notify("Something was added to your log files!")
+    #   end
+    #
+    # Note that the method also returns the FSEvents object. This enables you to control the event stream if you want to.
+    #
+    #   fsevents = Rucola::FSEvents.start_watching('/Volumes') do |events|
+    #     events.each { |event| Growl.notify("Volume changes: #{event.files.to_sentence}") }
+    #   end
+    #   fsevents.stop
+    def self.start_watching(*params, &block)
+      fsevents = new(*params, &block)
+      fsevents.create_stream
+      fsevents.start
+      fsevents
     end
     
-    # Creates a new FSEvents `watchdog` object.
-    # Pass it an array of paths and a block with your callback. Options allow you to specify in more detail how
-    # the events watcher should behave.
+    # Creates a new FSEvents `watchdog` object. You can specify a list of paths to watch and options to control the
+    # behaviour of the watchdog. The block you pass serves as a callback when an event is generated on one of the
+    # specified paths.
+    #
+    #   fsevents = FSEvents.new('/etc/passwd') { Mailer.send_mail("Someone touched the password file!") }
+    #   fsevents.create_stream
+    #   fsevents.start
+    #
+    #   fsevents = FSEvents.new('/home/upload', :since => UploadWatcher.last_event_id) do |events|
+    #     events.each do |event|
+    #       UploadWatcher.last_event_id = event.id
+    #       event.files.each do |file|
+    #         UploadWatcher.logfile.append("#{file} was changed")
+    #       end
+    #     end
+    #   end
     #
     # *:since: The service will report events that have happened after the supplied event ID. Never use 0 because that 
     #   will cause every fsevent since the "beginning of time" to be reported. Use OSX::KFSEventStreamEventIdSinceNow
     #   if you want to receive events that have happened after this call. (Default: OSX::KFSEventStreamEventIdSinceNow).
+    #   You can find the ID's passed with :since in the events passed to your block.
     # *:latency: Number of seconds to wait until an FSEvent is reported, this allows the service to bundle events. (Default: 0.0)
     #
-    # For the rest of the options read the Cocoa documentation.
-    def initialize(paths, options={}, &block)
+    # Please refer to the Cocoa documentation for the rest of the options.
+    def initialize(*params, &block)
       raise ArgumentError, 'No callback block was specified.' unless block_given?
+      
+      options = params.last.kind_of?(Hash) ? params.pop : {}
+      @paths = params.flatten
+      
       paths.each { |path| raise ArgumentError, "The specified path (#{path}) does not exist." unless File.exist?(path) }
       
       @allocator = options[:allocator] || OSX::KCFAllocatorDefault
@@ -75,7 +97,6 @@ module Rucola
       @flags     = options[:flags]     || 0
       @stream    = options[:stream]    || nil
       
-      @paths = paths
       @user_callback = block
       @callback = Proc.new do |stream, client_callback_info, number_of_events, paths_pointer, event_flags, event_ids|
         paths_pointer.regard_as('*')

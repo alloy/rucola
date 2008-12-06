@@ -21,7 +21,7 @@ module DependenciesSpecHelper
   end
   
   def copied_deps_path(file = '')
-    File.join(TMP_PATH, 'copied_dependencies', file)
+    File.join(Tmp.path, 'copied_dependencies', file)
   end
   
   def stubbed_equal_required_files
@@ -32,6 +32,7 @@ module DependenciesSpecHelper
 end
 
 describe "Dependencies::Dependency" do
+  include Tmp
   include DependenciesSpecHelper
   
   before do

@@ -3,26 +3,32 @@ require 'rucola/fsevents'
 
 describe "FSEvents initialization" do
   before do
-    @path = File.dirname(__FILE__)
-    @paths = [@path]
+    @paths = %w(first-directory second-directory).map { |dn| File.join(Tmp.path, dn) }
+    @paths.each { |path| FileUtils.mkdir_p(path) }
   end
 
   it "should raise an ArgumentError if a non existing path is specified" do
-    lambda { Rucola::FSEvents.new('/non/existing/path') {|events| 'nothing' } }.should.raise ArgumentError
+    lambda { Rucola::FSEvents.new('/non/existing/path') { |events| nil } }.should.raise ArgumentError
   end
   
   it "should raise an ArgumentError if no block was passed" do
-    lambda { Rucola::FSEvents.new(@paths) }.should.raise ArgumentError
+    lambda { Rucola::FSEvents.new(*@paths) }.should.raise ArgumentError
   end
   
   it "should take at minimum an array of paths and a block" do
-    fsevents = Rucola::FSEvents.new(@paths) { |events| 'nothing' }
+    fsevents = Rucola::FSEvents.new(*@paths) { |events| nil }
     fsevents.should.be.an.instance_of Rucola::FSEvents
-    fsevents.paths.first.should.be @path
+    fsevents.paths.should == @paths
+  end
+  
+  it "should take a list of paths instead of multiple path arguments" do
+    fsevents = Rucola::FSEvents.new(@paths) { |events| nil }
+    fsevents.should.be.an.instance_of Rucola::FSEvents
+    fsevents.paths.should == @paths
   end
   
   it "should have some default values" do
-    fsevents = Rucola::FSEvents.new(@paths) { |events| 'nothing' }
+    fsevents = Rucola::FSEvents.new(*@paths) { |events| nil }
     fsevents.allocator.should.be OSX::KCFAllocatorDefault
     fsevents.context.should.be nil
     fsevents.since.should.be OSX::KFSEventStreamEventIdSinceNow
@@ -33,28 +39,28 @@ describe "FSEvents initialization" do
 
   it "should be possible to create and start a stream with one call" do
     fsevents = mock('FSEvents')
-    Rucola::FSEvents.expects(:new).with(@paths).returns(fsevents)
+    Rucola::FSEvents.expects(:new).with(*@paths).returns(fsevents)
     fsevents.expects(:create_stream)
     fsevents.expects(:start)
     
-    result = Rucola::FSEvents.start_watching(@path) {|events| 'nothing' }
+    result = Rucola::FSEvents.start_watching(*@paths) {|events| nil }
     result.should.be(fsevents)
   end
   
   it "should accept options to tweak event parameters" do
-    fsevents = Rucola::FSEvents.new(@paths,
-      :latency => 5.2,
-      :since => 24051980
-    ) { |events| 'nothing' }
+    fsevents = Rucola::FSEvents.new(*(@paths+[{ :latency => 5.2, :since => 24051980 }])) { |events| nil }
+    fsevents.paths.should == @paths
     fsevents.since.should.be 24051980
     fsevents.latency.should == 5.2
   end
 end
 
 describe "FSEvents when setting up the stream" do
+  include Tmp
+  
   before do
-    @path = File.dirname(__FILE__)
-    @paths = [@path]
+    @paths = %w(first-directory second-directory).map { |dn| File.join(Tmp.path, dn) }
+    @paths.each { |path| FileUtils.mkdir_p(path) }
     @fsevents = Rucola::FSEvents.new(@paths) { |events| 'nothing' }
   end
   
@@ -90,63 +96,46 @@ describe "FSEvents when setting up the stream" do
   end
 end
 
-describe "FSEvents when started the stream" do
-  before do
-    @paths = [TMP_PATH]
-  end
+describe "FSEvents with a running stream" do
+  include Tmp
   
-  def touch_file
-    sleep 0.25
-    `touch #{@paths.first}/test.txt`
-    sleep 1.5
-    `rm #{@paths.first}/test.txt`
-  end
-  
-  def start(fsevents)
+  it "should run the specified block on events in the directory" do
+    waiter = :waiting
+    
+    Thread.new { OSX.CFRunLoopRun }
+    fsevents = Rucola::FSEvents.new(Tmp.path) do |events|
+      waiter = :done
+    end
     fsevents.create_stream
     fsevents.start
-    Thread.new { OSX.CFRunLoopRun }
-  end
-  
-  xit "should run the user specified block when one of the paths that was specified is modified" do
-    some_mock = mock
-    some_mock.expects(:call!)
     
-    fsevents = Rucola::FSEvents.new(@paths) do |events|
-      some_mock.call!
-      
-      events.length.should == 1
-      event = events.first
-      event.should.be.an.instance_of Rucola::FSEvents::FSEvent
-      event.path.should == @paths.first
+    new_file = File.join(Tmp.path, 'a-new-file')
+    FileUtils.touch(new_file)
+    File.should.exist(new_file)
+    
+    # Busy wait for the block to run
+    started = Time.now
+    while waiter == :waiting && (Time.now - started) < 60
+      sleep 0.1
     end
-    p fsevents
-    start(fsevents)
-    touch_file
+    waiter.should == :done
     fsevents.stop
   end
-end
+end unless ENV['QUICK_RUN']
 
 describe "FSEvent" do
+  include Tmp
+  
   before do
-    @tmp_path = TMP_PATH
-    @new_file, @old_file = "#{@tmp_path}/new_file", "#{@tmp_path}/old_file"
-
-    `touch #{@old_file}`
-    sleep 1
-    `touch #{@new_file}`
-  end
-
-  after do
-    `rm #{@old_file}`
-    `rm #{@new_file}`
+    @files = %w(first-file second-file).map { |fn| File.join(Tmp.path, fn) }
+    @files.each { |fn| FileUtils.touch(fn) }
   end
   
   it "should return an array of file entries in the path that the event occurred in, sorted by modification time (first element = last mod.)" do
-    Rucola::FSEvents::FSEvent.new(nil, 666, @tmp_path).files.should == [@new_file, @old_file]
+    Rucola::FSEvents::FSEvent.new(nil, nil, Tmp.path).files.should == @files.reverse
   end
   
   it "should return the last modified file" do
-    Rucola::FSEvents::FSEvent.new(nil, 999, @tmp_path).last_modified_file.should == @new_file
+    Rucola::FSEvents::FSEvent.new(nil, nil, Tmp.path).last_modified_file.should == @files.last
   end
 end
