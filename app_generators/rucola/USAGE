@@ -1,6 +1,0 @@
-Description:
-  Running this command will give you a complete, working application with a single window already 
-  bound to your application controller.
-  
-Usage:
-  rucola MyApp -a "Your Name"
