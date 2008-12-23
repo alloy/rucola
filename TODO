@@ -1,0 +1,4 @@
+MacRuby port:
+
+Cleanup:
+- Check if we really need the Rucola::RCApp controller/view methods
