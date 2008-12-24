@@ -27,3 +27,22 @@ module Kernel
   alias :xdescribe :xcontext
   alias :describe_shared :shared_context
 end
+
+# TODO: Find out why this is needed. Does this problem occur in 1.9 as well?
+module Test::Spec::TestCase::InstanceMethods
+  def call_methods_including_parents(method, reverse=false, klass=self.class)
+    return unless klass
+    
+    if reverse
+      if methods = klass.send(method)
+        methods.each { |s| instance_eval(&s) }
+      end
+      call_methods_including_parents(method, reverse, klass.parent)
+    else
+      call_methods_including_parents(method, reverse, klass.parent)
+      if methods = klass.send(method)
+        methods.each { |s| instance_eval(&s) }
+      end
+    end
+  end
+end

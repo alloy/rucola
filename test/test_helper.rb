@@ -1,7 +1,7 @@
 #require "rubygems"
-require "mocha"
 #require "test/spec"
 require File.expand_path('../helpers/macruby_test_spec_workarounds', __FILE__)
+require "mocha"
 
 #framework "cocoa"
 
