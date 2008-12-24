@@ -8,8 +8,7 @@ require "mocha"
 # # suppress all the warnings about contsants being re-initialized when re-requiring the same lib
 # $VERBOSE = nil
 
-$:.unshift File.expand_path('../../lib', __FILE__)
-
+require File.expand_path('../../lib/rucola', __FILE__)
 require "rucola/support"
 require "rucola/test_helpers"
 
