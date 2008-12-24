@@ -21,7 +21,7 @@ module Rucola
   module TestCase
     # Defines the controller that will be tested.
     #
-    #   class ApplicationController < OSX::NSObject
+    #   class ApplicationController < NSObject
     #     ib_outlet :window
     #     ib_outlets :tableView, :searchField
     #     ib_outlets :textField
@@ -32,19 +32,19 @@ module Rucola
     #     
     #     def after_setup
     #       ib_outlets :window => mock("Main Window"),
-    #                  :tableView => OSX::NSTableView.alloc.init,
-    #                  :searchField => OSX::NSSearchField.alloc.init
+    #                  :tableView => NSTableView.alloc.init,
+    #                  :searchField => NSSearchField.alloc.init
     #       
     #       window.stubs(:title => 'Main Window')
-    #       tableView.addTableColumn OSX::NSTableColumn.alloc.init
+    #       tableView.addTableColumn NSTableColumn.alloc.init
     #       searchField.stringValue = "foo"
     #     end
     #     
     #     def test_something
     #       p controller # => #<ApplicationController:0xdfa1ce class='ApplicationController' id=0x1e8d0e0>
     #       p window.title # => "Main Window"
-    #       p tableView.tableColumns # => #<NSCFArray [#<OSX::NSTableColumn:0xdf9d0a class='NSTableColumn' id=0x1e90d00>]>
-    #       p searchField # => #<OSX::NSSearchField:0xdfa43a class='NSSearchField' id=0x1e84cb0>
+    #       p tableView.tableColumns # => #<NSCFArray [#<NSTableColumn:0xdf9d0a class='NSTableColumn' id=0x1e90d00>]>
+    #       p searchField # => #<NSSearchField:0xdfa43a class='NSSearchField' id=0x1e84cb0>
     #
     #       # Note that we haven't set the textField ib_outlet to anything else in the after_setup method,
     #       # so it will be a stub which responds to everything by returning nil.
@@ -106,8 +106,8 @@ module Rucola
       # It basically just sets the instance variables, but also creates shorcut accessors to get at them from your tests.
       #
       #   def after_setup
-      #     ib_outlet :textField, OSX::NSTextField.alloc.init
-      #     p textField # => #<OSX::NSTextField:0xdfa3f4 class='NSTextField' id=0x1e842b0>
+      #     ib_outlet :textField, NSTextField.alloc.init
+      #     p textField # => #<NSTextField:0xdfa3f4 class='NSTextField' id=0x1e842b0>
       #   end
       #
       # Note that not every class can be instantiated in a test.
@@ -126,8 +126,8 @@ module Rucola
       #
       #   def after_setup
       #     ib_outlets :window => mock("Main Window"),
-      #                :tableView => OSX::NSTableView.alloc.init,
-      #                :searchField => OSX::NSSearchField.alloc.init
+      #                :tableView => NSTableView.alloc.init,
+      #                :searchField => NSSearchField.alloc.init
       #   end
       def ib_outlets(outlets)
         outlets.each {|k,v| ib_outlet(k, v) }
