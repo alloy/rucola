@@ -11,8 +11,9 @@ require "mocha"
 $:.unshift File.expand_path('../../lib', __FILE__)
 
 require "rucola/support"
+require "rucola/test_helpers"
 
-# FIXTURES = File.expand_path('../fixtures/', __FILE__)
+FIXTURES = File.expand_path('../fixtures/', __FILE__)
 # $TESTING = true
 
 require 'pathname'

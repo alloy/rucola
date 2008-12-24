@@ -1,5 +1,3 @@
-#require 'rucola/info_plist'
-
 module Rucola
   module RCApp
     # Returns the current RUCOLA_ENV, which normally is `debug' during development, `test' in the tests and `release' in a release.

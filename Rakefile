@@ -1,3 +1,11 @@
+require "rake/testtask"
+
+Rake::TestTask.new do |t|
+  t.test_files = FileList['test/**/*_test.rb']
+  t.verbose = true
+  #t.options = '-rr'
+end
+
 namespace :dev_dependencies do
   desc 'Install development dependencies'
   task :install => [:test_spec, :mocha]

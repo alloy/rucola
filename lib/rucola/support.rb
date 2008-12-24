@@ -5,6 +5,10 @@
 # require 'rucola_support/models'
 # require 'rucola/rucola_support/notifications'
 
+require "rucola/support/core_ext"
+
 module Rucola
-  autoload :RCApp, 'rucola/support/rc_app'
+  autoload :InfoPlist, 'rucola/info_plist'
+  autoload :Log,       'rucola/log'
+  autoload :RCApp,     'rucola/support/rc_app'
 end

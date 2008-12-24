@@ -46,3 +46,9 @@ module Test::Spec::TestCase::InstanceMethods
     end
   end
 end
+
+module Kernel
+  def unless_on_macruby
+    yield if not defined?(MACRUBY_VERSION) || ENV['RUN_ALL_TESTS']
+  end
+end
