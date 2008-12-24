@@ -1,28 +1,7 @@
 #require "rubygems"
 require "mocha"
-
-require "test/spec"
-# Tmp fix:
-module Kernel
-  def context(name, superclass=Test::Unit::TestCase, klass=Test::Spec::TestCase, &block)     # :doc:
-    (Test::Spec::CONTEXTS[name] ||= klass.new(name, nil, superclass)).add(&block)
-  end
-
-  def xcontext(name, superclass=Test::Unit::TestCase, &block)     # :doc:
-    context(name, superclass, Test::Spec::DisabledTestCase, &block)
-  end
-
-  def shared_context(name, &block)
-    Test::Spec::SHARED_CONTEXTS[name] << block
-  end
-
-  alias :describe :context
-  alias :xdescribe :xcontext
-  alias :describe_shared :shared_context
-
-  # private :context, :xcontext, :shared_context
-  # private :describe, :xdescribe, :describe_shared
-end
+#require "test/spec"
+require File.expand_path('../helpers/macruby_test_spec_workarounds', __FILE__)
 
 #framework "cocoa"
 

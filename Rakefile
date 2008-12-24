@@ -1,11 +1,24 @@
 namespace :dev_dependencies do
   desc 'Install development dependencies'
-  task :install => :bacon
+  task :install => [:test_spec, :mocha]
   
   task :bacon do
     version = '1.1.0'
     get "http://rubyforge-files.ruby-forum.com/test-spec/bacon-#{version}.tar.gz"
     install "/tmp/bacon-#{version}/lib/bacon.rb"
+  end
+  
+  task :test_spec do
+    version = '0.9.0'
+    get "http://files.rubyforge.vm.bytemark.co.uk/test-spec/test-spec-#{version}.tar.gz"
+    install "/tmp/test-spec-#{version}/lib/test"
+  end
+  
+  task :mocha do
+    version = '0.9.3'
+    get "http://files.rubyforge.mmmultiworks.com/mocha/mocha-#{version}.tgz"
+    mocha = "/tmp/mocha-#{version}"
+    FileList["#{mocha}/lib/*.rb", "#{mocha}/lib/mocha"].each { |f| install f }
   end
   
   private

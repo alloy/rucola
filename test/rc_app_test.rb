@@ -8,9 +8,9 @@ class Person; end
 class PreferencesController; end
 
 describe 'Rucola::RCApp' do
-  before do
-    @root_path = ::RUCOLA_ROOT
-  end
+  # before do
+  #   @root_path = ::RUCOLA_ROOT
+  # end
   
   it "should return the name of the application" do
     NSDictionary.expects(:dictionaryWithContentsOfFile).returns({'CFBundleExecutable' => 'PhatApp'})
