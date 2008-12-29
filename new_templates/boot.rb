@@ -35,7 +35,7 @@ module Rucola
   class VendorBoot < Boot
     def load_initializer
       require "#{RUCOLA_ROOT}/vendor/rucola/lib/initializer"
-      #Rails::Initializer.run(:install_gem_spec_stubs)
+      #Rucola::Initializer.run(:install_gem_spec_stubs)
     end
   end
   
