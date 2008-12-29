@@ -8,6 +8,10 @@ end
 
 module Rucola
   class << self
+    def set_environment!
+      Object.const_set("RUCOLA_ENV", discover_environment) unless defined?(RUCOLA_ENV)
+    end
+    
     def boot!
       pick_boot.run unless booted?
     end
@@ -22,6 +26,25 @@ module Rucola
     
     def vendor_rucola?
       File.exist?("#{RUCOLA_ROOT}/vendor/rucola")
+    end
+    
+    private
+    
+    def discover_environment
+      if env = ENV['RUCOLA_ENV']
+        env
+      else
+        if ENV['DYLD_LIBRARY_PATH']
+          env = ENV['DYLD_LIBRARY_PATH'].split('/').last.downcase
+          if %(debug release test).include?(env)
+            env
+          else
+            'debug'
+          end
+        else
+          'release'
+        end
+      end
     end
   end
   
@@ -48,4 +71,4 @@ module Rucola
 end
 
 # All that for this:
-Rucola.boot!
+Rucola.boot! unless ENV['DONT_START_RUCOLA_APP']
