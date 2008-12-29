@@ -3,3 +3,4 @@ MacRuby port:
 Cleanup:
 - Check if we really need the Rucola::RCApp controller/view methods
 - Check if we really need the File core_ext.
+- Credit Rails for boot code and Merb for some String methods.
