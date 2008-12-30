@@ -7,7 +7,7 @@ require File.expand_path('../../new_templates/boot.rb', __FILE__)
 
 describe "Rucola, when setting the environment" do
   after do
-    RUCOLA_ENV = 'test'
+    silence_warnings { ::RUCOLA_ENV = 'test' }
     ENV.delete('RUCOLA_ENV')
     ENV.delete('DYLD_LIBRARY_PATH')
   end
@@ -19,9 +19,9 @@ describe "Rucola, when setting the environment" do
   
   it "should use the path returned by ENV['DYLD_LIBRARY_PATH'] which is set by xcode" do
     [
-      ['/path/to/build/Release', 'release'],
-      ['/path/to/build/Debug',   'debug'],
-      ['/path/to/build/Test',    'test']
+      ['/root/build/Release', 'release'],
+      ['/root/to/build/Debug',   'debug'],
+      ['/root/to/build/Test',    'test']
     ].each do |path, env|
       ENV['DYLD_LIBRARY_PATH'] = path
       Rucola.send(:discover_environment).should == env
@@ -46,5 +46,47 @@ describe "Rucola, when setting the environment" do
     Object.send(:remove_const, :RUCOLA_ENV)
     Rucola.set_environment!
     RUCOLA_ENV.should == 'Foo'
+  end
+end
+
+describe "Rucola, when setting the application root" do
+  ORIGINAL_RUCOLA_ROOT = RUCOLA_ROOT
+  
+  after do
+    silence_warnings do
+      ::RUCOLA_ENV = 'test'
+      ::RUCOLA_ROOT = ORIGINAL_RUCOLA_ROOT
+    end
+    ENV.delete('RUCOLA_ROOT')
+  end
+  
+  it "should return ENV['RUCOLA_ROOT'] if available" do
+    root = '/path/to/application/root'
+    ENV['RUCOLA_ROOT'] = root
+    Rucola.send(:discover_root).should == root
+  end
+  
+  it "should return the path to the resources of the application bundle in `release'" do
+    silence_warnings { ::RUCOLA_ENV = 'release' }
+    Rucola.send(:discover_root).should ==
+      NSBundle.mainBundle.resourcePath.fileSystemRepresentation
+  end
+  
+  it "should return the root relative to ENV['DYLD_LIBRARY_PATH'] in other environments" do
+    %w{ /root/build/Debug /root/build/Test }.each do |path|
+      ENV['DYLD_LIBRARY_PATH'] = path
+      Rucola.send(:discover_root).should == '/root'
+    end
+  end
+  
+  it "should set the RUCOLA_ROOT constant to what Rucola.discover_root returns, unless already defined" do
+    Rucola.stubs(:discover_root).returns('/root')
+    
+    Rucola.set_root!
+    RUCOLA_ROOT.should == ORIGINAL_RUCOLA_ROOT
+    
+    Object.send(:remove_const, :RUCOLA_ROOT)
+    Rucola.set_root!
+    RUCOLA_ROOT.should == '/root'
   end
 end

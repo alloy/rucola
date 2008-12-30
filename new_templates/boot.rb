@@ -12,6 +12,10 @@ module Rucola
       Object.const_set("RUCOLA_ENV", discover_environment) unless defined?(RUCOLA_ENV)
     end
     
+    def set_root!
+      Object.const_set("RUCOLA_ROOT", discover_root) unless defined?(RUCOLA_ROOT)
+    end
+    
     def boot!
       pick_boot.run unless booted?
     end
@@ -43,6 +47,18 @@ module Rucola
           end
         else
           'release'
+        end
+      end
+    end
+    
+    def discover_root
+      if env = ENV['RUCOLA_ROOT']
+        env
+      else
+        if RUCOLA_ENV == 'release'
+          NSBundle.mainBundle.resourcePath.fileSystemRepresentation
+        else
+          File.expand_path('../../', ENV['DYLD_LIBRARY_PATH'])
         end
       end
     end
