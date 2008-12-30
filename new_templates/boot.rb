@@ -1,6 +1,8 @@
 # Don't change this file!
 # Configure your app in config/environment.rb and config/environments/*.rb
 
+require 'pathname'
+
 module Rucola
   class << self
     def set_environment!
@@ -24,7 +26,7 @@ module Rucola
     end
     
     def vendor_rucola?
-      File.exist?("#{RUCOLA_ROOT}/vendor/rucola")
+      (RUCOLA_ROOT + 'vendor/rucola').exist?
     end
     
     private
@@ -60,7 +62,7 @@ module Rucola
   
   class VendorBoot < Boot
     def load_initializer
-      require "#{RUCOLA_ROOT}/vendor/rucola/lib/initializer"
+      require RUCOLA_ROOT + "vendor/rucola/lib/initializer"
       #Rucola::Initializer.run(:install_gem_spec_stubs)
     end
   end
