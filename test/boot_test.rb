@@ -87,6 +87,6 @@ describe "Rucola, when setting the application root" do
     
     Object.send(:remove_const, :RUCOLA_ROOT)
     Rucola.set_root!
-    RUCOLA_ROOT.should == '/root'
+    RUCOLA_ROOT.should == Pathname.new('/root')
   end
 end

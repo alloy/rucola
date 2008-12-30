@@ -13,7 +13,7 @@ module Rucola
     end
     
     def set_root!
-      Object.const_set("RUCOLA_ROOT", discover_root) unless defined?(RUCOLA_ROOT)
+      Object.const_set("RUCOLA_ROOT", Pathname.new(discover_root)) unless defined?(RUCOLA_ROOT)
     end
     
     def boot!
@@ -37,29 +37,21 @@ module Rucola
     def discover_environment
       if env = ENV['RUCOLA_ENV']
         env
+      elsif env = ENV['DYLD_LIBRARY_PATH']
+        env = File.basename(env).downcase
+        %{ debug release test }.include?(env) ? env : 'debug'
       else
-        if ENV['DYLD_LIBRARY_PATH']
-          env = ENV['DYLD_LIBRARY_PATH'].split('/').last.downcase
-          if %(debug release test).include?(env)
-            env
-          else
-            'debug'
-          end
-        else
-          'release'
-        end
+        'release'
       end
     end
     
     def discover_root
       if env = ENV['RUCOLA_ROOT']
         env
+      elsif RUCOLA_ENV == 'release'
+        NSBundle.mainBundle.resourcePath.fileSystemRepresentation
       else
-        if RUCOLA_ENV == 'release'
-          NSBundle.mainBundle.resourcePath.fileSystemRepresentation
-        else
-          File.expand_path('../../', ENV['DYLD_LIBRARY_PATH'])
-        end
+        File.expand_path('../../', ENV['DYLD_LIBRARY_PATH'])
       end
     end
   end
