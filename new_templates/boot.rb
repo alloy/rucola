@@ -1,11 +1,6 @@
 # Don't change this file!
 # Configure your app in config/environment.rb and config/environments/*.rb
 
-unless defined?(RUCOLA_ROOT)
-  require 'pathname'
-  RUCOLA_ROOT = Pathname.new(File.expand_path('../..', __FILE__))
-end
-
 module Rucola
   class << self
     def set_environment!
@@ -76,7 +71,9 @@ module Rucola
       require 'rucola/initializer'
     end
   end
+  
+  # All that for this:
+  set_environment!
+  set_root!
+  boot! unless ENV['DONT_START_RUCOLA_APP']
 end
-
-# All that for this:
-Rucola.boot! unless ENV['DONT_START_RUCOLA_APP']
