@@ -25,11 +25,9 @@ describe "Info" do
     ]
   end
   
-  unless_on_macruby do
-    it "should be able to save the plist" do
-      @info_plist.data.expects('writeToFile:atomically:').with(@path, true)
-      @info_plist.save
-    end
+  it "should be able to save the plist" do
+    @info_plist.data.expects('writeToFile:atomically:').with(@path, true)
+    @info_plist.save
   end
   
   it "should be able to return the name of the application" do
