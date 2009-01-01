@@ -1,10 +1,10 @@
 module Kernel
   # Stub the Rucola::RCApp.env (+RUCOLA_ENV+) for the duration of the block.
   def with_env(env)
-    before = Rucola::RCApp.env
-    Rucola::RCApp.stubs(:env).returns(env)
+    before = ::RUCOLA_ENV
+    silence_warnings { Object.const_set('RUCOLA_ENV', env) }
     yield
-    Rucola::RCApp.stubs(:env).returns(before)
+    silence_warnings { Object.const_set('RUCOLA_ENV', before) }
   end
   
   # Silences any warnings that might have been thrown during the execution of the block.

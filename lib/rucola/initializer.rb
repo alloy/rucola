@@ -12,6 +12,11 @@ module Rucola
       def run
         yield configuration
       end
+      
+      def load_environment
+        require RCApp.root_path + "config/environment.rb"
+        require RCApp.root_path + "config/environment/#{RCApp.env}.rb"
+      end
     end
   end
   
