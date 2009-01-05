@@ -100,10 +100,10 @@ describe "Rucola, the boot process" do
     
   end
   
-  it "should load the environment" do
+  it "should start the configuration processing" do
     boot = Rucola::Boot.new
     boot.stubs(:load_initializer)
-    Rucola::Initializer.expects(:load_environment)
+    Rucola::Initializer.expects(:process)
     boot.run
   end
 end

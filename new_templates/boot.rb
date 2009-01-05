@@ -59,7 +59,7 @@ module Rucola
     def run
       load_initializer
       #Rucola::Initializer.run(:set_load_path)
-      Rucola::Initializer.load_environment
+      Rucola::Initializer.process
     end
   end
   

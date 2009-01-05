@@ -8,7 +8,7 @@ class PreferencesController; end
 
 describe 'Rucola::RCApp' do
   before do
-    @root_path = ::RUCOLA_ROOT
+    @root_path = Rucola::RCApp.root_path
   end
   
   it "should return the name of the application" do
@@ -23,19 +23,19 @@ describe 'Rucola::RCApp' do
   end
   
   it "should return the path to the current controllers dir" do
-    Rucola::RCApp.controllers_path.should == "#{@root_path}/app/controllers"
+    Rucola::RCApp.controllers_path.should == @root_path + "app/controllers"
   end
   
   it "should return the path to the current models dir" do
-    Rucola::RCApp.models_path.should == "#{@root_path}/app/models"
+    Rucola::RCApp.models_path.should == @root_path + "app/models"
   end
   
   it "should return the path to the current views dir" do
-    Rucola::RCApp.views_path.should == "#{@root_path}/app/views"
+    Rucola::RCApp.views_path.should == @root_path + "app/views"
   end
   
   it "should return the path to the current assets dir" do
-    Rucola::RCApp.assets_path.should == "#{@root_path}/app/assets"
+    Rucola::RCApp.assets_path.should == @root_path + "app/assets"
   end
   
   it "should return the path for a given controller" do
