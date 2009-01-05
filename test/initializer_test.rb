@@ -74,7 +74,6 @@ describe "Rucola::Initializer" do
   it "should load plugins" do
     RCApp.stubs(:root_path).returns(Pathname.new(FIXTURES))
     %w{ plugin/init.rb another_plugin/init.rb }.each do |file|
-      p RCApp.plugins_path + file
       Initializer.expects(:require).with(RCApp.plugins_path + file)
     end
     Initializer.load_plugins
