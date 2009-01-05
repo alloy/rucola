@@ -23,5 +23,18 @@ module Rucola
   end
   
   class Configuration
+    # The list of Objective-C frameworks that should be loaded.
+    # (Defaults to <tt>Cocoa<tt/>)
+    attr_accessor :frameworks
+    
+    def initialize
+      self.frameworks = default_frameworks
+    end
+    
+    private
+    
+    def default_frameworks
+      %w{ Cocoa }
+    end
   end
 end

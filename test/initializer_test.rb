@@ -29,3 +29,15 @@ describe "Rucola::Initializer" do
     end
   end
 end
+
+describe "Rucola::Configuration" do
+  before do
+    @config = Rucola::Configuration.new
+  end
+  
+  it "should have a frameworks accessor with ['Cocoa'] as it's default" do
+    @config.frameworks << 'WebKit'
+    @config.frameworks << 'AddressBook'
+    @config.frameworks.should == %w{ Cocoa WebKit AddressBook }
+  end
+end
