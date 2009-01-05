@@ -1,14 +1,9 @@
 #require "rubygems"
 #require "test/spec"
-require File.expand_path('../helpers/macruby_test_spec_workarounds', __FILE__)
 require "mocha"
 
-#framework "cocoa"
-
-# # suppress all the warnings about contsants being re-initialized when re-requiring the same lib
-# $VERBOSE = nil
-
 require File.expand_path('../../lib/rucola', __FILE__)
+require "rucola/test_spec" # For now require these monkeypatches
 require "rucola/support"
 require "rucola/test_helpers"
 
