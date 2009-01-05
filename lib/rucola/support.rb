@@ -1,10 +1,3 @@
-# require 'rucola/support/rc_app'
-# require 'rucola_support/initialize_hooks'
-# require 'rucola_support/core_ext'
-# require 'rucola_support/controllers'
-# require 'rucola_support/models'
-# require 'rucola/rucola_support/notifications'
-
 require "rucola/support/core_ext"
 
 module Rucola
@@ -13,4 +6,5 @@ module Rucola
   autoload :Initializer,   'rucola/initializer'
   autoload :Log,           'rucola/log'
   autoload :RCApp,         'rucola/support/rc_app'
+  autoload :RCController,  'rucola/support/rc_controller'
 end
