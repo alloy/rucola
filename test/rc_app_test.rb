@@ -38,6 +38,10 @@ describe 'Rucola::RCApp' do
     Rucola::RCApp.assets_path.should == @root_path + "app/assets"
   end
   
+  it "should return the path to the plugins dir" do
+    Rucola::RCApp.plugins_path.should == @root_path + 'vendor/plugins'
+  end
+  
   it "should return the path for a given controller" do
     Rucola::RCApp.path_for_controller(FooController).should == "#{@root_path}/app/controllers/foo_controller.rb"
   end

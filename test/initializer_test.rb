@@ -71,8 +71,18 @@ describe "Rucola::Initializer" do
     Initializer.load_application_files
   end
   
+  it "should load plugins" do
+    RCApp.stubs(:root_path).returns(Pathname.new(FIXTURES))
+    %w{ plugin/init.rb another_plugin/init.rb }.each do |file|
+      p RCApp.plugins_path + file
+      Initializer.expects(:require).with(RCApp.plugins_path + file)
+    end
+    Initializer.load_plugins
+  end
+  
   it "should start the configuration processing and call all initialization methods" do
     Initializer.expects(:load_environment)
+    Initializer.expects(:load_plugins)
     Initializer.expects(:set_load_path)
     Initializer.expects(:load_frameworks)
     Initializer.expects(:load_application_files)

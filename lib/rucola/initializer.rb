@@ -17,8 +17,8 @@ module Rucola
       
       def process
         load_environment
+        load_plugins
         set_load_path
-        
         load_frameworks
         load_application_files
       end
@@ -46,6 +46,18 @@ module Rucola
         %w{ controllers_path models_path views_path }.map do |type|
           Dir.glob("#{ RCApp.send(type) }/*.rb")
         end.flatten.each { |file| require file }
+      end
+      
+      # Loads all plugins in <tt>RCApp.plugins_path</tt>.
+      #
+      # As each plugin discovered in <tt>RCApp.plugins_path</tt> is initialized:
+      # * its +lib+ directory, if present, is added to the load path # TODO
+      # * <tt>init.rb</tt> is evaluated, if present
+      def load_plugins
+        RCApp.plugins_path.children.each do |plugin|
+          init = plugin + 'init.rb'
+          require(init) if init.exist?
+        end
       end
     end
   end

@@ -24,7 +24,7 @@ module Rucola
       RUCOLA_ROOT
     end
     
-    # Returns a Pathname containing the path to the current used app/controllers dir.
+    # Returns a Pathname containing the path to the app/controllers dir.
     #
     # So in debug & test mode this will point to your development
     # source_root/app/controllers.
@@ -35,7 +35,7 @@ module Rucola
       root_path + 'app/controllers'
     end
     
-    # Returns a Pathname containing the path to the current used app/models dir.
+    # Returns a Pathname containing the path to the app/models dir.
     #
     # So in debug & test mode this will point to your development
     # source_root/app/models.
@@ -46,7 +46,7 @@ module Rucola
       root_path + 'app/models'
     end
     
-    # Returns a Pathname containing the path to the current used app/assets dir.
+    # Returns a Pathname containing the path to the app/assets dir.
     #
     # So in debug & test mode this will point to your development
     # source_root/app/assets.
@@ -66,6 +66,17 @@ module Rucola
     #   NSBundle.mainBundle.resourcePath + 'app/views'
     def views_path
       root_path + 'app/views'
+    end
+    
+    # Returns a Pathname containing the path to the vendor/plugins dir.
+    #
+    # So in debug & test mode this will point to your development
+    # source_root/vendor/plugins.
+    #
+    # In release however this will point to the equivalent of:
+    #   NSBundle.mainBundle.resourcePath + 'vendor/plugins'
+    def plugins_path
+      root_path + 'vendor/plugins'
     end
     
     # Returns the path to a +controller+ file.

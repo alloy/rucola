@@ -37,25 +37,25 @@ RUCOLA_ENV = 'test'
 # end
 # Test::Spec::Should.send(:include, Test::Spec::Rucola::ShouldChange)
 # Test::Spec::ShouldNot.send(:include, Test::Spec::Rucola::ShouldNotChange)
-# 
-# require 'tmpdir'
-# require 'fileutils'
-# 
-# module Tmp
-#   def self.included(base)
-#     base.send(:before) { Tmp.setup }
-#     base.send(:after)  { Tmp.teardown }
-#   end
-#   
-#   def self.setup
-#     FileUtils.mkdir_p(path)
-#   end
-#   
-#   def self.teardown
-#     FileUtils.rm_rf(path)
-#   end
-#   
-#   def self.path
-#     File.join(Dir.tmpdir, 'rucola')
-#   end
-# end
+
+require 'tmpdir'
+require 'fileutils'
+
+module Tmp
+  def self.included(base)
+    base.send(:before) { Tmp.setup }
+    base.send(:after)  { Tmp.teardown }
+  end
+  
+  def self.setup
+    FileUtils.mkdir_p(path)
+  end
+  
+  def self.teardown
+    FileUtils.rm_rf(path)
+  end
+  
+  def self.path
+    File.join(Dir.tmpdir, 'rucola')
+  end
+end
