@@ -17,7 +17,7 @@ module Rucola
       
       def load_environment
         require RCApp.root_path + "config/environment.rb"
-        require RCApp.root_path + "config/environment/#{RCApp.env}.rb"
+        require RCApp.root_path + "config/environments/#{RCApp.env}.rb"
       end
     end
   end

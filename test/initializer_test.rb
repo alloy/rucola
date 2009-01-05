@@ -22,7 +22,7 @@ describe "Rucola::Initializer" do
     it "should load the global environment.rb file and config/environments/#{env}.rb" do
       with_env(env) do
         Rucola::Initializer.expects(:require).with(Rucola::RCApp.root_path + 'config/environment.rb')
-        Rucola::Initializer.expects(:require).with(Rucola::RCApp.root_path + "config/environment/#{env}.rb")
+        Rucola::Initializer.expects(:require).with(Rucola::RCApp.root_path + "config/environments/#{env}.rb")
         
         Rucola::Initializer.load_environment
       end
