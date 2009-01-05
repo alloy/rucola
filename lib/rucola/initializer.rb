@@ -1,3 +1,5 @@
+require 'rucola/support'
+
 module Rucola
   module Initializer
     class << self

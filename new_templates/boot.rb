@@ -47,6 +47,8 @@ module Rucola
         env
       elsif RUCOLA_ENV == 'release'
         NSBundle.mainBundle.resourcePath.fileSystemRepresentation
+      elsif RUCOLA_ENV == 'test'
+        File.expand_path('../../', __FILE__)
       else
         File.expand_path('../../', ENV['DYLD_LIBRARY_PATH'])
       end
@@ -56,7 +58,8 @@ module Rucola
   class Boot
     def run
       load_initializer
-      Rucola::Initializer.run(:set_load_path)
+      #Rucola::Initializer.run(:set_load_path)
+      Rucola::Initializer.load_environment
     end
   end
   

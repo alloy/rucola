@@ -3,7 +3,8 @@
 require File.expand_path('../test_helper', __FILE__)
 
 ENV['DONT_START_RUCOLA_APP'] = 'true'
-require File.expand_path('../../new_templates/boot.rb', __FILE__)
+BOOT_FILE = File.expand_path('../../new_templates/boot.rb', __FILE__)
+require BOOT_FILE
 
 describe "Rucola, when setting the environment" do
   after do
@@ -72,11 +73,14 @@ describe "Rucola, when setting the application root" do
       NSBundle.mainBundle.resourcePath.fileSystemRepresentation
   end
   
+  it "should return the root path relative to the boot.rb file in `test'" do
+    Rucola.send(:discover_root).should == File.expand_path('../../', BOOT_FILE)
+  end
+  
   it "should return the root relative to ENV['DYLD_LIBRARY_PATH'] in other environments" do
-    %w{ /root/build/Debug /root/build/Test }.each do |path|
-      ENV['DYLD_LIBRARY_PATH'] = path
-      Rucola.send(:discover_root).should == '/root'
-    end
+    silence_warnings { ::RUCOLA_ENV = 'debug' }
+    ENV['DYLD_LIBRARY_PATH'] = '/root/build/Debug'
+    Rucola.send(:discover_root).should == '/root'
   end
   
   it "should set the RUCOLA_ROOT constant to what Rucola.discover_root returns, unless already defined" do
@@ -88,5 +92,18 @@ describe "Rucola, when setting the application root" do
     Object.send(:remove_const, :RUCOLA_ROOT)
     Rucola.set_root!
     RUCOLA_ROOT.should == Pathname.new('/root')
+  end
+end
+
+describe "Rucola, the boot process" do
+  xit "should pick the correct boot type" do
+    
+  end
+  
+  it "should load the environment" do
+    boot = Rucola::Boot.new
+    boot.stubs(:load_initializer)
+    Rucola::Initializer.expects(:load_environment)
+    boot.run
   end
 end
