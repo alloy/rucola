@@ -67,21 +67,24 @@ describe "FSEvents when setting up the stream" do
   
   it "should create a real FSEvents stream" do
     @fsevents.create_stream
-    @fsevents.stream.should.be.an.instance_of ConstFSEventStreamRef
+    @fsevents.stream.should.be.an.instance_of FSEventStreamRef
   end
   
-  it "should raise a Rucola::FSEvents::StreamError if the stream could not be created" do
-    @fsevents.expects(:FSEventStreamCreate).returns(nil)
-    lambda { @fsevents.create_stream }.should.raise Rucola::FSEvents::StreamError
-  end
-  
-  it "should register the stream with the current runloop" do
-    stream_mock = mock('Stream')
-    @fsevents.expects(:FSEventStreamCreate).returns(stream_mock)
-    runloop_mock = mock('Runloop')
-    @fsevents.expects(:CFRunLoopGetCurrent).returns(runloop_mock)
-    @fsevents.expects(:FSEventStreamScheduleWithRunLoop).with(stream_mock, runloop_mock, KCFRunLoopDefaultMode)
-    @fsevents.create_stream
+  # Problems with mocking
+  unless_on_macruby do
+    it "should raise a Rucola::FSEvents::StreamError if the stream could not be created" do
+      @fsevents.stubs(:FSEventStreamCreate).returns(nil)
+      lambda { @fsevents.create_stream }.should.raise Rucola::FSEvents::StreamError
+    end
+    
+    it "should register the stream with the current runloop" do
+      stream_mock = mock('Stream')
+      @fsevents.expects(:FSEventStreamCreate).returns(stream_mock)
+      runloop_mock = mock('Runloop')
+      @fsevents.expects(:CFRunLoopGetCurrent).returns(runloop_mock)
+      @fsevents.expects(:FSEventStreamScheduleWithRunLoop).with(stream_mock, runloop_mock, KCFRunLoopDefaultMode)
+      @fsevents.create_stream
+    end
   end
   
   it "should start the stream" do
@@ -92,51 +95,53 @@ describe "FSEvents when setting up the stream" do
   end
   
   it "should raise a Rucola::FSEvents::StreamError if the stream could not be started" do
-    @fsevents.expects(:FSEventStreamStart).returns(false)
+    @fsevents.stubs(:FSEventStreamStart).returns(false)
     lambda { @fsevents.start }.should.raise Rucola::FSEvents::StreamError
   end
 end
 
-describe "FSEvents with a running stream" do
-  include Tmp
-  
-  it "should run the specified block on events in the directory" do
-    waiter = :waiting
+unless_on_macruby do
+  describe "FSEvents with a running stream" do
+    include Tmp
     
-    Thread.new { CFRunLoopRun() }
-    fsevents = Rucola::FSEvents.new(Tmp.path) do |events|
-      waiter = :done
+    it "should run the specified block on events in the directory" do
+      waiter = :waiting
+      
+      Thread.new { CFRunLoopRun() }
+      fsevents = Rucola::FSEvents.new(Tmp.path) do |events|
+        waiter = :done
+      end
+      fsevents.create_stream
+      fsevents.start
+      
+      new_file = File.join(Tmp.path, 'a-new-file')
+      FileUtils.touch(new_file)
+      File.should.exist(new_file)
+      
+      # Busy wait for the block to run
+      started = Time.now
+      while waiter == :waiting && (Time.now - started) < 60
+        sleep 0.1
+      end
+      waiter.should == :done
+      fsevents.stop
     end
-    fsevents.create_stream
-    fsevents.start
+  end unless ENV['QUICK_RUN']
+  
+  describe "FSEvent" do
+    include Tmp
     
-    new_file = File.join(Tmp.path, 'a-new-file')
-    FileUtils.touch(new_file)
-    File.should.exist(new_file)
-    
-    # Busy wait for the block to run
-    started = Time.now
-    while waiter == :waiting && (Time.now - started) < 60
-      sleep 0.1
+    before do
+      @files = %w(first-file second-file).map { |fn| File.join(Tmp.path, fn) }
+      @files.each { |fn| FileUtils.touch(fn) }
     end
-    waiter.should == :done
-    fsevents.stop
-  end
-end unless ENV['QUICK_RUN']
-
-describe "FSEvent" do
-  include Tmp
-  
-  before do
-    @files = %w(first-file second-file).map { |fn| File.join(Tmp.path, fn) }
-    @files.each { |fn| FileUtils.touch(fn) }
-  end
-  
-  it "should return an array of file entries in the path that the event occurred in, sorted by modification time (first element = last mod.)" do
-    Rucola::FSEvents::FSEvent.new(nil, nil, Tmp.path).files.should == @files.reverse
-  end
-  
-  it "should return the last modified file" do
-    Rucola::FSEvents::FSEvent.new(nil, nil, Tmp.path).last_modified_file.should == @files.last
+    
+    it "should return an array of file entries in the path that the event occurred in, sorted by modification time (first element = last mod.)" do
+      Rucola::FSEvents::FSEvent.new(nil, nil, Tmp.path).files.should == @files.reverse
+    end
+    
+    it "should return the last modified file" do
+      Rucola::FSEvents::FSEvent.new(nil, nil, Tmp.path).last_modified_file.should == @files.last
+    end
   end
 end
