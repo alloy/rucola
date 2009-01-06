@@ -1,4 +1,4 @@
-#!/usr/local/bin/macruby
+#!/usr/bin/env macruby
 
 require File.expand_path('../../test_helper', __FILE__)
 
