@@ -4,7 +4,7 @@ require File.expand_path('../test_helper', __FILE__)
 
 class FooController; end
 class Person; end
-class PreferencesController; end
+class PreferencesController < Rucola::RCWindowController; end
 
 describe 'Rucola::RCApp' do
   before do
@@ -60,7 +60,7 @@ describe 'Rucola::RCApp' do
     Rucola::RCApp.path_for_view('Preferences').should == view_path
     Rucola::RCApp.path_for_view('preferences').should == view_path
     Rucola::RCApp.path_for_view(PreferencesController).should == view_path
-    Rucola::RCApp.path_for_view(PreferencesController.new).should == view_path
+    Rucola::RCApp.path_for_view(PreferencesController.alloc.init).should == view_path
   end
   
   it "should return the path for a given asset" do

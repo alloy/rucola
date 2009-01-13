@@ -7,13 +7,14 @@ class Object
       @defined_ib_outlets ||= []
     end
     
-    # Override ib_outlets so we can store which ones need to be defined.
+    # Override attr_writer so we can store which ib outlets need to be defined.
     #
     # Only used in test cases.
-    def ib_outlets(*outlets)
+    alias_method :__attr_writer_before_rucola_test_case, :attr_writer
+    def attr_writer(*outlets)
       defined_ib_outlets.concat(outlets.flatten)
+      __attr_writer_before_rucola_test_case(*outlets)
     end
-    alias_method :ib_outlet, :ib_outlets
   end
 end
 

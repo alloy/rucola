@@ -15,6 +15,10 @@ module Rucola
         yield configuration
       end
       
+      def start_application!
+        NSApplicationMain(0, nil)
+      end
+      
       def process
         load_environment
         load_plugins

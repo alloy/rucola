@@ -101,8 +101,8 @@ module Rucola
     #   Rucola::RCApp.path_for_controller(PreferencesController) #=> 'root/app/views/Preferences.nib'
     #   Rucola::RCApp.path_for_controller(PreferencesController.alloc.init) #=> 'root/app/views/Preferences.nib'
     def path_for_view(view)
-      view = view.class unless view.is_a?(String) or view.is_a?(Class)
-      view = view.name.to_s.sub(/Controller$/, '') if view.is_a? Class
+      view = view.class unless view.is_a?(String) || view.is_a?(Class)
+      view = view.name.to_s.sub(/Controller$/, '') if view.is_a?(Class)
       "#{views_path}/#{view.camel_case}.nib"
     end
     

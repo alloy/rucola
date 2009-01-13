@@ -7,6 +7,8 @@ require "rucola/test_spec" # For now require these monkeypatches
 require "rucola/support"
 require "rucola/test_helpers"
 
+framework 'Cocoa'
+
 FIXTURES = File.expand_path('../fixtures/', __FILE__)
 # $TESTING = true
 
@@ -14,9 +16,6 @@ require 'pathname'
 RUCOLA_ROOT = Pathname.new(File.expand_path(File.dirname(__FILE__)))
 RUCOLA_ENV = 'test'
 
-# require 'rucola/rucola_support'
-# require 'rucola/test_helper'
-# 
 # # Don't know if this is good enough yet to add to the helpers for apps.
 # # Need to see what assert_difference does.
 # module Test::Spec::Rucola
