@@ -6,19 +6,19 @@ ENV['DONT_START_RUCOLA_APP'] = 'true'
 BOOT_FILE = File.expand_path('../../new_templates/boot.rb', __FILE__)
 require BOOT_FILE
 
-RAKE_WAS_DEFINED = defined?(Rake)
+module RakeHelper
+  def with_rake
+    with_env_var('WITH_RAKE') { yield }
+  end
+end
 
 describe "Rucola, when setting the environment" do
-  after do
-    silence_warnings { ::RUCOLA_ENV = 'test' }
-    ENV.delete('RUCOLA_ENV')
-    ENV.delete('DYLD_LIBRARY_PATH')
-    Object.send(:remove_const, :Rake) unless !defined?(Rake) || RAKE_WAS_DEFINED
-  end
+  include RakeHelper
   
   it "should use ENV['RUCOLA_ENV'] if available" do
-    ENV['RUCOLA_ENV'] = 'debug'
-    Rucola.send(:discover_environment).should == 'debug'
+    with_env_var('RUCOLA_ENV', 'debug') do
+      Rucola.send(:discover_environment).should == 'debug'
+    end
   end
   
   it "should use the path returned by ENV['DYLD_LIBRARY_PATH'] which is set by xcode" do
@@ -27,62 +27,57 @@ describe "Rucola, when setting the environment" do
       ['/root/to/build/Debug',   'debug'],
       ['/root/to/build/Test',    'test']
     ].each do |path, env|
-      ENV['DYLD_LIBRARY_PATH'] = path
-      Rucola.send(:discover_environment).should == env
+      with_env_var('DYLD_LIBRARY_PATH', path) do
+        Rucola.send(:discover_environment).should == env
+      end
     end
   end
   
   it "should return `debug' if ENV['DYLD_LIBRARY_PATH'] returns a path to a directory not named `Release', `Debug' or `Test'" do
-    ENV['DYLD_LIBRARY_PATH'] = '/path/to/build/Foo'
-    Rucola.send(:discover_environment).should == 'debug'
+    with_env_var('DYLD_LIBRARY_PATH', '/path/to/build/Foo') do
+      Rucola.send(:discover_environment).should == 'debug'
+    end
   end
   
-  it "should return `debug` if the `Rake` constant is defined, which would mean running from rake" do
-    Object.const_set("Rake", 'running rake') unless RAKE_WAS_DEFINED
-    Rucola.send(:discover_environment).should == 'debug'
+  it "should return `debug` if  running from rake" do
+    with_rake do
+      Rucola.send(:discover_environment).should == 'debug'
+    end
   end
   
-  # fails because stubbing is still very broken on MacRuby
-  xit "should return `release' if non of the other predicates match" do
-    Object.const_set("Rake", 'running rake') unless RAKE_WAS_DEFINED
-    Rucola.stubs(:defined?).returns(nil)
+  it "should return `release' if non of the other predicates match" do
     Rucola.send(:discover_environment).should == 'release'
   end
   
   it "should set the RUCOLA_ENV constant to what Rucola.discover_environment returns, unless already defined" do
-    Rucola.stubs(:discover_environment).returns('Foo')
-    
-    Rucola.set_environment!
-    RUCOLA_ENV.should == 'test'
-    
-    Object.send(:remove_const, :RUCOLA_ENV)
-    Rucola.set_environment!
-    RUCOLA_ENV.should == 'Foo'
+    with_env 'test' do
+      Rucola.stubs(:discover_environment).returns('Foo')
+      
+      Rucola.set_environment!
+      RUCOLA_ENV.should == 'test'
+      
+      Object.send(:remove_const, :RUCOLA_ENV)
+      Rucola.set_environment!
+      RUCOLA_ENV.should == 'Foo'
+    end
   end
 end
 
 describe "Rucola, when setting the application root" do
-  ORIGINAL_RUCOLA_ROOT = RUCOLA_ROOT
-  
-  after do
-    silence_warnings do
-      ::RUCOLA_ENV = 'test'
-      ::RUCOLA_ROOT = ORIGINAL_RUCOLA_ROOT
-    end
-    ENV.delete('RUCOLA_ROOT')
-    Object.send(:remove_const, :Rake) unless !defined?(Rake) || RAKE_WAS_DEFINED
-  end
+  include RakeHelper
   
   it "should return ENV['RUCOLA_ROOT'] if available" do
     root = '/path/to/application/root'
-    ENV['RUCOLA_ROOT'] = root
-    Rucola.send(:discover_root).should == root
+    with_env_var('RUCOLA_ROOT', root) do
+      Rucola.send(:discover_root).should == root
+    end
   end
   
   it "should return the path to the resources of the application bundle in `release'" do
-    silence_warnings { ::RUCOLA_ENV = 'release' }
-    Rucola.send(:discover_root).should ==
-      NSBundle.mainBundle.resourcePath.fileSystemRepresentation
+    with_env 'release' do
+      Rucola.send(:discover_root).should ==
+        NSBundle.mainBundle.resourcePath.fileSystemRepresentation
+    end
   end
   
   it "should return the root path relative to the boot.rb file in `test'" do
@@ -90,26 +85,34 @@ describe "Rucola, when setting the application root" do
   end
   
   it "should return the root path relative to the boot.rb file in `debug` if the `Rake` constant is defined, which would mean running from rake" do
-    silence_warnings { ::RUCOLA_ENV = 'debug' }
-    Object.const_set("Rake", 'running rake') unless RAKE_WAS_DEFINED
-    Rucola.send(:discover_root).should == File.expand_path('../../', BOOT_FILE)
+    with_rake do
+      with_env 'debug' do
+        Rucola.send(:discover_root).should == File.expand_path('../../', BOOT_FILE)
+      end
+    end
   end
   
   it "should return the root relative to ENV['DYLD_LIBRARY_PATH'] in other environments" do
-    silence_warnings { ::RUCOLA_ENV = 'debug' }
-    ENV['DYLD_LIBRARY_PATH'] = '/root/build/Debug'
-    Rucola.send(:discover_root).should == '/root'
+    with_env 'debug' do
+      with_env_var('DYLD_LIBRARY_PATH', '/root/build/Debug') do
+        Rucola.send(:discover_root).should == '/root'
+      end
+    end
   end
   
   it "should set the RUCOLA_ROOT constant to what Rucola.discover_root returns, unless already defined" do
-    Rucola.stubs(:discover_root).returns('/root')
+    before = ::RUCOLA_ROOT
     
-    Rucola.set_root!
-    RUCOLA_ROOT.should == ORIGINAL_RUCOLA_ROOT
-    
-    Object.send(:remove_const, :RUCOLA_ROOT)
-    Rucola.set_root!
-    RUCOLA_ROOT.should == Pathname.new('/root')
+    with_root(before) do
+      Rucola.stubs(:discover_root).returns('/root')
+      
+      Rucola.set_root!
+      RUCOLA_ROOT.should == before
+      
+      Object.send(:remove_const, :RUCOLA_ROOT)
+      Rucola.set_root!
+      RUCOLA_ROOT.should == Pathname.new('/root')
+    end
   end
 end
 

@@ -37,8 +37,7 @@ module Rucola
       elsif env = ENV['DYLD_LIBRARY_PATH']
         env = File.basename(env).downcase
         %{ debug release test }.include?(env) ? env : 'debug'
-      elsif defined?(Rake)
-        # presumably runnig from Rake
+      elsif running_rake?
         'debug'
       else
         'release'
@@ -50,12 +49,21 @@ module Rucola
         env
       elsif RUCOLA_ENV == 'release'
         NSBundle.mainBundle.resourcePath.fileSystemRepresentation
-      elsif RUCOLA_ENV == 'test' || (RUCOLA_ENV == 'debug' && defined?(Rake))
-        # either `test` or `debug` and presumably runnig from Rake
+      elsif RUCOLA_ENV == 'test' || (RUCOLA_ENV == 'debug' && running_rake?)
         File.expand_path('../../', __FILE__)
       else
         File.expand_path('../../', ENV['DYLD_LIBRARY_PATH'])
       end
+    end
+    
+    # We check for the +rake_extension+ method, because of a constant lookup
+    # bug in MacRuby which makes it so `Rake' is found as Rucola::Rake. So
+    # defined?(Rake) won't work in this case.
+    #
+    # The ENV['WITH_RAKE'] is unfortunately to work around another bug which
+    # occurs when trying define and undefine methods on a singleton.
+    def running_rake?
+      ENV['WITH_RAKE'] || Module.respond_to?(:rake_extension)
     end
   end
   
