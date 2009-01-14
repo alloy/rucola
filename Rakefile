@@ -2,10 +2,13 @@ require "rake/testtask"
 
 task :default => :test
 
-Rake::TestTask.new do |t|
-  t.test_files = FileList['test/**/*_test.rb']
-  t.verbose = true
-  #t.options = '-rr'
+desc "Run all tests, this is very broken atm on MacRuby"
+task :test do
+  # Oh MacRuby, the pain…
+  tests = Dir.glob("test/**/*_test.rb")
+  tests.each do |test|
+    sh "macruby '#{test}'" rescue RuntimeError
+  end
 end
 
 namespace :dev_dependencies do
