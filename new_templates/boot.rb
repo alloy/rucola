@@ -22,7 +22,7 @@ module Rucola
     end
     
     def pick_boot
-      (vendor_rucola? ? VendorBoot : GemBoot).new
+      (vendor_rucola? ? Boot::Vendor : Boot::Gem).new
     end
     
     def vendor_rucola?
@@ -70,27 +70,25 @@ module Rucola
   class Boot
     def run
       load_initializer
-      #Rucola::Initializer.run(:set_load_path)
       Rucola::Initializer.process
     end
-  end
-  
-  class VendorBoot < Boot
-    def load_initializer
-      require RUCOLA_ROOT + "vendor/rucola/lib/initializer"
-      #Rucola::Initializer.run(:install_gem_spec_stubs)
+    
+    class Vendor < Boot
+      def load_initializer
+        require RUCOLA_ROOT + "vendor/rucola/lib/initializer"
+      end
     end
-  end
-  
-  class GemBoot < Boot
-    def load_initializer
-      require 'rubygems'
-      require 'rucola/initializer'
+    
+    class Gem < Boot
+      def load_initializer
+        require 'rubygems'
+        require 'rucola/initializer'
+      end
     end
   end
   
   # All that for this:
   set_environment!
   set_root!
-  boot! unless ENV['DONT_START_RUCOLA_APP']
+  boot!
 end

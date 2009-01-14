@@ -2,7 +2,6 @@
 
 require File.expand_path('../test_helper', __FILE__)
 
-ENV['DONT_START_RUCOLA_APP'] = 'true'
 BOOT_FILE = File.expand_path('../../new_templates/boot.rb', __FILE__)
 require BOOT_FILE
 
@@ -117,8 +116,14 @@ describe "Rucola, when setting the application root" do
 end
 
 describe "Rucola, the boot process" do
-  xit "should pick the correct boot type" do
-    
+  it "should use Rucola::Boot::Vendor if 'root/vendor/rucola' exists" do
+    with_root(Pathname.new(FIXTURES)) do
+      Rucola.pick_boot.should.be.instance_of Rucola::Boot::Vendor
+    end
+  end
+  
+  it "should use Rucola::Boot::Gem if 'root/vendor/rucola' does not exists" do
+    Rucola.pick_boot.should.be.instance_of Rucola::Boot::Gem
   end
   
   it "should start the configuration processing" do
