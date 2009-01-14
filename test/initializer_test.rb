@@ -79,11 +79,24 @@ describe "Rucola::Initializer" do
     Initializer.load_plugins
   end
   
+  it "should load files from the require queue" do
+    Initializer.run do |config|
+      config.require 'some/lib'
+      config.require 'and/another/lib'
+    end
+    
+    Initializer.expects(:require).with('some/lib')
+    Initializer.expects(:require).with('and/another/lib')
+    
+    Initializer.load_require_queue
+  end
+  
   it "should start the configuration processing and call all initialization methods" do
     Initializer.expects(:load_environment)
     Initializer.expects(:load_plugins)
     Initializer.expects(:set_load_path)
     Initializer.expects(:load_frameworks)
+    Initializer.expects(:load_require_queue)
     Initializer.expects(:load_application_files)
     
     Initializer.process
@@ -95,13 +108,13 @@ describe "Rucola::Configuration" do
     @config = Rucola::Configuration.new
   end
   
-  it "should have a frameworks accessor" do
-    @config.frameworks << 'WebKit'
+  it "should add a framework" do
+    @config.framework 'WebKit'
     @config.frameworks.should == %w{ Cocoa WebKit }
   end
   
-  it "should have a load_paths accessor" do
-    @config.load_paths << '/some/load/path'
+  it "should add a load path" do
+    @config.load_path '/some/load/path'
     
     paths = %w{
       app/controllers
@@ -113,5 +126,12 @@ describe "Rucola::Configuration" do
     paths << '/some/load/path'
     
     @config.load_paths.should == paths
+  end
+  
+  it "should add a library to the require_queue" do
+    @config.require 'some/lib'
+    @config.require 'and/another/lib'
+    
+    @config.require_queue.should == %w{ some/lib and/another/lib }
   end
 end
