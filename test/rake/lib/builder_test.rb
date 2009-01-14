@@ -2,6 +2,28 @@
 
 require File.expand_path('../../../test_helper', __FILE__)
 
+describe "Rucola::Rake::Builder class methods'" do
+  def setup
+    @root = Rucola::RCApp.root_path
+  end
+  
+  it "should return (Rucola::RCApp.root_path + build) when no custom build dir has been specified" do
+    Rucola::Rake::Builder.build_root.should == @root + 'build'
+  end
+  
+  it "should return (Rucola::RCApp.root_path + build) when the user has XCode defaults but no custom build dir has been specified" do
+    NSUserDefaults.standardUserDefaults.stubs(:[]).with('PBXApplicationwideBuildSettings').returns({})
+    Rucola::Rake::Builder.build_root.should == @root + 'build'
+  end
+  
+  it "should return the path to the build root when the user has specified a build dir in XCode" do
+    defaults = { 'SYMROOT' => '/global/build/dir' }
+    NSUserDefaults.standardUserDefaults.stubs(:[]).with('PBXApplicationwideBuildSettings').returns(defaults)
+    
+    Rucola::Rake::Builder.build_root.should == Pathname.new('/global/build/dir')
+  end
+end
+
 describe "Rucola::Rake::Builder in `release'" do
   def setup
     @builder = Rucola::Rake::Builder.new('release')
@@ -29,6 +51,7 @@ end
     
     def setup
       @root = Rucola::RCApp.root_path
+      @build_root = Rucola::Rake::Builder.build_root
       @builder = Rucola::Rake::Builder.new(env)
     end
     
@@ -41,25 +64,9 @@ end
       should_have_executed :sh, ["xcodebuild -configuration #{@builder.configuration}"]
     end
     
-    it "should return (Rucola::RCApp.root_path + build) when no custom build dir has been specified" do
-      @builder.build_root.should == @root + 'build'
-    end
-    
-    it "should return (Rucola::RCApp.root_path + build) when the user has XCode defaults but no custom build dir has been specified" do
-      NSUserDefaults.standardUserDefaults.stubs(:[]).with('PBXApplicationwideBuildSettings').returns({})
-      @builder.build_root.should == @root + 'build'
-    end
-    
-    it "should return the path to the build root when the user has specified a build dir in XCode" do
-      defaults = { 'SYMROOT' => '/global/build/dir' }
-      NSUserDefaults.standardUserDefaults.stubs(:[]).with('PBXApplicationwideBuildSettings').returns(defaults)
-      
-      @builder.build_root.should == Pathname.new('/global/build/dir')
-    end
-    
     it "should return the path to the application bundle for the current `configuration'" do
       Rucola::RCApp.stubs(:app_name).returns('MyApp')
-      @builder.application_bundle.should == @builder.build_root + env.capitalize + 'MyApp.app'
+      @builder.application_bundle.should == @build_root + env.capitalize + 'MyApp.app'
     end
     
     it "should return the path to the `executable'" do

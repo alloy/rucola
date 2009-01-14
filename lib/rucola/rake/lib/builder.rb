@@ -3,6 +3,24 @@ require 'objc_ext/ns_user_defaults'
 module Rucola
   module Rake
     class Builder
+      # Returns a Pathname instance with the path to the build directory.
+      #
+      # If the user has configured a global build dir in XCode.app that is
+      # returned, otherwise defaults to the build directory in the source root:
+      #
+      #   Rucola::RCApp.root_path + 'build'
+      def self.build_root
+        defaults = NSUserDefaults.standardUserDefaults
+        defaults.addSuiteNamed 'com.apple.xcode'
+        
+        if defaults['PBXApplicationwideBuildSettings'] &&
+              (root = defaults['PBXApplicationwideBuildSettings']['SYMROOT'])
+          Pathname.new(root)
+        else
+          Rucola::RCApp.root_path + 'build'
+        end
+      end
+      
       # Returns a new Builder instance with for specified environment. Defaults
       # to <tt>Rucola::RCApp.env</tt>
       def initialize(env = Rucola::RCApp.env)
@@ -33,28 +51,10 @@ module Rucola
         "RUCOLA_ENV='#{@env}' RUCOLA_ROOT='#{Rucola::RCApp.root_path}'"
       end
       
-      # Returns a Pathname instance with the path to the build directory.
-      #
-      # If the user has configured a global build dir in XCode.app that is
-      # returned, otherwise defaults to the build directory in the source root:
-      #
-      #   Rucola::RCApp.root_path + 'build'
-      def build_root
-        defaults = NSUserDefaults.standardUserDefaults
-        defaults.addSuiteNamed 'com.apple.xcode'
-        
-        if defaults['PBXApplicationwideBuildSettings'] &&
-              (root = defaults['PBXApplicationwideBuildSettings']['SYMROOT'])
-          Pathname.new(root)
-        else
-          Rucola::RCApp.root_path + 'build'
-        end
-      end
-      
       # Returns a Pathname instance with the path to the application bundle for
       # the current environment.
       def application_bundle
-        build_root + configuration + "#{Rucola::RCApp.app_name}.app"
+        self.class.build_root + configuration + "#{Rucola::RCApp.app_name}.app"
       end
       
       # Returns a Pathname instance with the path to the application's
