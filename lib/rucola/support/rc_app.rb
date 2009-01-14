@@ -3,7 +3,7 @@ module Rucola
     extend self
     
     # Returns the current RUCOLA_ENV, which normally is `debug' during development, `test' in the tests and `release' in a release.
-    def env; RUCOLA_ENV; end
+    def env; ::RUCOLA_ENV; end
     
     # Returns whether or not the current env is `test'.
     def test?; env == 'test'; end

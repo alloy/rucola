@@ -37,6 +37,9 @@ module Rucola
       elsif env = ENV['DYLD_LIBRARY_PATH']
         env = File.basename(env).downcase
         %{ debug release test }.include?(env) ? env : 'debug'
+      elsif defined?(Rake)
+        # presumably runnig from Rake
+        'debug'
       else
         'release'
       end
@@ -47,7 +50,8 @@ module Rucola
         env
       elsif RUCOLA_ENV == 'release'
         NSBundle.mainBundle.resourcePath.fileSystemRepresentation
-      elsif RUCOLA_ENV == 'test'
+      elsif RUCOLA_ENV == 'test' || (RUCOLA_ENV == 'debug' && defined?(Rake))
+        # either `test` or `debug` and presumably runnig from Rake
         File.expand_path('../../', __FILE__)
       else
         File.expand_path('../../', ENV['DYLD_LIBRARY_PATH'])

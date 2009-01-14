@@ -6,11 +6,14 @@ ENV['DONT_START_RUCOLA_APP'] = 'true'
 BOOT_FILE = File.expand_path('../../new_templates/boot.rb', __FILE__)
 require BOOT_FILE
 
+RAKE_WAS_DEFINED = defined?(Rake)
+
 describe "Rucola, when setting the environment" do
   after do
     silence_warnings { ::RUCOLA_ENV = 'test' }
     ENV.delete('RUCOLA_ENV')
     ENV.delete('DYLD_LIBRARY_PATH')
+    Object.send(:remove_const, :Rake) unless !defined?(Rake) || RAKE_WAS_DEFINED
   end
   
   it "should use ENV['RUCOLA_ENV'] if available" do
@@ -34,7 +37,15 @@ describe "Rucola, when setting the environment" do
     Rucola.send(:discover_environment).should == 'debug'
   end
   
-  it "should return `release' if non of the other predicates match" do
+  it "should return `debug` if the `Rake` constant is defined, which would mean running from rake" do
+    Object.const_set("Rake", 'running rake') unless RAKE_WAS_DEFINED
+    Rucola.send(:discover_environment).should == 'debug'
+  end
+  
+  # fails because stubbing is still very broken on MacRuby
+  xit "should return `release' if non of the other predicates match" do
+    Object.const_set("Rake", 'running rake') unless RAKE_WAS_DEFINED
+    Rucola.stubs(:defined?).returns(nil)
     Rucola.send(:discover_environment).should == 'release'
   end
   
@@ -59,6 +70,7 @@ describe "Rucola, when setting the application root" do
       ::RUCOLA_ROOT = ORIGINAL_RUCOLA_ROOT
     end
     ENV.delete('RUCOLA_ROOT')
+    Object.send(:remove_const, :Rake) unless !defined?(Rake) || RAKE_WAS_DEFINED
   end
   
   it "should return ENV['RUCOLA_ROOT'] if available" do
@@ -74,6 +86,12 @@ describe "Rucola, when setting the application root" do
   end
   
   it "should return the root path relative to the boot.rb file in `test'" do
+    Rucola.send(:discover_root).should == File.expand_path('../../', BOOT_FILE)
+  end
+  
+  it "should return the root path relative to the boot.rb file in `debug` if the `Rake` constant is defined, which would mean running from rake" do
+    silence_warnings { ::RUCOLA_ENV = 'debug' }
+    Object.const_set("Rake", 'running rake') unless RAKE_WAS_DEFINED
     Rucola.send(:discover_root).should == File.expand_path('../../', BOOT_FILE)
   end
   

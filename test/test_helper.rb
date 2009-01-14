@@ -16,6 +16,10 @@ require 'pathname'
 RUCOLA_ROOT = Pathname.new(File.expand_path(File.dirname(__FILE__)))
 RUCOLA_ENV = 'test'
 
+Dir.glob(File.expand_path('../helpers/*_helper.rb', __FILE__)).each do |helper|
+  require helper
+end
+
 # # Don't know if this is good enough yet to add to the helpers for apps.
 # # Need to see what assert_difference does.
 # module Test::Spec::Rucola

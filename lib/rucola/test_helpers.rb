@@ -10,8 +10,7 @@ module Kernel
   # Silences any warnings that might have been thrown during the execution of the block.
   # This can be handy, for instance, for when you are re-defining constants.
   def silence_warnings
-    before = $VERBOSE
-    $VERBOSE = nil
+    before, $VERBOSE = $VERBOSE, nil
     yield
     $VERBOSE = before
   end
