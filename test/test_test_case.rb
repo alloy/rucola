@@ -2,15 +2,23 @@ require File.expand_path('../test_helper', __FILE__)
 require "rucola/test_case"
 
 class ATestController < OSX::NSObject
+  ib_outlet :anOutlet
+end
+
+module SimulateTestUnit
+  def self.included(klass)
+    klass.send(:include, Mocha::Standalone)
+    klass.extend Rucola::TestCase
+  end
 end
 
 class ATestCase
-  extend Rucola::TestCase
+  include SimulateTestUnit
   tests ATestController
 end
 
 class ATestCaseWithCustomSetupAndTeardown
-  extend Rucola::TestCase
+  include SimulateTestUnit
   tests ATestController
   
   def setup
@@ -19,6 +27,12 @@ class ATestCaseWithCustomSetupAndTeardown
   
   def teardown
     :aliased
+  end
+end
+
+describe "The OSX::NSObject test case extensions" do
+  it "should override ::ib_outlet and add defined outlets to ::defined_ib_outlets" do
+    
   end
 end
 
@@ -127,5 +141,18 @@ describe "A Rucola::TestCase instance, concerning IB outlets" do
     @test_case.expects(:ib_outlet).with(:outlet2, 'outlet2')
     
     @test_case.ib_outlets :outlet1 => 'outlet1', :outlet2 => 'outlet2'
+  end
+  
+  it "should assign Mocha’s stub_everything stubs to all outlets in ::defined_ib_outlets during #setup" do
+    @test_case.setup
+    stub = @test_case.send(:anOutlet)
+    
+    stub.should.be.instance_of Mocha::Mock
+    stub.some_method_which_definitely_not_exists.should.be nil
+  end
+  
+  it "should set all outlets in ::defined_ib_outlets to nil during #teardown" do
+    @test_case.teardown
+    @test_case.send(:anOutlet).should.be nil
   end
 end

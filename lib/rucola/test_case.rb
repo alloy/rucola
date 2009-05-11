@@ -152,4 +152,5 @@ module Rucola
     end
   end
 end
+
 Test::Unit::TestCase.send(:extend, Rucola::TestCase)
