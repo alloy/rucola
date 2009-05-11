@@ -30,7 +30,7 @@ module Rucola
     #   class TestFoo < Test::Unit::TestCase
     #     tests ApplicationController
     #     
-    #     def after_setup
+    #     def setup
     #       ib_outlets :window => mock("Main Window"),
     #                  :tableView => OSX::NSTableView.alloc.init,
     #                  :searchField => OSX::NSSearchField.alloc.init
@@ -56,6 +56,19 @@ module Rucola
       include Rucola::TestCase::InstanceMethods
     end
     
+    # Aliases user defined #setup and #teardown methods to #after_setup &
+    # #after_teardown.
+    def method_added(mname) #:nodoc:
+      return if @aliasing_setup_teardown
+      if mname == :setup || mname == :teardown
+        @aliasing_setup_teardown = true
+        alias_method "after_#{mname}", mname
+        alias_method mname, "rucola_test_case_#{mname}"
+        public mname
+      end
+      @aliasing_setup_teardown = false
+    end
+    
     module InstanceMethods
       # Sets up the ib_outlets to all be stubs which respond to everything with nil.
       #
@@ -77,6 +90,10 @@ module Rucola
         @instance_to_be_tested = nil
         after_teardown if respond_to? :after_teardown
       end
+      
+      alias_method :rucola_test_case_setup,    :setup
+      alias_method :rucola_test_case_teardown, :teardown
+      private :rucola_test_case_setup, :rucola_test_case_teardown
       
       # Returns the class that's to be tested.
       def class_to_be_tested
