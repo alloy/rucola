@@ -147,7 +147,7 @@ module Rucola
       #                :searchField => OSX::NSSearchField.alloc.init
       #   end
       def ib_outlets(outlets)
-        outlets.each {|k,v| ib_outlet(k, v) }
+        outlets.each { |k,v| ib_outlet(k, v) }
       end
     end
   end
