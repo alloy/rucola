@@ -32,7 +32,7 @@ end
 
 describe "The OSX::NSObject test case extensions" do
   it "should override ::ib_outlet and add defined outlets to ::defined_ib_outlets" do
-    
+    ATestController.defined_ib_outlets.should == [:anOutlet]
   end
 end
 
