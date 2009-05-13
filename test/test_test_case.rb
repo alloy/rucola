@@ -37,10 +37,6 @@ describe "The OSX::NSObject test case extensions" do
 end
 
 describe "The Rucola::TestCase class" do
-  before do
-    @test_case = ATestCase.new
-  end
-  
   it "should register the class to test" do
     ATestCase.instance_variable_get(:@class_to_be_tested).should.be ATestController
   end

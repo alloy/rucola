@@ -74,6 +74,7 @@ module Rucola
       #
       # In your test use #after_setup to do any custom setup.
       def setup
+        super if self.class.superclass.instance_methods.include?("setup")
         class_to_be_tested.defined_ib_outlets.each do |outlet|
           ib_outlet(outlet, stub_everything(outlet.to_s))
         end
@@ -84,6 +85,7 @@ module Rucola
       #
       # In your test use #after_teardown to do any custom teardown.
       def teardown
+        super if self.class.superclass.instance_methods.include?("teardown")
         class_to_be_tested.defined_ib_outlets.each do |outlet|
           instance_to_be_tested.instance_variable_set("@#{outlet}", nil)
         end
