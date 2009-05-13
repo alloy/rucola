@@ -21,8 +21,9 @@ module Rucola
         end
 
         def gem(name, version)
-          #puts "Gem required: #{name}"
           require(name)
+        rescue LoadError => e
+          raise Gem::LoadError, e.message
         end
       end
     end
