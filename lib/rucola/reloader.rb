@@ -19,15 +19,14 @@ module Rucola
         begin
           File.read(file).parse_to_nodes
           
-          log.debug "Reloading class #{klass.name}:"
+          log.debug "Reloading class #{klass.name}"
           
-          i_methods = klass.instance_methods(false)
-          log.debug "- Undefining instance methods: #{i_methods.inspect}"
-          i_methods.each { |mname| klass.send(:undef_method, mname) }
-          
-          c_methods = klass.original_class_methods
-          log.debug "- Undefining class methods: #{c_methods.inspect}"
-          c_methods.each { |mname| klass.metaclass.send(:undef_method, mname) }
+          klass.instance_methods(false).each do |mname|
+            klass.send(:undef_method, mname)
+          end
+          klass.original_class_methods.each do |mname|
+            klass.metaclass.send(:undef_method, mname)
+          end
           
           Kernel.load(file)
         rescue SyntaxError => e
