@@ -53,20 +53,23 @@ module Rucola
     #   end
     def tests(class_to_be_tested)
       @class_to_be_tested = class_to_be_tested
-      include Rucola::TestCase::InstanceMethods
+      extend ClassMethods
+      include InstanceMethods
     end
     
-    # Aliases user defined #setup and #teardown methods to #after_setup &
-    # #after_teardown.
-    def method_added(mname) #:nodoc:
-      return if @aliasing_setup_teardown
-      if mname == :setup || mname == :teardown
-        @aliasing_setup_teardown = true
-        alias_method "after_#{mname}", mname
-        alias_method mname, "rucola_test_case_#{mname}"
-        public mname
+    module ClassMethods
+      # Aliases user defined #setup and #teardown methods to #after_setup &
+      # #after_teardown.
+      def method_added(mname) #:nodoc:
+        return if @aliasing_setup_teardown
+        if mname == :setup || mname == :teardown
+          @aliasing_setup_teardown = true
+          alias_method "after_#{mname}", mname
+          alias_method mname, "rucola_test_case_#{mname}"
+          public mname
+        end
+        @aliasing_setup_teardown = false
       end
-      @aliasing_setup_teardown = false
     end
     
     module InstanceMethods
@@ -76,7 +79,7 @@ module Rucola
       def setup
         super if self.class.superclass.instance_methods.include?("setup")
         class_to_be_tested.defined_ib_outlets.each do |outlet|
-          ib_outlet(outlet, stub_everything(outlet.to_s))
+          ib_outlet(outlet, stub_everything(outlet.to_s)) if assigns(outlet).nil?
         end
         after_setup if respond_to? :after_setup
       end

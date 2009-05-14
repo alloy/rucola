@@ -80,6 +80,16 @@ describe "The Rucola::TestCase class" do
     test_case.expects(:after_teardown)
     test_case.teardown
   end
+  
+  it "should not by default extend a test case class with the method_added hook" do
+    lambda do
+      Class.new do
+        include SimulateTestUnit
+        # no call like this is made: "tests ATestController"
+        def setup; end
+      end
+    end.should.not.raise NameError
+  end
 end
 
 describe "A Rucola::TestCase instance, in general" do
@@ -140,11 +150,19 @@ describe "A Rucola::TestCase instance, concerning IB outlets" do
   end
   
   it "should assign Mocha’s stub_everything stubs to all outlets in ::defined_ib_outlets during #setup" do
-    @test_case.setup
-    stub = @test_case.send(:anOutlet)
+    test_case = ATestCase.new
+    test_case.setup
+    stub = test_case.send(:anOutlet)
     
     stub.should.be.instance_of Mocha::Mock
     stub.some_method_which_definitely_not_exists.should.be nil
+  end
+  
+  it "should not assign any stubs to outlets which have already been assigned by the user" do
+    test_case = ATestCaseWithCustomSetupAndTeardown.new
+    test_case.ib_outlet(:anOutlet, "set by user")
+    test_case.setup
+    test_case.send(:anOutlet).should == "set by user"
   end
   
   it "should set all outlets in ::defined_ib_outlets to nil during #teardown" do
