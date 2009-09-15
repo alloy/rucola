@@ -138,4 +138,16 @@ describe "FSEvent" do
   it "should return the last modified file" do
     Rucola::FSEvents::FSEvent.new(nil, nil, Tmp.path).last_modified_file.should == @files.last
   end
+  
+  it "should not break when files disappear between the event and the event handling" do
+    Dir.stubs(:glob).returns(@files + ['/does/not/exist'])
+    lambda {
+      Rucola::FSEvents::FSEvent.new(nil, nil, Tmp.path).files
+    }.should.not.raise(Errno::ENOENT)
+  end
+  
+  it "should not return files which have disappeared" do
+    Dir.stubs(:glob).returns(@files + ['/does/not/exist'])
+    Rucola::FSEvents::FSEvent.new(nil, nil, Tmp.path).files.should == @files.reverse
+  end
 end
