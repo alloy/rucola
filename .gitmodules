@@ -1,3 +1,6 @@
 [submodule "vendor/bacon"]
 	path = vendor/bacon
 	url = git://github.com/chneukirchen/bacon.git
+[submodule "vendor/thor"]
+	path = vendor/thor
+	url = git://github.com/wycats/thor.git
