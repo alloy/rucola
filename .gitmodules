@@ -1,0 +1,3 @@
+[submodule "vendor/bacon"]
+	path = vendor/bacon
+	url = git://github.com/chneukirchen/bacon.git
