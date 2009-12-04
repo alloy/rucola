@@ -1,1 +1,2 @@
-# yeah
+module Rucola
+end

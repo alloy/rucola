@@ -1,0 +1,11 @@
+process do |files|
+  # lame hack that rewrites the path so it matches its spec
+  # this should really be fixed in the Ruby recipe
+  files.map! do |file|
+    file =~ /^lib\/rucola\/(.+\.rb)$/ ? "lib/#{$1}" : file
+  end
+end
+
+recipe :ruby
+
+Ruby.runner_bin = 'macruby ./vendor/bacon/bin/bacon'

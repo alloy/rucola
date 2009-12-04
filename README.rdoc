@@ -1,1 +1,23 @@
 Move along now…
+
+= Rucola::Vinegar
+
+Focus:
+
+* A lean GUI toolkit
+* Usable as a vinegar layer in a pure MacRuby/Objective-C app
+* Keep magic to a minimum
+* Make the most used Cocoa classes more accessible to new Cocoa developers (rubyists)
+* Make sensible assumptions as defaults
+* Only provide shortcuts for common performed operations
+* Actual Cocoa object should always be accessible for more elaborate operations
+
+Ideas:
+
+* Vinegar objects are proxies for an actual Cocoa instance
+* Do inheriting in the same way as in Cocoa to ease transition
+  * View as a base class for all NSView classes
+    * TODO: should a view yield itself on initialization?
+  * Control as a base class for all NSControl classes
+    * Calls the block given to ::new as the action
+  * etc
