@@ -18,6 +18,15 @@ module Rucola
       def height; frame.size.height; end
       def x;      frame.origin.x;    end
       def y;      frame.origin.y;    end
+      
+      def visible?
+        @object.visible?
+      end
+      
+      def show
+        @object.display
+        @object.orderFrontRegardless
+      end
     end
   end
 end

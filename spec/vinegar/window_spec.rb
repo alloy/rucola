@@ -2,7 +2,7 @@
 require File.expand_path('../../spec_helper', __FILE__)
 require 'rucola/vinegar'
 
-describe "Rucola::Vinegar::Window" do
+describe "Rucola::Vinegar::Window, concerning defaults" do
   before do
     @window = Rucola::Vinegar::Window.new
   end
@@ -29,5 +29,17 @@ describe "Rucola::Vinegar::Window" do
   
   it "should initialize with sensible backing store defaults" do
     @window.object.backingType.should == NSBackingStoreBuffered
+  end
+end
+
+describe "A Rucola::Vinegar::Window instance" do
+  before do
+    @window = Rucola::Vinegar::Window.new
+  end
+  
+  it "should show when requested" do
+    @window.should.not.be.visible
+    @window.show
+    @window.should.be.visible
   end
 end
