@@ -11,6 +11,8 @@ Focus:
 * Make sensible assumptions as defaults
 * Only provide shortcuts for common performed operations
 * Actual Cocoa object should always be accessible for more elaborate operations
+* Should follow the HIG as Interface Builder does it
+* Should we flip the views? I think most first time Cocoa users will expect that
 
 Ideas:
 

@@ -3,7 +3,7 @@ module Rucola
     class Window
       attr_reader :object
       
-      def initialize(x = 100, y = 100, width = 600, height = 450)
+      def initialize(x = 100, y = 100, width = 480, height = 270)
         @object = NSWindow.alloc.initWithContentRect([x, y, width, height],
                                   styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask,
                                   backing:   NSBackingStoreBuffered,

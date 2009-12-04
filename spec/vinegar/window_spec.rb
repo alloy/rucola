@@ -1,21 +1,28 @@
 #!/usr/bin/env macruby
-require File.expand_path('../../spec_helper', __FILE__)
-require 'rucola/vinegar'
-include Rucola::Vinegar
+require File.expand_path('../spec_helper', __FILE__)
 
 describe "Rucola::Vinegar::Window" do
   before do
     @window = Window.new
   end
   
-  it "should have a NSWindow instance" do
+  it "should initialize a NSWindow instance" do
     @window.object.should.be.instance_of NSWindow
   end
   
   it "should initialize with sensible dimensions defaults" do
-    @window.width.should == 600
-    @window.height.should == 450
+    @window.width.should == 480
+    @window.height.should == 270
+    # TODO: can't get the origin in a test
+    @window.x.should == 0
+    @window.x.should == 0
+  end
+  
+  it "should initialize with the given dimensions" do
+    @window = Window.new(111, 222, 200, 300)
     
+    @window.width.should == 200
+    @window.height.should == 300
     # TODO: can't get the origin in a test
     @window.x.should == 0
     @window.x.should == 0
@@ -30,17 +37,6 @@ describe "Rucola::Vinegar::Window" do
   
   it "should initialize with sensible backing store defaults" do
     @window.object.backingType.should == NSBackingStoreBuffered
-  end
-  
-  it "should initialize with the given dimensions" do
-    @window = Window.new(111, 222, 200, 300)
-    
-    @window.width.should == 200
-    @window.height.should == 300
-    
-    # TODO: can't get the origin in a test
-    @window.x.should == 0
-    @window.x.should == 0
   end
 end
 

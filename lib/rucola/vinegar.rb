@@ -5,4 +5,5 @@ module Rucola
   end
 end
 
+require 'rucola/vinegar/button'
 require 'rucola/vinegar/window'
