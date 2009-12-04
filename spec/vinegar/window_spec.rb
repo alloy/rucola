@@ -50,4 +50,21 @@ describe "A Rucola::Vinegar::Window instance" do
     @window.show
     @window.should.be.visible
   end
+  
+  it "should return the subviews" do
+    view = NSView.alloc.init
+    @window.object.contentView.addSubview(view)
+    @window.views.should == [view]
+    @window.to_a.should == [view]
+  end
+  
+  it "should add the `object' of a view object to its content view" do
+    button1 = Button.new
+    @window << button1
+    @window.views.should == [button1.object]
+    
+    button2 = Button.new
+    @window.push(button2)
+    @window.views.should == [button1.object, button2.object]
+  end
 end

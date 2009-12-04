@@ -19,6 +19,11 @@ module Rucola
       def x;      frame.origin.x;    end
       def y;      frame.origin.y;    end
       
+      def views
+        @object.contentView.subviews
+      end
+      alias_method :to_a, :views
+      
       def visible?
         @object.visible?
       end
@@ -27,6 +32,11 @@ module Rucola
         @object.display
         @object.orderFrontRegardless
       end
+      
+      def <<(view)
+        @object.contentView.addSubview(view.object)
+      end
+      alias_method :push, :<<
     end
   end
 end
