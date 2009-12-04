@@ -25,6 +25,10 @@ describe "Rucola::Vinegar::Button" do
     @button.height.should == 23
   end
   
+  it "should initialize with sensible style defaults" do
+    @button.object.bezelStyle.should == NSRoundedBezelStyle
+  end
+  
   it "should store the block given to ::new" do
     @button.action.call.should == :clicked
   end

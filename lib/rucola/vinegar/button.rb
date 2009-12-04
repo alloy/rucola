@@ -6,6 +6,7 @@ module Rucola
       
       def initialize(x = 14, y = 14, width = 96, height = 32, &block)
         @object = NSButton.alloc.initWithFrame([x, y, width, height])
+        @object.bezelStyle = NSRoundedBezelStyle
         @object.target, @object.action = self, :click
         
         @action = block
