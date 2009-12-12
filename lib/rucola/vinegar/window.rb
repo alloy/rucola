@@ -1,17 +1,12 @@
 module Rucola
   module Vinegar
-    class Window
-      attr_reader :object
-      
-      def initialize(x = 100, y = 100, width = 480, height = 270)
-        @object = NSWindow.alloc.initWithContentRect([x, y, width, height],
-                                  styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask,
-                                  backing:   NSBackingStoreBuffered,
-                                  defer:     false)
+    class Window < Object
+      def frame
+        object.contentView.frame
       end
       
-      def frame
-        @object.contentView.frame
+      def frame=(dimensions)
+        object.contentView.setFrame(dimensions, display: true)
       end
       
       def width;  frame.size.width ; end
@@ -20,23 +15,32 @@ module Rucola
       def y;      frame.origin.y;    end
       
       def views
-        @object.contentView.subviews
+        object.contentView.subviews
       end
       alias_method :to_a, :views
       
       def visible?
-        @object.visible?
+        object.visible?
       end
       
       def show
-        @object.display
-        @object.orderFrontRegardless
+        object.display
+        object.orderFrontRegardless
       end
       
       def <<(view)
-        @object.contentView.addSubview(view.object)
+        object.contentView.addSubview(view.object)
       end
       alias_method :push, :<<
+      
+      protected
+      
+      def init_object
+        @object = NSWindow.alloc.initWithContentRect([100, 100, 480, 270],
+                                  styleMask: NSTitledWindowMask | NSClosableWindowMask | NSMiniaturizableWindowMask | NSResizableWindowMask,
+                                  backing:   NSBackingStoreBuffered,
+                                  defer:     false)
+      end
     end
   end
 end

@@ -18,7 +18,7 @@ describe "Rucola::Vinegar::Button" do
   end
   
   it "should initialize with the given dimensions" do
-    @button = Button.new(28, 28, 69, 23)
+    @button = Button.new(:frame => [28, 28, 69, 23])
     @button.x.should == 28
     @button.y.should == 28
     @button.width.should == 69

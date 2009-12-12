@@ -1,19 +1,21 @@
 module Rucola
   module Vinegar
-    class Button
-      attr_reader :object
+    class Button < Object
+      proxy_for NSButton
+      
       attr_accessor :action
       
-      def initialize(x = 14, y = 14, width = 96, height = 32, &block)
-        @object = NSButton.alloc.initWithFrame([x, y, width, height])
-        @object.bezelStyle = NSRoundedBezelStyle
-        @object.target, @object.action = self, :click
-        
+      def initialize(options = {}, &block)
+        super(options)
         @action = block
       end
       
       def frame
-        @object.frame
+        object.frame
+      end
+      
+      def frame=(dimensions)
+        object.frame = dimensions
       end
       
       def width;  frame.size.width ; end
@@ -23,6 +25,15 @@ module Rucola
       
       def click(sender = nil)
         @action.call(self)
+      end
+      
+      protected
+      
+      def init_object
+        super
+        self.frame = [14, 14, 96, 32]
+        @object.bezelStyle = NSRoundedBezelStyle
+        @object.target, @object.action = self, :click
       end
     end
   end

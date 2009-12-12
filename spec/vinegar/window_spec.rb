@@ -15,17 +15,16 @@ describe "Rucola::Vinegar::Window" do
     @window.height.should == 270
     # TODO: can't get the origin in a test
     @window.x.should == 0
-    @window.x.should == 0
+    @window.y.should == 0
   end
   
   it "should initialize with the given dimensions" do
-    @window = Window.new(111, 222, 200, 300)
+    @window = Window.new(:frame => [111, 222, 200, 300])
     
     @window.width.should == 200
     @window.height.should == 300
-    # TODO: can't get the origin in a test
-    @window.x.should == 0
-    @window.x.should == 0
+    @window.x.should == 111
+    @window.y.should == 222
   end
   
   it "should initialize with sensible style defaults" do
