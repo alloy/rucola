@@ -2,7 +2,7 @@ require 'rucola/vinegar/view'
 
 module Rucola
   module Vinegar
-    class Button < Object
+    class Button < View
       proxy_for NSButton
       
       attr_accessor :action
@@ -11,19 +11,6 @@ module Rucola
         super(options)
         @action = block
       end
-      
-      def frame
-        object.frame
-      end
-      
-      def frame=(dimensions)
-        object.frame = dimensions
-      end
-      
-      def width;  frame.size.width ; end
-      def height; frame.size.height; end
-      def x;      frame.origin.x;    end
-      def y;      frame.origin.y;    end
       
       def click(sender = nil)
         @action.call(self)
