@@ -22,6 +22,19 @@ describe "Rucola::Vinegar::Object" do
     proxy = VinegarTestObject.new(:object => object)
     proxy.object.should == object
   end
+  
+  it "calls an object initialization method once to allow setup on the object" do
+    proxy = VinegarTestObject.new
+    def proxy.init_object
+      super
+      @counter ||= 1
+      @object = @counter
+      @counter += 1
+    end
+    
+    proxy.object.should == 1
+    proxy.object.should == 1
+  end
 end
 
 describe "An instance of Rucola::Vinegar::Object, concerning the proxied object" do

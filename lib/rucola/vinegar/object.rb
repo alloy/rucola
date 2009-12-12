@@ -21,10 +21,16 @@ module Rucola
       
       def object
         unless @object
-          @object = self.class.proxy_class.alloc.init
+          init_object
           @object.instance_variable_set(:@_vinegar_object, self)
         end
         @object
+      end
+      
+      protected
+      
+      def init_object
+        @object = self.class.proxy_class.alloc.init
       end
     end
   end
