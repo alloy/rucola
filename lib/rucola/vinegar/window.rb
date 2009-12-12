@@ -1,3 +1,5 @@
+require 'rucola/vinegar/view'
+
 module Rucola
   module Vinegar
     class Window < Object

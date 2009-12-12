@@ -1,4 +1,4 @@
-require 'rucola/vinegar/core_ext/nsobject'
+require 'rucola/vinegar/core_ext'
 
 module Rucola
   module Vinegar
