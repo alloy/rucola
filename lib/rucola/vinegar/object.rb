@@ -13,6 +13,7 @@ module Rucola
       end
       
       def initialize(options = {})
+        @object = options.delete(:object)
         options.each do |key, value|
           send("#{key}=", value)
         end

@@ -7,8 +7,8 @@ describe "Rucola::Vinegar::Object" do
   end
   
   it "initializes with an options hash and assign the options to the accessors" do
-    o = VinegarTestObject.new(:main_ingredient => "lettuce")
-    o.main_ingredient.should == "lettuce"
+    proxy = VinegarTestObject.new(:main_ingredient => "lettuce")
+    proxy.main_ingredient.should == "lettuce"
   end
   
   # TODO: A bug in MacRuby with ordered hashes
@@ -16,19 +16,25 @@ describe "Rucola::Vinegar::Object" do
   #   o = VinegarObject.new(:main_ingredient => "lettuce", :total => "bacon")
   #   o.total.should == "lettuce with bacon"
   # end
+  
+  it "initializes with a explicit proxied object" do
+    object = Object.new
+    proxy = VinegarTestObject.new(:object => object)
+    proxy.object.should == object
+  end
 end
 
 describe "An instance of Rucola::Vinegar::Object, concerning the proxied object" do
   before do
-    @object = VinegarTestObject.new
+    @proxy = VinegarTestObject.new
   end
   
   it "instantiates an instance on demand" do
-    @object.instance_variable_get(:@object).should == nil
-    @object.object.should.be.instance_of CocoaTestClass
+    @proxy.instance_variable_get(:@object).should == nil
+    @proxy.object.should.be.instance_of CocoaTestClass
   end
   
   it "assigns itself as the proxy object" do
-    @object.object.instance_variable_get(:@_vinegar_object).should == @object
+    @proxy.object.instance_variable_get(:@_vinegar_object).should == @proxy
   end
 end
