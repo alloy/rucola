@@ -2,6 +2,7 @@ framework 'appkit'
 
 module Rucola
   module Vinegar
+    PROXY_MAPPINGS = {}
   end
 end
 

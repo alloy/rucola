@@ -1,39 +1,34 @@
 #!/usr/bin/env macruby
 require File.expand_path('../spec_helper', __FILE__)
 
-class CocoaTestClass < NSObject
-end
-
-class VinegarObject < Rucola::Vinegar::Object
-  proxy_for CocoaTestClass
-  
-  attr_accessor :main_ingredient, :total
-  
-  def total=(additive)
-    @total = "#{main_ingredient} with #{additive}"
+describe "Rucola::Vinegar::Object" do
+  it "stores the proxied class in the global mappings" do
+    Rucola::Vinegar::PROXY_MAPPINGS[CocoaTestClass].should == VinegarTestObject
   end
-end
-
-describe "Rucola::Vinegar::Object, when initializing" do
-  it "accepts an options hash and assign the options to the accessors" do
-    o = VinegarObject.new(:main_ingredient => "lettuce")
+  
+  it "initializes with an options hash and assign the options to the accessors" do
+    o = VinegarTestObject.new(:main_ingredient => "lettuce")
     o.main_ingredient.should == "lettuce"
   end
   
   # TODO: A bug in MacRuby with ordered hashes
-  # it "assigns the options in the given order" do
+  # it "assigns the initialization options in the given order" do
   #   o = VinegarObject.new(:main_ingredient => "lettuce", :total => "bacon")
   #   o.total.should == "lettuce with bacon"
   # end
 end
 
-describe "An instance of Rucola::Vinegar::Object" do
+describe "An instance of Rucola::Vinegar::Object, concerning the proxied object" do
   before do
-    @object = VinegarObject.new
+    @object = VinegarTestObject.new
   end
   
-  it "instantiates an instance of the Cocoa class it proxies on demand" do
+  it "instantiates an instance on demand" do
     @object.instance_variable_get(:@object).should == nil
     @object.object.should.be.instance_of CocoaTestClass
+  end
+  
+  it "assigns itself as the proxy object" do
+    @object.object.instance_variable_get(:@_vinegar_object).should == @object
   end
 end

@@ -1,3 +1,5 @@
+require 'rucola/vinegar/core_ext/nsobject'
+
 module Rucola
   module Vinegar
     class Object
@@ -6,6 +8,7 @@ module Rucola
         
         def proxy_for(klass)
           @proxy_class = klass
+          Rucola::Vinegar::PROXY_MAPPINGS[klass] = self
         end
       end
       
@@ -16,7 +19,11 @@ module Rucola
       end
       
       def object
-        @object ||= self.class.proxy_class.alloc.init
+        unless @object
+          @object = self.class.proxy_class.alloc.init
+          @object.instance_variable_set(:@_vinegar_object, self)
+        end
+        @object
       end
     end
   end
