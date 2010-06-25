@@ -2,14 +2,14 @@ require 'rucola/generators/base'
 
 module Rucola
   module Generators
-    module App
+    module Project
       class Type < Thor::Group
         argument :project_type, :type => :string
         
-        def invoke_app_generator
-          type = ARGV.shift
+        def invoke_project_generator
+          ARGV.shift
           generator_name = "#{project_type.camelize}Generator"
-          Rucola::Generators::App.const_get(generator_name).start
+          Rucola::Generators::Project.const_get(generator_name).start
         rescue NameError
           puts "No project generator of type `#{type}' exists."
           puts self.class.desc
@@ -26,9 +26,9 @@ module Rucola
       end
       
       class Base < Rucola::Generators::Base
-        argument :app_path, :type => :string
+        argument :project_path, :type => :string
         
-        attr_accessor :app_name
+        attr_accessor :project_name
         
         # Keep a list of generators to display to the user in the Type banner
         def self.inherited(generator)
@@ -59,8 +59,8 @@ module Rucola
         
         def initialize(*args)
           super
-          self.app_name = File.basename(app_path).camelize
-          self.destination_root = File.expand_path(app_path, destination_root)
+          self.project_name = File.basename(project_path).camelize
+          self.destination_root = File.expand_path(project_path, destination_root)
         end
         
         def create_root
@@ -68,7 +68,7 @@ module Rucola
         end
         
         def create_xcodeproj
-          xcodeproj = "#{app_name}.xcodeproj"
+          xcodeproj = "#{project_name}.xcodeproj"
           empty_directory xcodeproj
           template "MacRubyApp.xcodeproj/project.pbxproj", File.join(xcodeproj, "project.pbxproj")
         end

@@ -4,10 +4,8 @@ command = ARGV.shift
 
 case command
 when "new"
-  require 'rucola/generators/rucola/app/app_generator'
-  
-  # Rucola::Generators::App::AppGenerator.start
-  Rucola::Generators::App::Type.start
+  require 'rucola/generators/rucola/project/project_generator'
+  Rucola::Generators::Project::Type.start
 else
   puts "Que?? #{command} #{ARGV.join(' ')}"
 end
