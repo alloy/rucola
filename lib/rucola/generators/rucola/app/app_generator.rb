@@ -9,7 +9,11 @@ module Rucola
         def invoke_app_generator
           type = ARGV.shift
           generator_name = "#{project_type.camelize}Generator"
-          invoke Rucola::Generators::App.const_get(generator_name)
+          Rucola::Generators::App.const_get(generator_name).start
+        rescue NameError
+          puts "No project generator of type `#{type}' exists."
+          puts self.class.desc
+          exit 1
         end
         
         def self.banner
@@ -46,7 +50,7 @@ module Rucola
         end
         
         def self.banner
-          "rucola new #{arguments.map(&:usage).join(' ')} [options]"
+          "rucola new #{generator_name} #{arguments.map(&:usage).join(' ')} [options]"
         end
         
         def self.desc
