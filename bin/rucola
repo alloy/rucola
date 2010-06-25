@@ -1,0 +1,12 @@
+#!/usr/bin/env macruby
+
+command = ARGV.shift
+
+case command
+when "new"
+  puts "Create app!"
+  require 'rucola/generators/rucola/app/app_generator'
+  Rucola::Generators::AppGenerator.start
+else
+  puts "Que?? #{command} #{ARGV.join(' ')}"
+end
