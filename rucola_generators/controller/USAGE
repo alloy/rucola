@@ -1,5 +1,0 @@
-Description:
-  Generate a controller that inherits from NSObject.
-  
-Usage:
-  script/generate controller articles
