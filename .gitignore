@@ -1,2 +1,4 @@
 pkg
 .rake_tasks
+*.swp
+.DS_Store
