@@ -1,4 +1,5 @@
 require 'rucola/generators/base'
+require 'rucola/generators/xcode_template'
 
 module Rucola
   module Generators
@@ -7,13 +8,16 @@ module Rucola
         argument :project_type, :type => :string
         
         def invoke_project_generator
-          ARGV.shift
+          ARGV.shift # be sure to remove project_type from ARGV before starting generator
+          
           generator_name = "#{project_type.camelize}Generator"
-          Rucola::Generators::Project.const_get(generator_name).start
-        rescue NameError
-          puts "No project generator of type `#{type}' exists."
-          puts self.class.desc
-          exit 1
+          if Rucola::Generators::Project.const_defined?(generator_name)
+            Rucola::Generators::Project.const_get(generator_name).start
+          else
+            puts "No project generator of type `#{project_type}' exists."
+            puts self.class.desc
+            exit 1
+          end
         end
         
         def self.banner
@@ -26,9 +30,17 @@ module Rucola
       end
       
       class Base < Rucola::Generators::Base
+        include XCodeTemplate::Actions
+        
         argument :project_path, :type => :string
         
         attr_accessor :project_name
+        
+        # These aliases are for the xcode template
+        # TODO: need to see if there are any problems with simply returning the
+        # project_name as PROJECTNAMEASXML
+        alias_method :PROJECTNAME, :project_name
+        alias_method :PROJECTNAMEASXML, :project_name
         
         # Keep a list of generators to display to the user in the Type banner
         def self.inherited(generator)
@@ -70,7 +82,7 @@ module Rucola
         def create_xcodeproj
           xcodeproj = "#{project_name}.xcodeproj"
           empty_directory xcodeproj
-          template "MacRubyApp.xcodeproj/project.pbxproj", File.join(xcodeproj, "project.pbxproj")
+          xcode_template "MacRubyApp.xcodeproj/project.pbxproj", File.join(xcodeproj, "project.pbxproj")
         end
       end
       
