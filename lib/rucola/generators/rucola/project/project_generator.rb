@@ -49,7 +49,7 @@ module Rucola
         def self.generators; @generators; end
         
         def self.source_root
-          '/Library/Application Support/Developer/Shared/Xcode/Project Templates/Application'
+          '/Library/Application Support/Developer/Shared/Xcode/Project Templates'
         end
         
         def self.xcodeproj_template
@@ -88,25 +88,25 @@ module Rucola
       
       class AppGenerator < Base
         def self.source_root
-          @source_root ||= File.join(super, 'MacRuby Application')
+          @source_root ||= File.join(super, 'Application/MacRuby Application')
         end
       end
       
       class CoreDataAppGenerator < Base
         def self.source_root
-          @source_root ||= File.join(super, 'MacRuby Core Data Application')
+          @source_root ||= File.join(super, 'Application/MacRuby Core Data Application')
         end
       end
       
       class DocumentAppGenerator < Base
         def self.source_root
-          @source_root ||= File.join(super, 'MacRuby Document-based Application')
+          @source_root ||= File.join(super, 'Application/MacRuby Document-based Application')
         end
       end
       
       class PrefPaneGenerator < Base
         def self.source_root
-          @source_root ||= File.join(super, 'MacRuby Preference Pane')
+          @source_root ||= File.join(super, 'System Plug-in/MacRuby Preference Pane')
         end
       end
     end
