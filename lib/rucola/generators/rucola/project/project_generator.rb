@@ -87,6 +87,12 @@ module Rucola
           empty_directory xcodeproj
           xcode_template "MacRubyApp.xcodeproj/project.pbxproj", File.join(xcodeproj, "project.pbxproj")
         end
+        
+        def create_root_files
+          xcode_template "Info.plist"
+          xcode_template "main.m"
+          xcode_template "rb_main.rb"
+        end
       end
       
       class AppGenerator < Base

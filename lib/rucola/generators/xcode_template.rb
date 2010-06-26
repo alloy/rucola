@@ -64,7 +64,8 @@ class XCodeTemplate
   end
   
   module Actions
-    def xcode_template(source, destination)
+    def xcode_template(source, destination = nil)
+      destination ||= source
       template = File.join(self.class.source_root, source)
       create_file(destination, XCodeTemplate.new(self, template).render)
     end
