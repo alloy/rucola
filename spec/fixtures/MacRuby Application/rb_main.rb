@@ -1,9 +1,9 @@
 #
 # rb_main.rb
-# ÇPROJECTNAMEÈ
+# Ã‡PROJECTNAMEÃˆ
 #
-# Created by ÇFULLUSERNAMEÈ on ÇDATEÈ.
-# Copyright ÇORGANIZATIONNAMEÈ ÇYEARÈ. All rights reserved.
+# Created by Ã‡FULLUSERNAMEÃˆ on Ã‡DATEÃˆ.
+# Copyright Ã‡ORGANIZATIONNAMEÃˆ Ã‡YEARÃˆ. All rights reserved.
 #
 
 # Loading the Cocoa framework. If you need to load more frameworks, you can

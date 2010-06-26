@@ -3,7 +3,7 @@
 //  Übercøøl
 //
 //  Created by Eloy Duran on 25-06-10.
-//  Copyright __MyCompany__ 2010. All rights reserved.
+//  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
 #import <MacRuby/MacRuby.h>

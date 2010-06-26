@@ -51,7 +51,7 @@ class XCodeTemplate
   
   # Dummy stub
   def ORGANIZATIONNAME
-    '__MyCompany__'
+    '__MyCompanyName__'
   end
   
   module Actions
