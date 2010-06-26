@@ -1,13 +1,6 @@
 require File.expand_path("../../../spec_helper", __FILE__)
 require 'rucola/generators/xcode_template'
 
-class XCodeTemplateContext
-  def PROJECTNAME
-    'Übercøøl'
-  end
-  alias :PROJECTNAMEASXML :PROJECTNAME
-end
-
 describe "XCodeTemplate" do
   before do
     @template = XCodeTemplate.new(nil, nil)

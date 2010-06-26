@@ -33,7 +33,7 @@ describe "Rucola::Generators::Project::Base" do
   end
 end
 
-describe "Project generators" do
+describe "A project generator" do
   extend Rucola::Generators::Project
   
   it "returns the correct source_root" do

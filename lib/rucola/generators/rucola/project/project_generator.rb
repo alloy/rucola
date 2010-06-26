@@ -46,7 +46,10 @@ module Rucola
         def self.inherited(generator)
           (@generators ||= []) << generator.generator_name
         end
-        def self.generators; @generators; end
+        
+        def self.generators
+          @generators
+        end
         
         def self.source_root
           '/Library/Application Support/Developer/Shared/Xcode/Project Templates'

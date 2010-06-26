@@ -20,3 +20,12 @@ class Bacon::Context
     File.read(fixture(name))
   end
 end
+
+# Fixture
+
+class XCodeTemplateContext
+  def PROJECTNAME
+    'Übercøøl'
+  end
+  alias :PROJECTNAMEASXML :PROJECTNAME
+end
