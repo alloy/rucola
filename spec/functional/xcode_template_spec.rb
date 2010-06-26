@@ -21,8 +21,12 @@ describe "XCodeTemplate" do
     
     template_file = fixture('MacRuby Application/main.m')
     expected = read_fixture('expected/Übercøøl/main.m')
-    template = XCodeTemplate.new(XCodeTemplateContext.new, template_file)
-    template.render.should == expected
+    expected.force_encoding('ISO-8859-1')
+    
+    output = XCodeTemplate.new(XCodeTemplateContext.new, template_file).render
+    output.force_encoding('ISO-8859-1')
+    
+    output.encode('UTF-8').should == expected.encode('UTF-8')
   end
   
   it "renders a XCode rb_main.rb template" do
@@ -30,7 +34,11 @@ describe "XCodeTemplate" do
     
     template_file = fixture('MacRuby Application/rb_main.rb')
     expected = read_fixture('expected/Übercøøl/rb_main.rb')
-    template = XCodeTemplate.new(XCodeTemplateContext.new, template_file)
-    template.render.should == expected
+    expected.force_encoding('ISO-8859-1')
+    
+    output = XCodeTemplate.new(XCodeTemplateContext.new, template_file).render
+    output.force_encoding('ISO-8859-1')
+    
+    output.encode('UTF-8').should == expected.encode('UTF-8')
   end
 end
