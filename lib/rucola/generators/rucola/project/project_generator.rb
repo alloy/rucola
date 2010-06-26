@@ -89,9 +89,11 @@ module Rucola
         end
         
         def create_root_files
-          xcode_template "Info.plist"
-          xcode_template "main.m"
-          xcode_template "rb_main.rb"
+          Dir.chdir(self.class.source_root) do
+            files = Dir.glob("*.*")
+            files.reject! { |f| %w{ .lproj .xcodeproj }.include? File.extname(f) }
+            files.each { |f| xcode_template f }
+          end
         end
       end
       
