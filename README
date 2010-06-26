@@ -1,0 +1,5 @@
+$ git clone git@github.com:alloy/rucola.git
+$ cd rucola
+$ sudo macruby Thorfile
+
+$ macruby -Ilib ./bin/rucola new --help
