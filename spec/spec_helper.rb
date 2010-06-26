@@ -1,6 +1,10 @@
 require 'rubygems'
 require 'bacon'
 
+gem 'mocha-macruby'
+require 'mocha'
+require 'mocha-on-bacon'
+
 $:.unshift File.expand_path('../../lib', __FILE__)
 
 Bacon.summary_on_exit

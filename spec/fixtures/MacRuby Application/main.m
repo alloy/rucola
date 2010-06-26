@@ -1,9 +1,9 @@
 //
 //  main.m
-//  ÇPROJECTNAMEÈ
+//  Ã‡PROJECTNAMEÃˆ
 //
-//  Created by ÇFULLUSERNAMEÈ on ÇDATEÈ.
-//  Copyright ÇORGANIZATIONNAMEÈ ÇYEARÈ. All rights reserved.
+//  Created by Ã‡FULLUSERNAMEÃˆ on Ã‡DATEÃˆ.
+//  Copyright Ã‡ORGANIZATIONNAMEÃˆ Ã‡YEARÃˆ. All rights reserved.
 //
 
 #import <MacRuby/MacRuby.h>
