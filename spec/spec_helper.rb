@@ -36,7 +36,8 @@ class Bacon::Context
   require 'fileutils'
   include FileUtils
   
-  def run_generator(generator, name)
+  def run_generator(generator, name, source_root)
+    generator.stubs(:source_root).returns(source_root)
     ARGV[0] = @destination = @destination = File.join(Dir.tmpdir, name)
     generator.start
     yield

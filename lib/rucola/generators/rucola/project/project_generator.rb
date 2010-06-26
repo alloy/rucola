@@ -82,18 +82,25 @@ module Rucola
           empty_directory '.'
         end
         
-        def create_xcodeproj
-          xcodeproj = "#{project_name}.xcodeproj"
-          empty_directory xcodeproj
-          xcode_template "MacRubyApp.xcodeproj/project.pbxproj", File.join(xcodeproj, "project.pbxproj")
-        end
-        
         def create_root_files
           Dir.chdir(self.class.source_root) do
             files = Dir.glob("*.*")
             files.reject! { |f| %w{ .lproj .xcodeproj }.include? File.extname(f) }
             files.each { |f| xcode_template f }
           end
+        end
+        
+        def create_xcodeproj_bundle
+          xcodeproj = "#{project_name}.xcodeproj"
+          empty_directory xcodeproj
+          xcode_template "MacRubyApp.xcodeproj/project.pbxproj", File.join(xcodeproj, "project.pbxproj")
+        end
+        
+        def create_lproj_bundle
+          lproj = "English.lproj"
+          empty_directory lproj
+          copy_file File.join(lproj, "MainMenu.xib")
+          xcode_template File.join(lproj, "InfoPlist.strings")
         end
       end
       
