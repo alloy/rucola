@@ -1,4 +1,4 @@
-require File.expand_path("../../spec_helper", __FILE__)
+require File.expand_path("../../../spec_helper", __FILE__)
 require 'rucola/generators/xcode_template'
 
 class XCodeTemplateContext
@@ -26,6 +26,6 @@ describe "XCodeTemplate" do
   end
   
   it "returns a stub organization name" do
-    @template.ORGANIZATIONNAME.should == '__MyCompany__'
+    @template.ORGANIZATIONNAME.should == '__MyCompanyName__'
   end
 end

@@ -7,11 +7,14 @@
 # «FILEBASENAME» File name without the extension
 # «FILEBASENAMEASIDENTIFIER» File name without the extension, mangled to a legal C-style identifier
 # «FILEEXTENSION» Current file's extension
+# «TIME»Current time (using NSCalendarDate format "%X")
+# «USERNAME» Account name ("short name") of the logged in user
+
+# These should be implemented by the generator.
+#
 # «PROJECTNAME» Name of the project to which the file was added (blank if none)
 # «PROJECTNAMEASIDENTIFIER» Name of the project, mangled to a legal C-style identifier
 # «PROJECTNAMEASXML» Name of the project, as a valid XML string
-# «TIME»Current time (using NSCalendarDate format "%X")
-# «USERNAME» Account name ("short name") of the logged in user
 
 framework 'Foundation'
 
@@ -37,11 +40,11 @@ class XCodeTemplate
   
   # «DATE» Current date (using NSCalendarDate format "%x")
   def DATE
-    Date.today.strftime("%d-%m-%y")
+    date.strftime("%d-%m-%y")
   end
   
   def YEAR
-    Date.today.year
+    date.year
   end
   
   # «FULLUSERNAME» Full name of the logged in user
@@ -52,6 +55,12 @@ class XCodeTemplate
   # Dummy stub
   def ORGANIZATIONNAME
     '__MyCompanyName__'
+  end
+  
+  private
+  
+  def date
+    @date ||= Date.today
   end
   
   module Actions

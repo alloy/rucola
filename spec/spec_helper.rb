@@ -5,11 +5,11 @@ gem 'mocha-macruby'
 require 'mocha'
 require 'mocha-on-bacon'
 
-$:.unshift File.expand_path('../../lib', __FILE__)
+ROOT = File.expand_path('../../', __FILE__)
+FIXTURE_ROOT = File.join(ROOT, 'spec/fixtures')
+$:.unshift File.join(ROOT, 'lib')
 
 Bacon.summary_on_exit
-
-FIXTURE_ROOT = File.expand_path('../fixtures', __FILE__)
 
 class Bacon::Context
   def fixture(name)
