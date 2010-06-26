@@ -41,6 +41,7 @@ module Rucola
         # project_name as PROJECTNAMEASXML
         alias_method :PROJECTNAME, :project_name
         alias_method :PROJECTNAMEASXML, :project_name
+        alias_method :PROJECTNAMEASIDENTIFIER, :project_name
         
         # Keep a list of generators to display to the user in the Type banner
         def self.inherited(generator)
@@ -83,24 +84,26 @@ module Rucola
         end
         
         def create_root_files
-          Dir.chdir(self.class.source_root) do
-            files = Dir.glob("*.*")
-            files.reject! { |f| %w{ .lproj .xcodeproj }.include? File.extname(f) }
-            files.each { |f| xcode_template f }
-          end
+          xcode_template "Info.plist"
+          xcode_template "main.m"
+          xcode_template "rb_main.rb"
         end
         
         def create_xcodeproj_bundle
           xcodeproj = "#{project_name}.xcodeproj"
           empty_directory xcodeproj
-          xcode_template "MacRubyApp.xcodeproj/project.pbxproj", File.join(xcodeproj, "project.pbxproj")
+          xcode_template File.join(File.basename(self.class.xcodeproj_template), "project.pbxproj"), File.join(xcodeproj, "project.pbxproj")
         end
         
         def create_lproj_bundle
           lproj = "English.lproj"
           empty_directory lproj
-          copy_file File.join(lproj, "MainMenu.xib")
           xcode_template File.join(lproj, "InfoPlist.strings")
+          Dir.chdir(self.class.source_root) do
+            Dir.glob(File.join(lproj, "*.xib")).each do |xib|
+              copy_file xib
+            end
+          end
         end
       end
       
@@ -114,17 +117,36 @@ module Rucola
         def self.source_root
           @source_root ||= File.join(super, 'Application/MacRuby Core Data Application')
         end
+        
+        def create_root_files
+          super
+          xcode_template "AppDelegate.rb"
+        end
       end
       
       class DocumentAppGenerator < Base
         def self.source_root
           @source_root ||= File.join(super, 'Application/MacRuby Document-based Application')
         end
+        
+        def create_root_files
+          super
+          xcode_template "MyDocument.rb"
+        end
       end
       
       class PrefPaneGenerator < Base
         def self.source_root
           @source_root ||= File.join(super, 'System Plug-in/MacRuby Preference Pane')
+        end
+        
+        def create_root_files
+          xcode_template "Info.plist"
+          xcode_template "PrefPane.m"
+          xcode_template "PrefPane.rb"
+          copy_file "PrefPane_Prefix.pch"
+          copy_file "PrefPanePref.tiff", "#{project_name}.tiff"
+          copy_file "version.plist"
         end
       end
     end
