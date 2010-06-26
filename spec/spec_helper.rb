@@ -19,6 +19,31 @@ class Bacon::Context
   def read_fixture(name)
     File.read(fixture(name))
   end
+  
+  def file(path)
+    template = File.join('expected/Übercøøl', path)
+    output   = File.join(@destination, path)
+    
+    File.should.exist output
+    File.read(output).should == read_fixture(template)
+  end
+  
+  def dir(path)
+    File.should.exist path
+    File.should.be.directory path
+  end
+  
+  require 'fileutils'
+  include FileUtils
+  
+  def run_generator(generator, name)
+    ARGV[0] = @destination = @destination = File.join(Dir.tmpdir, name)
+    generator.start
+    yield
+  ensure
+    mocha_teardown
+    rm_rf @destination
+  end
 end
 
 # Fixture
