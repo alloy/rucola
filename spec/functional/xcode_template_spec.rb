@@ -24,4 +24,11 @@ describe "XCodeTemplate" do
     template = XCodeTemplate.new(XCodeTemplateContext.new, template_file)
     template.render.should == expected
   end
+  
+  it "renders a XCode Info.plist template" do
+    template_file = fixture('MacRuby Application/Info.plist')
+    expected = read_fixture('expected/Übercøøl/Info.plist')
+    template = XCodeTemplate.new(XCodeTemplateContext.new, template_file)
+    template.render.should == expected
+  end
 end
