@@ -20,12 +20,19 @@ class Bacon::Context
     File.read(fixture(name))
   end
   
-  def file(path)
+  def file(path, encoding)
     template = File.join('expected/Übercøøl', path)
     output   = File.join(@destination, path)
     
     File.should.exist output
-    File.read(output).should == read_fixture(template)
+    
+    output_content = File.read(output)
+    output_content.force_encoding(encoding)
+    
+    expected_content = read_fixture(template)
+    expected_content.force_encoding(encoding)
+    
+    output_content.encode('UTF-8').should == expected_content.encode('UTF-8')
   end
   
   def dir(path)
@@ -43,6 +50,7 @@ class Bacon::Context
     yield
   ensure
     mocha_teardown
+    # p @destination
     rm_rf @destination
   end
 end

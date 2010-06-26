@@ -100,19 +100,7 @@ module Rucola
           lproj = "English.lproj"
           empty_directory lproj
           copy_file File.join(lproj, "MainMenu.xib")
-          
-          file = File.join(lproj, "InfoPlist.strings")
-          template = File.join(self.class.source_root, file)
-          
-          # try to guess the encoding
-          source = File.read(template)
-          source.force_encoding('UTF-16BE')
-          source.force_encoding('UTF-16LE') unless source.valid_encoding?
-          raise "Unable to determine encoding of `#{template}'." unless source.valid_encoding?
-          
-          output = XCodeTemplate.new(self, source.encode("UTF-8")).render
-          # create file with original encoding
-          create_file(file, output.encode(source.encoding))
+          xcode_template File.join(lproj, "InfoPlist.strings")
         end
       end
       

@@ -19,12 +19,29 @@
 framework 'Foundation'
 
 class XCodeTemplate
-  def initialize(context, source)
-    @context, @source = context, source
+  def initialize(context, template)
+    @context, @template = context, template
   end
   
   def render
-    @source.gsub(/«(.+?)»|Ç(.+?)È/) do
+    source = File.read(@template)
+    
+    if File.basename(@template) == 'InfoPlist.strings'
+      source.force_encoding('UTF-16BE')
+      source.force_encoding('UTF-16LE') unless source.valid_encoding?
+    else
+      case File.extname(@template)
+      when '.pbxproj', '.plist'
+        source.force_encoding('UTF-8')
+      else
+        source.force_encoding('ISO-8859-1')
+      end
+    end
+    
+    raise "Unable to determine encoding of `#{template}'." unless source.valid_encoding?
+    
+    output = source.encode('UTF-8')
+    output.gsub!(/«(.+?)»|Ç(.+?)È/) do
       method = $1 || $2
       if respond_to?(method)
         send(method)
@@ -34,6 +51,8 @@ class XCodeTemplate
         raise NoMethodError, "could not find a method to handle the XCode variable `#{method}' in template `#{@template}'"
       end
     end
+    
+    output.encode(source.encoding)
   end
   
   # «DATE» Current date (using NSCalendarDate format "%x")
@@ -65,7 +84,7 @@ class XCodeTemplate
     def xcode_template(source, destination = nil)
       destination ||= source
       template = File.join(self.class.source_root, source)
-      create_file(destination, XCodeTemplate.new(self, File.read(template)).render)
+      create_file(destination, XCodeTemplate.new(self, template).render)
     end
   end
 end

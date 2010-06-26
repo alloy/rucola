@@ -1,6 +1,6 @@
 //
 //  main.m
-//  †berc¿¿l
+//  Übercøøl
 //
 //  Created by Eloy Duran on 26-06-10.
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
