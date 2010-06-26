@@ -10,7 +10,6 @@ describe "A project generator" do
   
   run_generator(AppGenerator, 'Übercøøl', fixture('MacRuby Application')) do
     it "creates the project root" do
-      p AppGenerator.source_root
       dir @destination
     end
     

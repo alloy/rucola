@@ -19,13 +19,12 @@
 framework 'Foundation'
 
 class XCodeTemplate
-  def initialize(context, template)
-    @context, @template = context, template
+  def initialize(context, source)
+    @context, @source = context, source
   end
   
   def render
-    source = File.read(@template)
-    source.gsub!(/«(.+?)»|Ç(.+?)È/) do
+    @source.gsub(/«(.+?)»|Ç(.+?)È/) do
       method = $1 || $2
       if respond_to?(method)
         send(method)
@@ -35,7 +34,6 @@ class XCodeTemplate
         raise NoMethodError, "could not find a method to handle the XCode variable `#{method}' in template `#{@template}'"
       end
     end
-    source
   end
   
   # «DATE» Current date (using NSCalendarDate format "%x")
@@ -67,7 +65,7 @@ class XCodeTemplate
     def xcode_template(source, destination = nil)
       destination ||= source
       template = File.join(self.class.source_root, source)
-      create_file(destination, XCodeTemplate.new(self, template).render)
+      create_file(destination, XCodeTemplate.new(self, File.read(template)).render)
     end
   end
 end

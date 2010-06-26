@@ -10,7 +10,7 @@ end
 class Default < Thor
   desc "install_gems", "Install Gem dependencies"
   def install_gems
-    system "macgem install thor"
+    system "macgem install thor bacon mocha-macruby mocha-on-bacon --format-executable"
     system "macgem install activesupport --pre"
   end
   
