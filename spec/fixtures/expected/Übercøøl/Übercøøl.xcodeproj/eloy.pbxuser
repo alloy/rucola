@@ -5,11 +5,11 @@
 	};
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
 		activeBuildConfigurationName = Debug;
-		activeExecutable = 518912CC11D525240041618E /* Übercøøl */;
+		activeExecutable = 51577B7111D665C2009F0FBA /* Übercøøl */;
 		activeTarget = 8D1107260486CEB800E47090 /* Übercøøl */;
-		codeSenseManager = 518912DF11D5252C0041618E /* Code sense */;
+		codeSenseManager = 51577B8411D665C3009F0FBA /* Code sense */;
 		executables = (
-			518912CC11D525240041618E /* Übercøøl */,
+			51577B7111D665C2009F0FBA /* Übercøøl */,
 		);
 		perUserDictionary = {
 			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
@@ -34,10 +34,10 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 299181348;
-			PBXWorkspaceStateSaveDate = 299181348;
+			PBXPerProjectTemplateStateSaveDate = 299263426;
+			PBXWorkspaceStateSaveDate = 299263426;
 		};
-		sourceControlManager = 518912DE11D5252C0041618E /* Source Control */;
+		sourceControlManager = 51577B8311D665C3009F0FBA /* Source Control */;
 		userBuildSettings = {
 		};
 	};
@@ -47,7 +47,7 @@
 	4D1A51A510A4FF640046A98A /* Embed */ = {
 		activeExec = 0;
 	};
-	518912CC11D525240041618E /* Übercøøl */ = {
+	51577B7111D665C2009F0FBA /* Übercøøl */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
 		);
@@ -74,7 +74,7 @@
 		sourceDirectories = (
 		);
 	};
-	518912DE11D5252C0041618E /* Source Control */ = {
+	51577B8311D665C3009F0FBA /* Source Control */ = {
 		isa = PBXSourceControlManager;
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
@@ -84,14 +84,14 @@
 			};
 		};
 	};
-	518912DF11D5252C0041618E /* Code sense */ = {
+	51577B8411D665C3009F0FBA /* Code sense */ = {
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
 	};
 	8D1107260486CEB800E47090 /* Übercøøl */ = {
 		activeExec = 0;
 		executables = (
-			518912CC11D525240041618E /* Übercøøl */,
+			51577B7111D665C2009F0FBA /* Übercøøl */,
 		);
 	};
 }
