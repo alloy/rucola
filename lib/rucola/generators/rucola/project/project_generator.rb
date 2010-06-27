@@ -45,6 +45,7 @@ module Rucola
         
         # Keep a list of generators to display to the user in the Type banner
         def self.inherited(generator)
+          super
           (@generators ||= []) << generator.generator_name
         end
         
