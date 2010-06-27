@@ -24,35 +24,19 @@ class XCodeTemplate
   end
   
   def render
-    source = File.read(@template)
-    
-    if File.basename(@template) == 'InfoPlist.strings'
-      source.force_encoding('UTF-16BE')
-      source.force_encoding('UTF-16LE') unless source.valid_encoding?
-    else
-      case File.extname(@template)
-      when '.pbxproj', '.plist'
-        source.force_encoding('UTF-8')
-      else
-        source.force_encoding('ISO-8859-1')
+    source_with_proper_encoding do |source|
+      source.gsub!(/«(.+?)»|Ç(.+?)È/) do
+        method = $1 || $2
+        if respond_to?(method)
+          send(method)
+        elsif @context.respond_to?(method)
+          @context.send(method)
+        else
+          raise NoMethodError, "could not find a method to handle the XCode variable `#{method}' in template `#{@template}'"
+        end
       end
+      source
     end
-    
-    raise "Unable to determine encoding of `#{template}'." unless source.valid_encoding?
-    
-    output = source.encode('UTF-8')
-    output.gsub!(/«(.+?)»|Ç(.+?)È/) do
-      method = $1 || $2
-      if respond_to?(method)
-        send(method)
-      elsif @context.respond_to?(method)
-        @context.send(method)
-      else
-        raise NoMethodError, "could not find a method to handle the XCode variable `#{method}' in template `#{@template}'"
-      end
-    end
-    
-    output.encode(source.encoding)
   end
   
   # «DATE» Current date (using NSCalendarDate format "%x")
@@ -78,6 +62,29 @@ class XCodeTemplate
   
   def date
     @date ||= Date.today
+  end
+  
+  # yields the source as UTF-8 data encodes the result back to the original
+  def source_with_proper_encoding
+    source = File.read(@template)
+    
+    if File.basename(@template) == 'InfoPlist.strings'
+      source.force_encoding('UTF-16BE')
+      source.force_encoding('UTF-16LE') unless source.valid_encoding?
+    else
+      case File.extname(@template)
+      when '.pbxproj', '.plist'
+        source.force_encoding('UTF-8')
+      else
+        source.force_encoding('ISO-8859-1')
+      end
+    end
+    
+    raise "Unable to determine encoding of `#{template}'." unless source.valid_encoding?
+    
+    result = yield(source.encode('UTF-8'))
+    # work around a bug with MacRuby which fails to write out UTF-16LE data
+    result.encode(source.encoding.name == 'UTF-16LE' ? 'UTF-16BE' : source.encoding)
   end
   
   module Actions
