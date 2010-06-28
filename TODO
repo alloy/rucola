@@ -1,1 +1,2 @@
 * Make all files in the MacRuby templates UTF-8 encoded
+* Make sure it runs on MR HEAD, keeping into account this bug: http://github.com/masterkain/macruby/commit/d63e7aa0535dfda35fefa68ad807bfa25b4d5853
