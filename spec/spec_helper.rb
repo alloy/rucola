@@ -1,7 +1,8 @@
+# encoding: UTF-8
 require 'rubygems'
 require 'bacon'
 
-gem 'mocha-macruby'
+# gem 'mocha-macruby'
 require 'mocha'
 require 'mocha-on-bacon'
 

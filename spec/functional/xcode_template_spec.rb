@@ -1,18 +1,18 @@
 require File.expand_path("../../spec_helper", __FILE__)
-require 'rucola/generators/xcode_template'
+require 'rucola/xcode/template'
 
-describe "XCodeTemplate" do
+describe "Rucola::XCode::Template" do
   it "renders a XCode pbxproj template" do
     template_file = fixture('MacRuby Application/MacRubyApp.xcodeproj/project.pbxproj')
     expected = read_fixture('expected/Übercøøl/Übercøøl.xcodeproj/project.pbxproj')
-    template = XCodeTemplate.new(XCodeTemplateContext.new, template_file)
+    template = Rucola::XCode::Template.new(XCodeTemplateContext.new, template_file)
     template.render.should == expected
   end
   
   it "renders a XCode Info.plist template" do
     template_file = fixture('MacRuby Application/Info.plist')
     expected = read_fixture('expected/Übercøøl/Info.plist')
-    template = XCodeTemplate.new(XCodeTemplateContext.new, template_file)
+    template = Rucola::XCode::Template.new(XCodeTemplateContext.new, template_file)
     template.render.should == expected
   end
   
@@ -23,7 +23,7 @@ describe "XCodeTemplate" do
     expected = read_fixture('expected/Übercøøl/main.m')
     expected.force_encoding('ISO-8859-1')
     
-    output = XCodeTemplate.new(XCodeTemplateContext.new, template_file).render
+    output = Rucola::XCode::Template.new(XCodeTemplateContext.new, template_file).render
     output.force_encoding('ISO-8859-1')
     
     output.encode('UTF-8').should == expected.encode('UTF-8')
@@ -36,7 +36,7 @@ describe "XCodeTemplate" do
     expected = read_fixture('expected/Übercøøl/rb_main.rb')
     expected.force_encoding('ISO-8859-1')
     
-    output = XCodeTemplate.new(XCodeTemplateContext.new, template_file).render
+    output = Rucola::XCode::Template.new(XCodeTemplateContext.new, template_file).render
     output.force_encoding('ISO-8859-1')
     
     output.encode('UTF-8').should == expected.encode('UTF-8')

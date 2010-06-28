@@ -1,9 +1,10 @@
+# encoding: UTF-8
 require File.expand_path("../../../spec_helper", __FILE__)
-require 'rucola/generators/xcode_template'
+require 'rucola/xcode/template'
 
-describe "XCodeTemplate" do
+describe "Rucola::XCode::Template" do
   before do
-    @template = XCodeTemplate.new(nil, nil)
+    @template = Rucola::XCode::Template.new(nil, nil)
   end
   
   it "returns the full user name" do

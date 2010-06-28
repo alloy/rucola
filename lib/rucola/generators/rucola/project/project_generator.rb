@@ -1,5 +1,5 @@
 require 'rucola/generators/base'
-require 'rucola/generators/xcode_template'
+require 'rucola/xcode/template'
 
 module Rucola
   module Generators
@@ -30,7 +30,7 @@ module Rucola
       end
       
       class Base < Rucola::Generators::Base
-        include XCodeTemplate::Actions
+        include ::Rucola::XCode::Template::Actions
         
         argument :project_path, :type => :string
         
