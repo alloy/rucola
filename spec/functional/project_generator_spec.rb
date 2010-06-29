@@ -17,8 +17,11 @@ describe "A generic app project generator" do
       file "rb_main.rb", "ISO-8859-1"
     end
     
-    it "generates the xcodeproj bundle" do
-      file "Übercøøl.xcodeproj/project.pbxproj", "UTF-8"
+    it "generates the xcodeproj bundle and removes the `Tests' group" do
+      project  = Rucola::XCode::Project.new(File.join(@destination, "Übercøøl.xcodeproj"))
+      expected = Rucola::XCode::Project.new(fixture('expected/Übercøøl/Übercøøl.xcodeproj'))
+      expected.remove_group_and_children('Tests')
+      project.data.should == expected.data
     end
     
     it "generates the English.lproj bundle" do

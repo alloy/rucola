@@ -1,5 +1,6 @@
 require 'rucola/generators/base'
 require 'rucola/xcode/template'
+require 'rucola/xcode/project'
 
 module Rucola
   module Generators
@@ -91,9 +92,9 @@ module Rucola
         end
         
         def create_xcodeproj_bundle
-          xcodeproj = "#{project_name}.xcodeproj"
           empty_directory xcodeproj
-          xcode_template File.join(File.basename(self.class.xcodeproj_template), "project.pbxproj"), File.join(xcodeproj, "project.pbxproj")
+          template = File.join(File.basename(self.class.xcodeproj_template), "project.pbxproj")
+          xcode_template(template, File.join(xcodeproj, "project.pbxproj"))
         end
         
         def create_lproj_bundle
@@ -106,11 +107,24 @@ module Rucola
             end
           end
         end
+        
+        protected
+        
+        def xcodeproj
+          "#{project_name}.xcodeproj"
+        end
       end
       
       class AppGenerator < Base
         def self.source_root
           @source_root ||= File.join(super, 'Application/MacRuby Application')
+        end
+        
+        def create_xcodeproj_bundle
+          super
+          project = Rucola::XCode::Project.new(File.join(destination_root, xcodeproj))
+          project.remove_group_and_children('Tests')
+          project.save!
         end
       end
       
