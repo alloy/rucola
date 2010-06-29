@@ -61,8 +61,27 @@ describe "Rucola::XCode::Project" do
     @project.group_objects_by_child_uuid('17D55CD81076A1A2008207BD').should.be.empty
   end
   
-  it "removes a group by a group name" do
+  it "removes a group by name" do
     @project.remove_group('Tests')
     @project.group_objects_by_child_uuid('17D55CD81076A1A2008207BD').should.be.empty
+  end
+  
+  it "removes a group by name and its children" do
+    @project.remove_group_and_children('Tests')
+    @project.group_objects_by_child_uuid('17D55CD81076A1A2008207BD').should.be.empty
+    @project.file_object('run_suite.rb').should == nil
+    @project.file_object('stub_test.rb').should == nil
+  end
+  
+  it "writes the project back to disk" do
+    begin
+      file = Tempfile.new('pbxproj')
+      @project.remove_group_and_children('Tests')
+      @project.stubs(:pbxproj_path).returns(file.path)
+      @project.save!
+      @project.data.should == Hash.dictionaryWithContentsOfFile(file.path)
+    ensure
+      file.close
+    end
   end
 end

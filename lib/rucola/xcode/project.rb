@@ -5,8 +5,16 @@ module Rucola
         @path = path
       end
       
+      def pbxproj_path
+        File.join(@path, 'project.pbxproj')
+      end
+      
       def data
-        @data ||= Hash.dictionaryWithContentsOfFile(File.join(@path, 'project.pbxproj'))
+        @data ||= Hash.dictionaryWithContentsOfFile(pbxproj_path)
+      end
+      
+      def save!
+        @data.writeToFile(pbxproj_path, atomically: true)
       end
       
       def objects
@@ -46,6 +54,11 @@ module Rucola
       def remove_group(group_name)
         uuid, _ = group_object(group_name)
         objects.delete(uuid) if uuid
+      end
+      
+      def remove_group_and_children(group_name)
+        group = remove_group(group_name)
+        group['children'].each { |uuid| objects.delete(uuid) }
       end
     end
   end
